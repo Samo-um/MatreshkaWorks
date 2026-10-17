@@ -13,17 +13,19 @@ jobs:
           rm -rf app
           mkdir -p app/src/main/java/com/matreshka
           mkdir -p app/src/main/res/layout
+          mkdir -p app/src/main/res/values
           echo "include ':app'" > settings.gradle
           printf "buildscript{\nrepositories{google();mavenCentral()}\ndependencies{classpath 'com.android.tools.build:gradle:7.4.2'}\n}\nallprojects{repositories{google();mavenCentral()}}\n" > build.gradle
-          printf "apply plugin:'com.android.application'\nandroid{\nnamespace 'com.matreshka'\ncompileSdk 33\ndefaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 33}\n}\n" > app/build.gradle
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          echo '<TextView xmlns:android="http://schemas.android.com/apk/res/android" android:text="MATRESHKA" android:layout_width="match_parent" android:layout_height="match_parent" />' > app/src/main/res/layout/activity_main.xml
-          echo 'package com.matreshka; import android.app.Activity; import android.os.Bundle; public class MainActivity extends Activity { protected void onCreate(Bundle b){ super.onCreate(b); setContentView(R.layout.activity_main); } }' > app/src/main/java/com/matreshka/MainActivity.java
+          printf "apply plugin:'com.android.application'\nandroid{\nnamespace 'com.matreshka'\ncompileSdk 33\ndefaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 33;versionCode 2;versionName '2.0'}\nbuildTypes{debug{minifyEnabled false}}\n}\ndependencies{}\n" > app/build.gradle
+          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="Matreshka Works" android:theme="@android:style/Theme.Light"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          echo '<resources><string name="app_name">Matreshka</string></resources>' > app/src/main/res/values/strings.xml
+          printf 'package com.matreshka;\nimport android.app.Activity;\nimport android.os.Bundle;\nimport android.widget.*;\nimport android.view.*;\npublic class MainActivity extends Activity {\nString[] works={"Работа 1: Продажи","Работа 2: Склад","Работа 3: Закупки","Работа 4: Производство","Работа 5: Логистика","Работа 6: Качество","Работа 7: Финансы","Работа 8: Директор"};\nprotected void onCreate(Bundle b){\nsuper.onCreate(b);\nLinearLayout root=new LinearLayout(this);\nroot.setOrientation(LinearLayout.VERTICAL);\nroot.setPadding(30,30,30,30);\nTextView title=new TextView(this);\ntitle.setText("MATRESHKA WORKS 2.0\\n8 направлений");\ntitle.setTextSize(22);\nroot.addView(title);\nfor(String w:works){Button btn=new Button(this);btn.setText(w);root.addView(btn);}\nButton boss=new Button(this);boss.setText("КНОПКА ДИРЕКТОРА - ОТЧЕТ");boss.setBackgroundColor(0xFFFF0000);\nroot.addView(boss);\nScrollView sv=new ScrollView(this);sv.addView(root);\nsetContentView(sv);\n}\n}\n' > app/src/main/java/com/matreshka/MainActivity.java
+          echo '<TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" />' > app/src/main/res/layout/dummy.xml
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 7.6
       - run: gradle :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: APK
+          name: Matreshka-2.0-APK
           path: app/build/outputs/apk/debug/app-debug.apk
