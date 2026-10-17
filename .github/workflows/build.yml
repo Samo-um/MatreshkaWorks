@@ -1,4 +1,4 @@
-name: MATRESHKA FINAL TOP
+name: MATRESHKA FINAL
 on: [push]
 jobs:
   build:
@@ -12,48 +12,25 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.5
-      - name: Build Final App
+      - name: BUILD FINAL RUS
         run: |
           pip install Pillow -q
-          python3 << 'PY'
+          python3 -c "
           from PIL import Image
           im=Image.open('IMG-20261017-WA1305.jpg').convert('RGBA')
           w,h=im.size; s=min(w,h)
           im=im.crop(((w-s)//2,(h-s)//2,(w+s)//2,(h+s)//2))
-          im.resize((192,192), Image.LANCZOS).save('ic.png')
-          im.resize((512,512), Image.LANCZOS).save('lg.png')
-          PY
+          im.resize((192,192)).save('ic.png')
+          im.resize((512,512)).save('lg.png')
+          "
           rm -rf app build
           mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/drawable
           echo "include ':app'" > settings.gradle
-          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka.works.final'; minSdk 21; targetSdk 34; versionCode 27; versionName 'FINAL-RU' } }\n" > app/build.gradle
-          printf '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Black"><activity android:name=".MainActivity" android:exported="true" android:theme="@android:style/Theme.Black.NoTitleBar"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          printf '<resources><string name="app_name">MATRESHKA WORKS 27</string></resources>' > app/src/main/res/values/strings.xml
-          cp ic.png app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-          cp lg.png app/src/main/res/drawable/logo.png
-          cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
-          package com.matreshka;
-          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.Gravity; import android.graphics.Color; import android.graphics.drawable.GradientDrawable;
-          public class MainActivity extends Activity {
-            private LinearLayout card(String text){
-              LinearLayout ll=new LinearLayout(this); ll.setOrientation(LinearLayout.VERTICAL);
-              GradientDrawable gd=new GradientDrawable(); gd.setColor(0xFF1A1A1A); gd.setStroke(2, 0xFFD4AF37); gd.setCornerRadius(24);
-              ll.setBackground(gd); ll.setPadding(28,22,28,22);
-              TextView tv=new TextView(this); tv.setText(text); tv.setTextColor(Color.WHITE); tv.setTextSize(15); tv.setLineSpacing(6,1);
-              ll.addView(tv);
-              LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2); lp.setMargins(0,14,0,14);
-              ll.setLayoutParams(lp);
-              return ll;
-            }
-            protected void onCreate(Bundle b){
-              super.onCreate(b);
-              ScrollView sv=new ScrollView(this); sv.setBackgroundColor(0xFF080808);
-              LinearLayout root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setPadding(28,28,28,28);
-              
-              ImageView iv=new ImageView(this);
-              try{ iv.setImageResource(getResources().getIdentifier("logo","drawable",getPackageName())); }catch(Exception e){}
-              iv.setAdjustViewBounds(true);
-              LinearLayout.LayoutParams ip=new LinearLayout.LayoutParams(-1, 420); ip.gravity=Gravity.CENTER; ip.setMargins(0,10,0,20);
-              root.addView(iv, ip);
-              
-              TextView h1=new TextView(this); h1.setText("MATRESHKA WORKS\nBY DOMINIC"); h1.setGravity(Gravity.CENTER); h1.setTextColor(0xFFD4
+          cat > app/build.gradle <<'G'
+          plugins { id 'com.android.application' }
+          android { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka.works'; minSdk 21; targetSdk 34; versionCode 27; versionName '27-FINAL' } }
+          G
+          cat > app/src/main/AndroidManifest.xml <<'M'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>
+          M
+          echo '<resources><string name="app_name">MATRESHKA WORKS</string></resources>' > app
