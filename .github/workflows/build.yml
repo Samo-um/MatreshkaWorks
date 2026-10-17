@@ -1,4 +1,4 @@
-name: MATRESHKA WORKS BY DOMINIC
+name: MATRESHKA GOLD LOGO FINAL
 on: [push]
 jobs:
   build:
@@ -13,88 +13,70 @@ jobs:
         with:
           gradle-version: 8.5
           cache-disabled: true
-      - name: Build APK FINAL
+      - name: Build WITH YOUR GOLD LOGO
         run: |
           rm -rf app build .gradle
-          mkdir -p app/src/main/java/com/matreshka app/src/main/res/values
+          mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/mipmap-xxhdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-hdpi app/src/main/res/drawable
           echo "include ':app'" > settings.gradle
-          cat > build.gradle <<'GRADLE'
-          buildscript {
-            repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }
-          }
-          allprojects { repositories { google(); mavenCentral() } }
-          GRADLE
-          cat > app/build.gradle <<'GRADLE'
-          plugins { id 'com.android.application' }
-          android {
-            namespace 'com.matreshka'
-            compileSdk 34
-            defaultConfig {
-              applicationId 'com.matreshka'
-              minSdk 21
-              targetSdk 34
-              versionCode 18
-              versionName 'DOMINIC-FINAL'
-            }
-            buildTypes {
-              release { minifyEnabled false }
-              debug { minifyEnabled false }
-            }
-          }
-          GRADLE
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          printf "buildscript {\n  repositories { google(); mavenCentral() }\n  dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }\n" > build.gradle
+          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 101; versionName 'GOLD-LOGO' } buildTypes { debug { minifyEnabled false } } }\n" > app/build.gradle
+          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
           echo '<resources><string name="app_name">MATRESHKA WORKS BY DOMINIC</string></resources>' > app/src/main/res/values/strings.xml
-          cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
-          package com.matreshka;
-          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.graphics.Color; import android.view.Gravity;
-          public class MainActivity extends Activity {
-            protected void onCreate(Bundle b){
-              super.onCreate(b);
-              ScrollView sv=new ScrollView(this);
-              LinearLayout root=new LinearLayout(this);
-              root.setOrientation(1);
-              root.setPadding(20,20,20,20);
-              root.setBackgroundColor(Color.WHITE);
-              TextView logo=new TextView(this);
-              logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n27 SRV ONLINE\nBONUS +50%");
-              logo.setTextColor(Color.WHITE);
-              logo.setBackgroundColor(Color.BLACK);
-              logo.setGravity(Gravity.CENTER);
-              logo.setPadding(30,30,30,30);
-              root.addView(logo);
-              String[] jobs={"[HOT] Perprodazha oruzhiya - 15k +10k/den"," [NEW] Prodazha odezhdy - 20k +10k/den"," [FIRE] Skrytie avto - 20k"," [MONEY] Stroy biznes - 75k +10k/reys"," [EASY] Taksist - 5k +5k/reys"," [VIP] Baryga - Start 200k ZP 100k"," [TOP] Direktor stroyki - Start 700k ZP 276k"," [RAID] Karty i reydy - 45k"};
-              for(String job: jobs){
-                Button btn=new Button(this);
-                btn.setText(job);
-                btn.setTextColor(Color.WHITE);
-                btn.setBackgroundColor(Color.BLACK);
-                btn.setAllCaps(false);
-                LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);
-                p.setMargins(0,15,0,15);
-                btn.setLayoutParams(p);
-                root.addView(btn);
-              }
-              Button boss=new Button(this);
-              boss.setText("SVYAZ S DIREKTOROM DOMINIC");
-              boss.setTextColor(Color.WHITE);
-              boss.setBackgroundColor(Color.RED);
-              root.addView(boss);
-              sv.addView(root);
-              setContentView(sv);
-            }
-          }
-          JAVA
-          gradle :app:assembleDebug --rerun-tasks --stacktrace
-          echo "=== POISK APK ==="
-          find . -name "*.apk" -type f
-          ls -lh app/build/outputs/apk/debug/ || ls -R app/build/
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: MATRESHKA-WORKS-BY-DOMINIC-APK
-          path: |
-            app/build/outputs/apk/debug/app-debug.apk
-            app/build/outputs/apk/debug/
-            **/*.apk
+          
+          python3 <<'PY'
+          from PIL import Image, ImageDraw
+          import math
+          
+          def create_gold_logo(size, path):
+              # Black background
+              img = Image.new('RGBA', (size, size), (0,0,0,255))
+              draw = ImageDraw.Draw(img)
+              gold = (212, 175, 55, 255)
+              
+              # Outer circle
+              pad = size*0.05
+              draw.ellipse([pad, pad, size-pad, size-pad], outline=gold, width=max(2, size//120))
+              
+              # Inner thin arcs (like on photo)
+              pad2 = size*0.18
+              draw.arc([pad2, pad2, size-pad2, size-pad2], 200, 340, fill=gold, width=max(1, size//300))
+              draw.arc([pad2, pad2, size-pad2, size-pad2], 20, 160, fill=gold, width=max(1, size//300))
+              
+              # Matreshka shape - simplified gold lines
+              cx = size/2
+              # Outer matreshka outline
+              w = size*0.28
+              h = size*0.55
+              top = size*0.28
+              bottom = top + h
+              
+              # Draw matreshka using lines and arcs - stylized
+              # Top head
+              draw.arc([cx-w*0.5, top, cx+w*0.5, top+h*0.4], 180, 0, fill=gold, width=max(2, size//200))
+              # Sides
+              draw.line([(cx-w*0.5, top+h*0.2), (cx-w*0.6, bottom-h*0.2)], fill=gold, width=max(2, size//200))
+              draw.line([(cx+w*0.5, top+h*0.2), (cx+w*0.6, bottom-h*0.2)], fill=gold, width=max(2, size//200))
+              # Inner matreshka
+              w2 = w*0.7
+              h2 = h*0.65
+              top2 = top + h*0.25
+              draw.arc([cx-w2*0.5, top2, cx+w2*0.5, top2+h2*0.4], 180, 0, fill=gold, width=max(2, size//200))
+              draw.line([(cx-w2*0.5, top2+h2*0.2), (cx-w2*0.6, top2+h2*0.8)], fill=gold, width=max(2, size//200))
+              draw.line([(cx+w2*0.5, top2+h2*0.2), (cx+w2*0.6, top2+h2*0.8)], fill=gold, width=max(2, size//200))
+              # Bottom base
+              bw = w*0.5
+              bh = size*0.04
+              draw.rounded_rectangle([cx-bw, bottom-bh, cx+bw, bottom], radius=bh/2, outline=gold, width=max(2, size//200))
+              
+              # Center vertical line
+              draw.line([(cx, top), (cx, bottom-bh)], fill=gold, width=max(1, size//300))
+              draw.line([(cx, top2), (cx, top2+h2*0.8)], fill=gold, width=max(1, size//300))
+              
+              img.save(path, "PNG")
+              print(f"Created {path}")
+
+          for folder, sz in [("mipmap-xxxhdpi",192), ("mipmap-xxhdpi",144), ("mipmap-xhdpi",96), ("mipmap-hdpi",72), ("drawable",512)]:
+              create_gold_logo(sz, f"app/src/main/res/{folder}/ic_launcher.png")
+              if folder=="drawable":
+                  create_gold_logo(800, "app/src/main/res/drawable/logo.png")
+          PY
