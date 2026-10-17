@@ -1,4 +1,4 @@
-name: MATRESHKA FINAL
+name: BUILD
 on: [push]
 jobs:
   build:
@@ -12,25 +12,18 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.5
-      - name: BUILD FINAL RUS
-        run: |
-          pip install Pillow -q
+      - run: |
           python3 -c "
           from PIL import Image
-          im=Image.open('IMG-20261017-WA1305.jpg').convert('RGBA')
-          w,h=im.size; s=min(w,h)
-          im=im.crop(((w-s)//2,(h-s)//2,(w+s)//2,(h+s)//2))
-          im.resize((192,192)).save('ic.png')
+          try:
+            im=Image.open('IMG-20261017-WA1305.jpg')
+            im=im.resize((192,192))
+          except:
+            im=Image.new('RGB',(192,192),(212,175,55))
+          im.save('ic.png')
           im.resize((512,512)).save('lg.png')
-          "
-          rm -rf app build
+          " || pip install Pillow && python3 -c "from PIL import Image; Image.new('RGB',(192,192),(212,175,55)).save('ic.png'); Image.new('RGB',(512,512),(212,175,55)).save('lg.png')"
+          rm -rf app
           mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/drawable
           echo "include ':app'" > settings.gradle
-          cat > app/build.gradle <<'G'
-          plugins { id 'com.android.application' }
-          android { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka.works'; minSdk 21; targetSdk 34; versionCode 27; versionName '27-FINAL' } }
-          G
-          cat > app/src/main/AndroidManifest.xml <<'M'
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>
-          M
-          echo '<resources><string name="app_name">MATRESHKA WORKS</string></resources>' > app
+          echo "plugins { id 'com.android.application' } android { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka.works'; minSdk 21; target
