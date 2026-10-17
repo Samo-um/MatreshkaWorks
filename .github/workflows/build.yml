@@ -12,23 +12,89 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.5
-      - name: Build APK
+          cache-disabled: true
+      - name: Build APK FINAL
         run: |
-          rm -rf app
-          mkdir -p app/src/main/java/com/matreshka
-          mkdir -p app/src/main/res/values
+          rm -rf app build .gradle
+          mkdir -p app/src/main/java/com/matreshka app/src/main/res/values
           echo "include ':app'" > settings.gradle
-          printf "buildscript {\n  repositories { google(); mavenCentral() }\n  dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }\n" > build.gradle
-          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 17; versionName 'FINAL' } buildTypes { release { minifyEnabled false } debug { minifyEnabled false } } }\n" > app/build.gradle
+          cat > build.gradle <<'GRADLE'
+          buildscript {
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }
+          }
+          allprojects { repositories { google(); mavenCentral() } }
+          GRADLE
+          cat > app/build.gradle <<'GRADLE'
+          plugins { id 'com.android.application' }
+          android {
+            namespace 'com.matreshka'
+            compileSdk 34
+            defaultConfig {
+              applicationId 'com.matreshka'
+              minSdk 21
+              targetSdk 34
+              versionCode 18
+              versionName 'DOMINIC-FINAL'
+            }
+            buildTypes {
+              release { minifyEnabled false }
+              debug { minifyEnabled false }
+            }
+          }
+          GRADLE
           echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          echo '<resources><string name="app_name">MATRESHKA WORKS</string></resources>' > app/src/main/res/values/strings.xml
+          echo '<resources><string name="app_name">MATRESHKA WORKS BY DOMINIC</string></resources>' > app/src/main/res/values/strings.xml
           cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
           package com.matreshka;
-          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.View; import android.app.AlertDialog; import android.graphics.Color; import android.view.Gravity;
+          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.graphics.Color; import android.view.Gravity;
           public class MainActivity extends Activity {
-          protected void onCreate(Bundle b){super.onCreate(b);
-          ScrollView sv=new ScrollView(this);
-          LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setPadding(15,15,15,15);
-          TextView logo=new TextView(this); logo.setText("MATRESHKA WORKS BY DOMINIC\n\n27 SRV ONLINE"); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(20,20,20,20); root.addView(logo);
-          String[] t={"Perprodazha oruzhiya 15k+10k HOT","Prodazha odezhdy 20k+10k NEW","Skrytie avto 20k","Stroy biznes 75k+10k","Taksist 5k+5k","Baryga 200k/100k VIP","Direktor 700k/276k TOP","Karty i reydy 45k"};
-          for(int i=0;i<t.length;i++){final int idx=i; Button btn=new Button(this); btn.setText(t[idx]); btn.setTextColor(Color.WHITE); btn.setBackgroundColor(Color.BLACK); btn.setAllCaps(false); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2); p.setMargins(0,10,0,10); btn.setLayoutParams(p); btn.setOnClickListener(new View.OnClickListener(){public void onClick(View v){new AlertDialog.Builder(MainActivity.this).setTitle(t[idx]).setMessage("Dominic naznachit vstrechu 27 SRV!").setPositiveButton("PODTVERD
+            protected void onCreate(Bundle b){
+              super.onCreate(b);
+              ScrollView sv=new ScrollView(this);
+              LinearLayout root=new LinearLayout(this);
+              root.setOrientation(1);
+              root.setPadding(20,20,20,20);
+              root.setBackgroundColor(Color.WHITE);
+              TextView logo=new TextView(this);
+              logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n27 SRV ONLINE\nBONUS +50%");
+              logo.setTextColor(Color.WHITE);
+              logo.setBackgroundColor(Color.BLACK);
+              logo.setGravity(Gravity.CENTER);
+              logo.setPadding(30,30,30,30);
+              root.addView(logo);
+              String[] jobs={"[HOT] Perprodazha oruzhiya - 15k +10k/den"," [NEW] Prodazha odezhdy - 20k +10k/den"," [FIRE] Skrytie avto - 20k"," [MONEY] Stroy biznes - 75k +10k/reys"," [EASY] Taksist - 5k +5k/reys"," [VIP] Baryga - Start 200k ZP 100k"," [TOP] Direktor stroyki - Start 700k ZP 276k"," [RAID] Karty i reydy - 45k"};
+              for(String job: jobs){
+                Button btn=new Button(this);
+                btn.setText(job);
+                btn.setTextColor(Color.WHITE);
+                btn.setBackgroundColor(Color.BLACK);
+                btn.setAllCaps(false);
+                LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);
+                p.setMargins(0,15,0,15);
+                btn.setLayoutParams(p);
+                root.addView(btn);
+              }
+              Button boss=new Button(this);
+              boss.setText("SVYAZ S DIREKTOROM DOMINIC");
+              boss.setTextColor(Color.WHITE);
+              boss.setBackgroundColor(Color.RED);
+              root.addView(boss);
+              sv.addView(root);
+              setContentView(sv);
+            }
+          }
+          JAVA
+          gradle :app:assembleDebug --rerun-tasks --stacktrace
+          echo "=== POISK APK ==="
+          find . -name "*.apk" -type f
+          ls -lh app/build/outputs/apk/debug/ || ls -R app/build/
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: MATRESHKA-WORKS-BY-DOMINIC-APK
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/debug/
+            **/*.apk
