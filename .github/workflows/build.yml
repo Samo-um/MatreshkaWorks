@@ -3,18 +3,37 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: cimg/android:2024.01
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Setup Android SDK
+        run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          mkdir -p $ANDROID_HOME/cmdline-tools
+          cd $ANDROID_HOME/cmdline-tools
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
+          unzip -q tools.zip
+          mv cmdline-tools latest
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+          mkdir -p $HOME/.android
+          touch $HOME/.android/repositories.cfg
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+      - name: Build
+        run: |
           rm -rf app
           mkdir -p app/src/main/java/com/matreshka
           mkdir -p app/src/main/res/values
           echo "include ':app'" > settings.gradle
-          printf "buildscript{repositories{google();mavenCentral()}dependencies{classpath 'com.android.tools.build:gradle:8.1.0'}}\nallprojects{repositories{google();mavenCentral()}}\n" > build.gradle
-          printf "plugins{id 'com.android.application'}\nandroid{namespace 'com.matreshka';compileSdk 34;defaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 34;versionCode 12;versionName 'FINAL'}\nbuildTypes{release{minifyEnabled false};debug{minifyEnabled false}}}\n" > app/build.gradle
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS BY DOMINIC"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          printf "buildscript {\n  repositories { google(); mavenCentral() }\n  dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }\n" > build.gradle
+          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 15; versionName 'FINAL' } buildTypes { release { minifyEnabled false } debug { minifyEnabled false } } }\n" > app/build.gradle
+          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
           echo '<resources><string name="app_name">MATRESHKA WORKS</string></resources>' > app/src/main/res/values/strings.xml
           cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
           package com.matreshka;
@@ -22,17 +41,19 @@ jobs:
           public class MainActivity extends Activity {
           protected void onCreate(Bundle b){super.onCreate(b);
           ScrollView sv=new ScrollView(this);
-          LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setBackgroundColor(Color.WHITE); root.setPadding(15,15,15,15);
-          TextView logo=new TextView(this); logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n🟢 27 SRV ONLINE\n💎 8 РАБОТ"); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(25,30,25,30); root.addView(logo);
-          String[] t={"🔫 Перепродажа оружия - 15k +10k/день [HOT]","🧥 Продажа одежды - 20k +10k/день [NEW]","🚘 Скрытие авто - 20k [🔥]","🚚 Строй бизнес - 75k +10k/рейс [💰]","🚖 Таксист - 5k +5k/рейс [EASY]","💎 Барыга - 200k старт / 100k ЗП [VIP]","🏢 Директор стройки - 700k старт / 276k ЗП [TOP]","⭐ Карты и рейды - 45k [RAID]"};
-          for(int i=0;i<t.length;i++){final int idx=i; Button btn=new Button(this); btn.setText(t[idx]); btn.setTextColor(Color.WHITE); btn.setBackgroundColor(Color.BLACK); btn.setAllCaps(false); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2); p.setMargins(0,12,0,12); btn.setLayoutParams(p); btn.setOnClickListener(new View.OnClickListener(){public void onClick(View v){new AlertDialog.Builder(MainActivity.this).setTitle("Подтвердить?").setMessage(t[idx]+"\n\nDominic назначит встречу в игре 27 SRV!").setPositiveButton("✅ ПОДТВЕРДИТЬ", null).setNegativeButton("Закрыть", null).show();}}); root.addView(btn);}
-          Button boss=new Button(this); boss.setText("🔴 СВЯЗЬ С ДИРЕКТОРОМ"); boss.setTextColor(Color.WHITE); boss.setBackgroundColor(Color.RED); LinearLayout.LayoutParams pb=new LinearLayout.LayoutParams(-1,-2); pb.setMargins(0,25,0,10); boss.setLayoutParams(pb); root.addView(boss);
+          LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setPadding(15,15,15,15); root.setBackgroundColor(Color.WHITE);
+          TextView logo=new TextView(this); logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n🟢 27 SRV ONLINE"); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(25,30,25,30); root.addView(logo);
+          String[] t={"🔫 Перепродажа оружия 15k+10k [HOT]","🧥 Одежда 20k+10k [NEW]","🚘 Скрытие авто 20k","🚚 Строй бизнес 75k+10k","🚖 Таксист 5k+5k","💎 Барыга 200k/100k [VIP]","🏢 Директор 700k/276k [TOP]","⭐ Карты и рейды 45k"};
+          for(int i=0;i<t.length;i++){final int idx=i; Button btn=new Button(this); btn.setText(t[idx]); btn.setTextColor(Color.WHITE); btn.setBackgroundColor(Color.BLACK); btn.setAllCaps(false); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2); p.setMargins(0,12,0,12); btn.setLayoutParams(p); btn.setOnClickListener(new View.OnClickListener(){public void onClick(View v){new AlertDialog.Builder(MainActivity.this).setTitle(t[idx]).setMessage("Dominic назначит встречу 27 SRV!").setPositiveButton("✅ ПОДТВЕРДИТЬ", null).show();}}); root.addView(btn);}
           sv.addView(root); setContentView(sv);
           }
           }
           JAVA
-          gradle :app:assembleDebug
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.5
+      - run: gradle :app:assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: MATRESHKA-WORKS-FINAL-APK
+          name: MATRESHKA-WORKS-APK
           path: app/build/outputs/apk/debug/app-debug.apk
