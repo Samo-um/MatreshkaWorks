@@ -1,4 +1,4 @@
-name: build
+name: MATRESHKA WORKS BY DOMINIC
 on: [push]
 jobs:
   build:
@@ -9,16 +9,29 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v3
+      - name: Setup Android SDK manually
+        run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          mkdir -p $ANDROID_HOME/cmdline-tools
+          cd $ANDROID_HOME/cmdline-tools
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
+          unzip -q tools.zip
+          mv cmdline-tools latest
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
       - run: |
           rm -rf app
           mkdir -p app/src/main/java/com/matreshka
           mkdir -p app/src/main/res/values
           echo "include ':app'" > settings.gradle
           printf "buildscript{repositories{google();mavenCentral()}dependencies{classpath 'com.android.tools.build:gradle:8.1.0'}}\nallprojects{repositories{google();mavenCentral()}}\n" > build.gradle
-          printf "plugins{id 'com.android.application'}\nandroid{namespace 'com.matreshka';compileSdk 34;defaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 34;versionCode 9;versionName '9.0'}\nbuildTypes{release{minifyEnabled false};debug{minifyEnabled false}}}\n" > app/build.gradle
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          echo '<resources><string name="app_name">MATRESHKA</string></resources>' > app/src/main/res/values/strings.xml
+          printf "plugins{id 'com.android.application'}\nandroid{namespace 'com.matreshka';compileSdk 34;defaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 34;versionCode 11;versionName 'MATRESHKA-WORKS'}\nbuildTypes{release{minifyEnabled false};debug{minifyEnabled false}}}\n" > app/build.gradle
+          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS BY DOMINIC"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          echo '<resources><string name="app_name">MATRESHKA WORKS BY DOMINIC</string></resources>' > app/src/main/res/values/strings.xml
           cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
           package com.matreshka;
           import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.View; import android.app.AlertDialog; import android.graphics.Color; import android.view.Gravity;
@@ -26,5 +39,5 @@ jobs:
           protected void onCreate(Bundle b){super.onCreate(b);
           ScrollView sv=new ScrollView(this);
           LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setBackgroundColor(Color.WHITE); root.setPadding(15,15,15,15);
-          TextView logo=new TextView(this); logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n🟢 ONLINE 27 SRV\n💰 Баланс: 12.5M\n🎁 БОНУС +50% TODAY"); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(20,20,20,20); root.addView(logo);
-          String[] t={"🔫 
+          TextView logo=new TextView(this); logo.setText("MATRESHKA WORKS\nBY DOMINIC\n\n🟢 ONLINE 27 SRV"); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(20,20,20,20); root.addView(logo);
+          String[] t={"🔫 [HOT] Перепродажа оружия - 15k+10k/день","🧥 [NEW] Продажа одежды - 20k+10k/день","🚘 [🔥] Скрытие авто - 20k
