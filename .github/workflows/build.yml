@@ -16,35 +16,61 @@ jobs:
           mkdir -p app/src/main/res/values
           echo "include ':app'" > settings.gradle
           printf "buildscript{repositories{google();mavenCentral()}dependencies{classpath 'com.android.tools.build:gradle:8.1.0'}}\nallprojects{repositories{google();mavenCentral()}}\n" > build.gradle
-          printf "plugins{id 'com.android.application'}\nandroid{namespace 'com.matreshka';compileSdk 34;defaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 34;versionCode 6;versionName '6.0-FINAL'}\nbuildTypes{release{minifyEnabled false};debug{minifyEnabled false}}}\n" > app/build.gradle
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><uses-permission android:name="android.permission.INTERNET"/><application android:label="MATRESHKA BY DOMINIC"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          echo '<resources><string name="app_name">MATRESHKA TOP</string></resources>' > app/src/main/res/values/strings.xml
+          printf "plugins{id 'com.android.application'}\nandroid{namespace 'com.matreshka';compileSdk 34;defaultConfig{applicationId 'com.matreshka';minSdk 21;targetSdk 34;versionCode 8;versionName '8.0-ULTRA'}\nbuildTypes{release{minifyEnabled false};debug{minifyEnabled false}}}\n" > app/build.gradle
+          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA ULTRA"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          echo '<resources><string name="app_name">MATRESHKA ULTRA</string></resources>' > app/src/main/res/values/strings.xml
           cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
           package com.matreshka;
-          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.View; import android.app.AlertDialog; import android.content.DialogInterface; import android.content.Intent; import android.net.Uri; import android.graphics.Color; import android.view.Gravity; import android.graphics.Typeface;
+          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.View; import android.app.AlertDialog; import android.content.DialogInterface; import android.graphics.Color; import android.view.Gravity; import android.graphics.Typeface;
           public class MainActivity extends Activity {
           protected void onCreate(Bundle b){super.onCreate(b);
-          String[] titles={"1. Перепродажа оружия","2. Продажа одежды","3. Скрытие авто","4. Строительный бизнес","5. Таксист","6. Барыга","7. Директор стройки","8. Карты и рейды"};
-          String[] prices={"15.000 + 10.000 в день","20.000 + 10.000 в день","20.000 зарплата","75.000 +10.000/рейс","5.000 +5.000/рейс","Начать 200.000 / ЗП 100.000","Начать 700.000 / ЗП 276.000","45.000 оплата"};
+          ScrollView sv=new ScrollView(this);
+          LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setBackgroundColor(Color.parseColor("#F5F5F5")); root.setPadding(15,15,15,15);
+          // HEADER
+          LinearLayout header=new LinearLayout(this); header.setOrientation(1); header.setBackgroundColor(Color.BLACK); header.setPadding(20,25,20,25);
+          TextView logo=new TextView(this); logo.setText("MATRESHKA\nWORKS\nBY DOMINIC"); logo.setTextSize(26); logo.setTypeface(null, Typeface.BOLD); logo.setTextColor(Color.WHITE); logo.setGravity(Gravity.CENTER); header.addView(logo);
+          TextView status=new TextView(this); status.setText("🟢 ONLINE 27 SRV | 💰 Баланс: 12.5M | 👥 147 игроков"); status.setTextColor(Color.parseColor("#FFD700")); status.setGravity(Gravity.CENTER); status.setPadding(0,15,0,0); status.setTextSize(12); header.addView(status);
+          root.addView(header);
+          // BONUS BAR
+          LinearLayout bonus=new LinearLayout(this); bonus.setOrientation(0); bonus.setBackgroundColor(Color.parseColor("#FFD700")); bonus.setPadding(15,12,15,12); bonus.setGravity(Gravity.CENTER);
+          TextView bonusT=new TextView(this); bonusT.setText("🎁 БОНУС ДНЯ: +50% к первой зарплате! | 🏆 ТОП-1: Alex_Dominic"); bonusT.setTextColor(Color.BLACK); bonusT.setTypeface(null, Typeface.BOLD); bonusT.setTextSize(11); bonusT.setGravity(Gravity.CENTER); bonus.addView(bonusT);
+          LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(-1,-2); bp.setMargins(0,0,0,15); bonus.setLayoutParams(bp); root.addView(bonus);
+          // TITLE
+          TextView title=new TextView(this); title.setText("📑 ПРАЙС-ЛИСТ РАБОТ"); title.setGravity(Gravity.CENTER); title.setTypeface(null, Typeface.BOLD); title.setTextSize(18); title.setPadding(0,10,0,15); root.addView(title);
+          String[] titles={"Перепродажа оружия","Продажа дорогой одежды","Скрытие автомобиля","Строительный бизнес","Работа таксистом","Барыга","Директор строит. компании","Назначение карт и рейды"};
+          String[] prices={"15.000 ₽ | 10.000/день","20.000 ₽ | 10.000/день","20.000 ₽","75.000 ₽ +10k/рейс","5.000 ₽ +5k/рейс","Старт 200k | ЗП 100k","Старт 700k | ЗП 276k","45.000 ₽"};
           String[] emojis={"🔫","🧥","🚘","🚚","🚖","💎","🏢","⭐"};
-          LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setBackgroundColor(Color.WHITE); root.setPadding(20,20,20,20);
-          TextView logo=new TextView(this); logo.setText("MATRESHKA\nWORKS\nBY DOMINIC"); logo.setTextSize(24); logo.setTypeface(null, Typeface.BOLD); logo.setTextColor(Color.WHITE); logo.setBackgroundColor(Color.BLACK); logo.setGravity(Gravity.CENTER); logo.setPadding(30,35,30,35); root.addView(logo);
-          TextView sub=new TextView(this); sub.setText("ПРАЙС-ЛИСТ РАБОТ (27 SRV)"); sub.setGravity(Gravity.CENTER); sub.setPadding(0,20,0,10); sub.setTypeface(null, Typeface.BOLD); sub.setTextSize(16); root.addView(sub);
+          String[] badges={"HOT","NEW","🔥","💰","EASY","VIP","TOP","RAID"};
+          String[] stars={"⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐","⭐","⭐⭐⭐⭐⭐","⭐⭐⭐⭐⭐","⭐⭐⭐⭐"};
           for(int i=0;i<titles.length;i++){final int idx=i;
-          Button btn=new Button(this); btn.setText(emojis[idx]+" "+titles[idx]+" - "+prices[idx]); btn.setTextColor(Color.WHITE); btn.setBackgroundColor(Color.BLACK); btn.setAllCaps(false); btn.setTextSize(12); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2); p.setMargins(0,10,0,10); btn.setLayoutParams(p);
+          LinearLayout card=new LinearLayout(this); card.setOrientation(1); card.setBackgroundColor(Color.WHITE); card.setPadding(15,15,15,15);
+          LinearLayout.LayoutParams cp=new LinearLayout.LayoutParams(-1,-2); cp.setMargins(0,8,0,8); card.setLayoutParams(cp);
+          // Top line with badge
+          LinearLayout top=new LinearLayout(this); top.setOrientation(0);
+          TextView badge=new TextView(this); badge.setText(" "+badges[idx]+" "); badge.setBackgroundColor(badges[idx].equals("TOP")?Color.RED:badges[idx].equals("VIP")?Color.parseColor("#9C27B0"):Color.BLACK); badge.setTextColor(Color.WHITE); badge.setTypeface(null, Typeface.BOLD); badge.setTextSize(10); top.addView(badge);
+          TextView star=new TextView(this); star.setText("  "+stars[idx]+" Сложность"); star.setTextSize(10); star.setPadding(10,0,0,0); top.addView(star);
+          TextView online=new TextView(this); online.setText("   🟢 "+(5+idx*2)+" онлайн"); online.setTextSize(10); online.setTextColor(Color.parseColor("#4CAF50")); top.addView(online);
+          card.addView(top);
+          TextView name=new TextView(this); name.setText(emojis[idx]+" "+titles[idx]); name.setTypeface(null, Typeface.BOLD); name.setTextSize(15); name.setPadding(0,8,0,2); card.addView(name);
+          TextView price=new TextView(this); price.setText("💵 "+prices[idx]); price.setTextSize(13); price.setTextColor(Color.parseColor("#333333")); card.addView(price);
+          Button btn=new Button(this); btn.setText("Начать работу →"); btn.setTextColor(Color.WHITE); btn.setBackgroundColor(Color.BLACK); btn.setAllCaps(false); btn.setTextSize(13);
           btn.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
           AlertDialog.Builder bu=new AlertDialog.Builder(MainActivity.this);
-          bu.setTitle(emojis[idx]+" "+titles[idx]);
-          bu.setMessage("💵 "+prices[idx]+"\n\nПосле подтверждения ты перейдешь в чат с Dominic (+374 91 061282) и он назначит место встречи в игре 27 SRV!");
-          bu.setPositiveButton("✅ ПОДТВЕРДИТЬ", new DialogInterface.OnClickListener(){public void onClick(DialogInterface d,int w){
-          String msg="Привет Dominic! Хочу работу: "+titles[idx]+" - "+prices[idx]+". Назначь встречу в игре 27 SRV!";
-          Intent it=new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/37491061282?text="+Uri.encode(msg)));
-          try{startActivity(it);}catch(Exception e){Toast.makeText(MainActivity.this, "Напиши Dominic в WhatsApp", Toast.LENGTH_SHORT).show();}
-          }});
-          bu.setNegativeButton("Закрыть", null); bu.show();
-          }}); root.addView(btn);}
-          Button boss=new Button(this); boss.setText("🔴 СВЯЗЬ С ДИРЕКТОРОМ DOMINIC"); boss.setTextColor(Color.WHITE); boss.setBackgroundColor(Color.RED); boss.setTypeface(null, Typeface.BOLD); boss.setPadding(20,40,20,40); LinearLayout.LayoutParams pb=new LinearLayout.LayoutParams(-1,-2); pb.setMargins(0,30,0,10); boss.setLayoutParams(pb); boss.setOnClickListener(new View.OnClickListener(){public void onClick(View v){Intent it=new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/37491061282?text=Привет%20Dominic!%20Связь%20с%20директором%20MATRESHKA%20WORKS")); try{startActivity(it);}catch(Exception e){}}}); root.addView(boss);
-          ScrollView sv=new ScrollView(this); sv.addView(root); setContentView(sv);
+          bu.setTitle(emojis[idx]+" "+titles[idx]+" ["+badges[idx]+"]");
+          bu.setMessage("💵 "+prices[idx]+"\n"+stars[idx]+" Сложность\n\n📋 Описание:\nРабота на 27 SRV. Официальная работа от MATRESHKA WORKS BY DOMINIC.\n\n✨ Бонусы:\n• +50% к первой зарплате\n• Бесплатный транспорт\n• Поддержка 24/7\n\nНажми ПОДТВЕРДИТЬ чтобы Dominic назначил встречу в игре!");
+          bu.setPositiveButton("✅ ПОДТВЕРДИТЬ", new DialogInterface.OnClickListener(){public void onClick(DialogInterface d,int w){Toast.makeText(MainActivity.this, "✅ "+titles[idx]+" подтверждена! "+badges[idx]+" Ожидай встречу! BY DOMINIC", Toast.LENGTH_LONG).show();}});
+          bu.setNegativeButton("Назад", null); bu.show();
+          }}); card.addView(btn);
+          root.addView(card);
+          }
+          // FOOTER
+          LinearLayout foot=new LinearLayout(this); foot.setOrientation(1); foot.setBackgroundColor(Color.BLACK); foot.setPadding(20,20,20,20); foot.setGravity(Gravity.CENTER);
+          LinearLayout.LayoutParams fp=new LinearLayout.LayoutParams(-1,-2); fp.setMargins(0,20,0,0); foot.setLayoutParams(fp);
+          TextView ft1=new TextView(this); ft1.setText("🏆 MATRESHKA WORKS BY DOMINIC"); ft1.setTextColor(Color.WHITE); ft1.setGravity(Gravity.CENTER); ft1.setTypeface(null, Typeface.BOLD); foot.addView(ft1);
+          TextView ft2=new TextView(this); ft2.setText("📍 27 SRV | 🕐 Работаем 24/7 | 💬 Поддержка в игре\n🔴 Кнопка директора для VIP связи"); ft2.setTextColor(Color.parseColor("#AAAAAA")); ft2.setGravity(Gravity.CENTER); ft2.setTextSize(11); ft2.setPadding(0,10,0,0); foot.addView(ft2);
+          Button boss=new Button(this); boss.setText("🔴 СВЯЗЬ С ДИРЕКТОРОМ - DOMINIC"); boss.setTextColor(Color.WHITE); boss.setBackgroundColor(Color.RED); boss.setTypeface(null, Typeface.BOLD); LinearLayout.LayoutParams pb=new LinearLayout.LayoutParams(-1,-2); pb.setMargins(0,20,0,0); boss.setLayoutParams(pb); boss.setOnClickListener(new View.OnClickListener(){public void onClick(View v){Toast.makeText(MainActivity.this, "👑 Dominic скоро свяжется! Ты VIP клиент!", Toast.LENGTH_LONG).show();}}); foot.addView(boss);
+          root.addView(foot);
+          sv.addView(root); setContentView(sv);
           }
           }
           JAVA
@@ -54,5 +80,5 @@ jobs:
       - run: gradle :app:assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: MATRESHKA-6-FINAL-DOMINIC
+          name: MATRESHKA-8-ULTRA-COOL
           path: app/build/outputs/apk/debug/app-debug.apk
