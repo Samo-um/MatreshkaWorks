@@ -1,4 +1,4 @@
-name: MATRESHKA GOLD LOGO FIXED
+name: MATRESHKA FINAL TOP
 on: [push]
 jobs:
   build:
@@ -12,35 +12,48 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.5
-          cache-disabled: true
-      - name: Build WITH YOUR GOLD LOGO FIXED
+      - name: Build Final App
         run: |
-          rm -rf app build .gradle
-          mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/mipmap-xxhdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-hdpi app/src/main/res/drawable
+          pip install Pillow -q
+          python3 << 'PY'
+          from PIL import Image
+          im=Image.open('IMG-20261017-WA1305.jpg').convert('RGBA')
+          w,h=im.size; s=min(w,h)
+          im=im.crop(((w-s)//2,(h-s)//2,(w+s)//2,(h+s)//2))
+          im.resize((192,192), Image.LANCZOS).save('ic.png')
+          im.resize((512,512), Image.LANCZOS).save('lg.png')
+          PY
+          rm -rf app build
+          mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/drawable
           echo "include ':app'" > settings.gradle
-          printf "buildscript {\n  repositories { google(); mavenCentral() }\n  dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }\n" > build.gradle
-          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 102; versionName 'GOLD-FIXED' } buildTypes { debug { minifyEnabled false } } }\n" > app/build.gradle
-          echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
-          echo '<resources><string name="app_name">MATRESHKA WORKS BY DOMINIC</string></resources>' > app/src/main/res/values/strings.xml
-          
-          pip install pillow -q
-          python3 <<'PY'
-          from PIL import Image, ImageDraw
-          import math
-          def create_gold_logo(size, path):
-              img = Image.new('RGBA', (size, size), (0,0,0,255))
-              draw = ImageDraw.Draw(img)
-              gold = (212, 175, 55, 255)
-              pad = size*0.05
-              draw.ellipse([pad, pad, size-pad, size-pad], outline=gold, width=max(2, size//120))
-              pad2 = size*0.18
-              draw.arc([pad2, pad2, size-pad2, size-pad2], 200, 340, fill=gold, width=max(1, size//300))
-              draw.arc([pad2, pad2, size-pad2, size-pad2], 20, 160, fill=gold, width=max(1, size//300))
-              cx = size/2
-              w = size*0.28
-              h = size*0.55
-              top = size*0.28
-              bottom = top + h
-              draw.arc([cx-w*0.5, top, cx+w*0.5, top+h*0.4], 180, 0, fill=gold, width=max(2, size//200))
-              draw.line([(cx-w*0.5, top+h*0.2), (cx-w*0.6, bottom-h*0.2)], fill=gold, width=max(2, size//200))
-              draw.line([(cx+w*0.5, top+h*0.2
+          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka.works.final'; minSdk 21; targetSdk 34; versionCode 27; versionName 'FINAL-RU' } }\n" > app/build.gradle
+          printf '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Black"><activity android:name=".MainActivity" android:exported="true" android:theme="@android:style/Theme.Black.NoTitleBar"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
+          printf '<resources><string name="app_name">MATRESHKA WORKS 27</string></resources>' > app/src/main/res/values/strings.xml
+          cp ic.png app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          cp lg.png app/src/main/res/drawable/logo.png
+          cat > app/src/main/java/com/matreshka/MainActivity.java <<'JAVA'
+          package com.matreshka;
+          import android.app.Activity; import android.os.Bundle; import android.widget.*; import android.view.Gravity; import android.graphics.Color; import android.graphics.drawable.GradientDrawable;
+          public class MainActivity extends Activity {
+            private LinearLayout card(String text){
+              LinearLayout ll=new LinearLayout(this); ll.setOrientation(LinearLayout.VERTICAL);
+              GradientDrawable gd=new GradientDrawable(); gd.setColor(0xFF1A1A1A); gd.setStroke(2, 0xFFD4AF37); gd.setCornerRadius(24);
+              ll.setBackground(gd); ll.setPadding(28,22,28,22);
+              TextView tv=new TextView(this); tv.setText(text); tv.setTextColor(Color.WHITE); tv.setTextSize(15); tv.setLineSpacing(6,1);
+              ll.addView(tv);
+              LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2); lp.setMargins(0,14,0,14);
+              ll.setLayoutParams(lp);
+              return ll;
+            }
+            protected void onCreate(Bundle b){
+              super.onCreate(b);
+              ScrollView sv=new ScrollView(this); sv.setBackgroundColor(0xFF080808);
+              LinearLayout root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setPadding(28,28,28,28);
+              
+              ImageView iv=new ImageView(this);
+              try{ iv.setImageResource(getResources().getIdentifier("logo","drawable",getPackageName())); }catch(Exception e){}
+              iv.setAdjustViewBounds(true);
+              LinearLayout.LayoutParams ip=new LinearLayout.LayoutParams(-1, 420); ip.gravity=Gravity.CENTER; ip.setMargins(0,10,0,20);
+              root.addView(iv, ip);
+              
+              TextView h1=new TextView(this); h1.setText("MATRESHKA WORKS\nBY DOMINIC"); h1.setGravity(Gravity.CENTER); h1.setTextColor(0xFFD4
