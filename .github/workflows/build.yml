@@ -1,4 +1,4 @@
-name: MATRESHKA GOLD LOGO FINAL
+name: MATRESHKA GOLD LOGO FIXED
 on: [push]
 jobs:
   build:
@@ -13,70 +13,34 @@ jobs:
         with:
           gradle-version: 8.5
           cache-disabled: true
-      - name: Build WITH YOUR GOLD LOGO
+      - name: Build WITH YOUR GOLD LOGO FIXED
         run: |
           rm -rf app build .gradle
           mkdir -p app/src/main/java/com/matreshka app/src/main/res/values app/src/main/res/mipmap-xxxhdpi app/src/main/res/mipmap-xxhdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-hdpi app/src/main/res/drawable
           echo "include ':app'" > settings.gradle
           printf "buildscript {\n  repositories { google(); mavenCentral() }\n  dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }\n}\nallprojects { repositories { google(); mavenCentral() } }\n" > build.gradle
-          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 101; versionName 'GOLD-LOGO' } buildTypes { debug { minifyEnabled false } } }\n" > app/build.gradle
+          printf "plugins { id 'com.android.application' }\nandroid { namespace 'com.matreshka'; compileSdk 34; defaultConfig { applicationId 'com.matreshka'; minSdk 21; targetSdk 34; versionCode 102; versionName 'GOLD-FIXED' } buildTypes { debug { minifyEnabled false } } }\n" > app/build.gradle
           echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:label="MATRESHKA WORKS" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher"><activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>' > app/src/main/AndroidManifest.xml
           echo '<resources><string name="app_name">MATRESHKA WORKS BY DOMINIC</string></resources>' > app/src/main/res/values/strings.xml
           
+          pip install pillow -q
           python3 <<'PY'
           from PIL import Image, ImageDraw
           import math
-          
           def create_gold_logo(size, path):
-              # Black background
               img = Image.new('RGBA', (size, size), (0,0,0,255))
               draw = ImageDraw.Draw(img)
               gold = (212, 175, 55, 255)
-              
-              # Outer circle
               pad = size*0.05
               draw.ellipse([pad, pad, size-pad, size-pad], outline=gold, width=max(2, size//120))
-              
-              # Inner thin arcs (like on photo)
               pad2 = size*0.18
               draw.arc([pad2, pad2, size-pad2, size-pad2], 200, 340, fill=gold, width=max(1, size//300))
               draw.arc([pad2, pad2, size-pad2, size-pad2], 20, 160, fill=gold, width=max(1, size//300))
-              
-              # Matreshka shape - simplified gold lines
               cx = size/2
-              # Outer matreshka outline
               w = size*0.28
               h = size*0.55
               top = size*0.28
               bottom = top + h
-              
-              # Draw matreshka using lines and arcs - stylized
-              # Top head
               draw.arc([cx-w*0.5, top, cx+w*0.5, top+h*0.4], 180, 0, fill=gold, width=max(2, size//200))
-              # Sides
               draw.line([(cx-w*0.5, top+h*0.2), (cx-w*0.6, bottom-h*0.2)], fill=gold, width=max(2, size//200))
-              draw.line([(cx+w*0.5, top+h*0.2), (cx+w*0.6, bottom-h*0.2)], fill=gold, width=max(2, size//200))
-              # Inner matreshka
-              w2 = w*0.7
-              h2 = h*0.65
-              top2 = top + h*0.25
-              draw.arc([cx-w2*0.5, top2, cx+w2*0.5, top2+h2*0.4], 180, 0, fill=gold, width=max(2, size//200))
-              draw.line([(cx-w2*0.5, top2+h2*0.2), (cx-w2*0.6, top2+h2*0.8)], fill=gold, width=max(2, size//200))
-              draw.line([(cx+w2*0.5, top2+h2*0.2), (cx+w2*0.6, top2+h2*0.8)], fill=gold, width=max(2, size//200))
-              # Bottom base
-              bw = w*0.5
-              bh = size*0.04
-              draw.rounded_rectangle([cx-bw, bottom-bh, cx+bw, bottom], radius=bh/2, outline=gold, width=max(2, size//200))
-              
-              # Center vertical line
-              draw.line([(cx, top), (cx, bottom-bh)], fill=gold, width=max(1, size//300))
-              draw.line([(cx, top2), (cx, top2+h2*0.8)], fill=gold, width=max(1, size//300))
-              
-              img.save(path, "PNG")
-              print(f"Created {path}")
-
-          for folder, sz in [("mipmap-xxxhdpi",192), ("mipmap-xxhdpi",144), ("mipmap-xhdpi",96), ("mipmap-hdpi",72), ("drawable",512)]:
-              create_gold_logo(sz, f"app/src/main/res/{folder}/ic_launcher.png")
-              if folder=="drawable":
-                  create_gold_logo(800, "app/src/main/res/drawable/logo.png")
-          PY
+              draw.line([(cx+w*0.5, top+h*0.2
