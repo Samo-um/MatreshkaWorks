@@ -3,139 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MatreshkaWorks | GROUND RUSSIA</title>
+<title>GROUND RUSSIA - Форум</title>
+<script src="/socket.io/socket.io.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px}
-h1{font-size:28px;margin-bottom:5px} h1 span{color:#2ecc71}
-.sub{color:#888;margin-bottom:15px}
-.card{background:#1e1e1e;padding:15px;margin:12px 0;border-radius:14px;border-left:5px solid #2ecc71}
-.card b{color:#2ecc71;font-size:18px}
-.card p{color:#aaa;margin:6px 0}
-.card .desc{color:#ccc;font-size:14px}
-button{background:#2ecc71;color:#000;padding:12px;border:0;border-radius:10px;font-weight:bold;width:100%;margin-top:8px;cursor:pointer}
-input,textarea{width:100%;padding:12px;margin:5px 0;border-radius:10px;border:0;background:#2a2a2a;color:#fff}
-.hidden{display:none}
-#chatBox{background:#181818;border-radius:14px;padding:15px;margin-top:20px;border:1px solid #2a2a2a}
-.msg{background:#222;padding:10px 12px;border-radius:10px;margin:8px 0}
-.msg.me{background:#1a3320;border-left:3px solid #2ecc71}
-.msg.boss{background:#2a2211;border-left:3px solid #f1c40f}
-.small{font-size:11px;color:#777}
-.topBar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+body{background:#0f0f0f;color:#fff;font-family:Arial;padding:10px;margin:0}
+.header{font-weight:bold;font-size:22px;color:#00ff66;padding:10px 0}
+.sub{font-size:12px;color:#888;margin-bottom:10px}
+input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box}
+.btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px}
+.error{color:#ff4444;margin-top:10px;text-align:center}
+.task{background:#1a1a1a;border-radius:12px;padding:12px;margin-top:12px;border-left:4px solid #00ff66}
+.msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%}
+.msg.me{background:#0d3320;margin-left:auto}
+.msg.other{background:#2a2a2a}
+.chat-input{display:flex;gap:8px;margin-top:10px}
+.chat-input input{margin-top:0}
 </style>
 </head>
 <body>
-<h1>🇷🇺 MatreshkaWorks <span>RP</span></h1>
-<div class="sub">GROUND RUSSIA | Директор: Samo_Monopoly</div>
+<div class="header">GROUND RUSSIA | Форум</div>
+<div class="sub">Директор: Samo_Monopoly</div>
 
-<div id="authBox">
-<input id="user" placeholder="Твой ник в игре (напр. Samo_Monopoly)">
-<input id="pass" type="password" placeholder="Пароль">
-<button onclick="login()">Войти / Регистрация</button>
+<div id="auth">
+<input id="nick" placeholder="Придумайте Nick_Name">
+<input id="pass" type="password" placeholder="Придумайте пароль">
+<button class="btn" onclick="login()">Войти / Регистрация</button>
+<div id="err" class="error"></div>
 </div>
 
-<div id="main" class="hidden">
-<div class="topBar"><p id="welcome"></p><button onclick="logout()" style="width:auto;background:#333;color:#fff;padding:6px 12px">Выйти</button></div>
-<div id="jobs"></div>
+<div id="app" style="display:none">
+<div>Привет, <b id="myNick"></b>! <button onclick="logout()" style="float:right;background:#333;color:#fff;border:none;padding:5px 10px;border-radius:5px">Выйти</button></div>
 
-<div id="chatBox">
-<h3>💬 Чат с Директором</h3>
-<div id="chatMsgs" style="max-height:350px;overflow-y:auto;margin:10px 0"></div>
-<div style="display:flex;gap:6px"><input id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()" style="width:80px">Отпр.</button></div>
-</div>
+<div class="task"><b>🔫 Перепродажа оружия</b><br>💰 25.000 ₽<br><button class="btn" onclick="take('Перепродажа оружия')">Взять задачу</button></div>
+<div class="task"><b>👕 Продажа дорогой одежды</b><br>💰 15.000 ₽<br><button class="btn" onclick="take('Продажа одежды')">Взять задачу</button></div>
+<div class="task"><b>🚗 Скрытие автомобиля</b><br>💰 30.000 ₽<br><button class="btn" onclick="take('Скрытие авто')">Взять задачу</button></div>
+<div class="task"><b>🏗️ Строительный бизнес</b><br>💰 75.000 ₽<br><button class="btn" onclick="take('Строительный бизнес')">Взять задачу</button></div>
+<div class="task"><b>🚕 Работа таксистом</b><br>💰 5.000 ₽<br><button class="btn" onclick="take('Таксист')">Взять задачу</button></div>
+<div class="task"><b>🛍️ Барыга</b><br>💰 700.000 ₽<br><button class="btn" onclick="take('Барыга')">Взять задачу</button></div>
+<div class="task"><b>👔 Директор строительной компании</b><br>💰 1.700.000 ₽<br><button class="btn" onclick="take('Директор стройкомпании')">Взять задачу</button></div>
+<div class="task"><b>🗺️ Назначение карт и рейдов</b><br>💰 45.000 ₽<br><button class="btn" onclick="take('Назначение карт')">Взять задачу</button></div>
 
+<div style="margin-top:20px"><h3>💬 Чат с Директором</h3><div id="messages"></div><div class="chat-input"><input id="chatText" placeholder="Напиши сообщение..."><button class="btn" style="width:80px;margin-top:0" onclick="sendMsg()">Отпр.</button></div></div>
 </div>
 
 <script>
-const JOBS = [
-{icon:"🔫",title:"Перепродажа оружия",price:"25.000 ₽",desc:"Покупка и перепродажа оружия в рамках игрового RP."},
-{icon:"👔",title:"Продажа дорогой одежды",price:"15.000 ₽",desc:"Продажа эксклюзивной одежды и редких предметов."},
-{icon:"🚘",title:"Скрытие автомобиля и содержимого",price:"30.000 ₽",desc:"RP-услуга по сокрытию автомобиля и вещей."},
-{icon:"🏗️",title:"Строительный бизнес",price:"75.000 ₽ | 10.000 ₽ за перевозку",desc:"Перевозка строительных материалов."},
-{icon:"🚕",title:"Работа таксистом",price:"5.000 ₽",desc:"Перевозка пассажиров и выполнение заказов."},
-{icon:"💎",title:"Барыга",price:"700.000 ₽ / 700 🪙",desc:"Торговля редкими товарами и проведение выгодных сделок."},
-{icon:"🏢",title:"Директор строительной компании",price:"1.700.000 ₽ | Прибыль: 276.000 ₽ в день",desc:"Управление компанией, перевозками, сотрудниками и развитием бизнеса."},
-{icon:"🗺️",title:"Назначение карт и организация рейдов",price:"45.000 ₽",desc:"Организация RP-мероприятий, подготовка карт и проведение игровых рейдов."},
-];
-
-let currentJob = null;
-
-function renderJobs(){
- let h="";
- JOBS.forEach((j,i)=>{
-  h+=`<div class="card"><h3>${j.icon} ${j.title}</h3><b>💰 ${j.price}</b><p class="desc">📄 ${j.desc}</p><button onclick="takeJob(${i})">Взять задачу</button></div>`;
- });
- document.getElementById("jobs").innerHTML=h;
+let myNick = localStorage.getItem('nick') || "";
+let myJob = "";
+const socket = io();
+if(myNick){ document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages(); }
+async function login(){
+  const nick = document.getElementById('nick').value.trim();
+  const pass = document.getElementById('pass').value.trim();
+  const err = document.getElementById('err');
+  if(!/^[A-Za-z]+_[A-Za-z]+$/.test(nick)){ err.innerText="Формат: Nick_Name Пример: Ivan_Ivanov"; return; }
+  if(pass.length<4){ err.innerText="Пароль от 4 символов"; return; }
+  const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,pass})});
+  const data = await res.json();
+  if(!data.ok){ err.innerText=data.msg; return; }
+  localStorage.setItem('nick', data.nick); myNick=data.nick;
+  document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages();
 }
-
-function login(){
- let u=document.getElementById("user").value.trim();
- if(!u){alert("Введи ник!");return}
- localStorage.setItem("mw_user",u);
- showMain();
- loadChat();
-}
-function showMain(){
- let u=localStorage.getItem("mw_user");
- if(!u) return;
- document.getElementById("authBox").classList.add("hidden");
- document.getElementById("main").classList.remove("hidden");
- document.getElementById("welcome").innerHTML=`Привет, <b>${u}</b>! Доступно 8 RP-задач:`;
- renderJobs();
-}
-function logout(){localStorage.removeItem("mw_user");location.reload();}
-
-function takeJob(i){
- currentJob = JOBS[i];
- document.getElementById("chatBox").scrollIntoView({behavior:"smooth"});
- addBossMsg(`Ты взял задачу: <b>${currentJob.icon} ${currentJob.title}</b><br><br>✅ <b>В ближайшее время вам ответит Директор Samo_Monopoly</b><br><br>Напиши ниже когда сможешь приступить и свой опыт в RP.`);
- setTimeout(()=>{addBossMsg(`Привет! Я Samo_Monopoly. Вижу ты взял "${currentJob.title}". Расскажи подробнее, когда будешь в игре?`);},800);
-}
-
-function addMsg(text,isMe){
- let box=document.getElementById("chatMsgs");
- let div=document.createElement("div");
- div.className="msg "+(isMe?"me":"boss");
- let who=isMe?localStorage.getItem("mw_user"):"Samo_Monopoly (Директор)";
- div.innerHTML=`<div style="font-weight:bold">${who}</div><div>${text}</div><div class="small">${new Date().toLocaleTimeString()}</div>`;
- box.appendChild(div);
- box.scrollTop=box.scrollHeight;
- saveChat();
-}
-
-function addBossMsg(text){addMsg(text,false);}
-function addMyMsg(text){addMsg(text,true);}
-
-function sendMsg(){
- let inp=document.getElementById("chatInput");
- let t=inp.value.trim();
- if(!t) return;
- addMyMsg(t);
- inp.value="";
- // автоответ директора через 1.5 сек
- setTimeout(()=>{
-  const replies=[
-   "Принял, скоро свяжусь в игре!",
-   "Ок, жду тебя на базе. Не забудь RP отыгровку!",
-   "Записал! Оплата после выполнения задания.",
-   "Понял, подготовлю все для рейда."
-  ];
-  addBossMsg(replies[Math.floor(Math.random()*replies.length)]);
- },1500);
-}
-
-function saveChat(){
- let box=document.getElementById("chatMsgs").innerHTML;
- localStorage.setItem("mw_chat_"+localStorage.getItem("mw_user"),box);
-}
-function loadChat(){
- let u=localStorage.getItem("mw_user");
- let saved=localStorage.getItem("mw_chat_"+u);
- if(saved){document.getElementById("chatMsgs").innerHTML=saved;}
-}
-
-showMain();
-if(localStorage.getItem("mw_user")) loadChat();
+function logout(){ localStorage.removeItem('nick'); location.reload(); }
+async function loadMessages(){ const res = await fetch('/api/messages'); const msgs = await res.json(); msgs.forEach(addMsg); }
+function addMsg(m){ const div = document.createElement('div'); div.className = m.user===myNick?'msg me':'msg other'; div.innerHTML = `<b>${m.user}</b><br>${m.text}<br><small style="color:#888">${m.time}</small>`; document.getElementById('messages').appendChild(div); }
+socket.on('new_message', (m)=>{ addMsg(m); window.scrollTo(0,document.body.scrollHeight); });
+function sendMsg(){ const text = document.getElementById('chatText').value.trim(); if(!text) return; socket.emit('chat',{user:myNick,text,job:myJob}); document.getElementById('chatText').value=''; }
+function take(job){ myJob=job; socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob}); }
 </script>
 </body>
 </html>
