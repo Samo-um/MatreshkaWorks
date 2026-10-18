@@ -3,76 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MatreshkaWorks</title>
+<title>MatreshkaWorks | GROUND RUSSIA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px}
-h1{margin-bottom:15px}
-.card{background:#1e1e1e;padding:15px;margin:10px 0;border-radius:12px;border-left:4px solid #2ecc71}
-.card h3{color:#2ecc71}
-button{background:#2ecc71;color:#000;padding:12px;border:0;border-radius:10px;font-weight:bold;width:100%;margin-top:8px}
-input{width:100%;padding:12px;margin:5px 0;border-radius:10px;border:0;background:#2a2a2a;color:#fff}
-#jobs{display:block !important}
+h1{font-size:28px;margin-bottom:5px} h1 span{color:#2ecc71}
+.sub{color:#888;margin-bottom:15px}
+.card{background:#1e1e1e;padding:15px;margin:12px 0;border-radius:14px;border-left:5px solid #2ecc71}
+.card b{color:#2ecc71;font-size:18px}
+.card p{color:#aaa;margin:6px 0}
+.card .desc{color:#ccc;font-size:14px}
+button{background:#2ecc71;color:#000;padding:12px;border:0;border-radius:10px;font-weight:bold;width:100%;margin-top:8px;cursor:pointer}
+input,textarea{width:100%;padding:12px;margin:5px 0;border-radius:10px;border:0;background:#2a2a2a;color:#fff}
 .hidden{display:none}
+#chatBox{background:#181818;border-radius:14px;padding:15px;margin-top:20px;border:1px solid #2a2a2a}
+.msg{background:#222;padding:10px 12px;border-radius:10px;margin:8px 0}
+.msg.me{background:#1a3320;border-left:3px solid #2ecc71}
+.msg.boss{background:#2a2211;border-left:3px solid #f1c40f}
+.small{font-size:11px;color:#777}
+.topBar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 </style>
 </head>
 <body>
-<h1>🇷🇺 MatreshkaWorks</h1>
+<h1>🇷🇺 MatreshkaWorks <span>RP</span></h1>
+<div class="sub">GROUND RUSSIA | Директор: Samo_Monopoly</div>
 
 <div id="authBox">
-<input id="user" placeholder="Придумай логин">
+<input id="user" placeholder="Твой ник в игре (напр. Samo_Monopoly)">
 <input id="pass" type="password" placeholder="Пароль">
-<button onclick="reg()">Регистрация / Войти</button>
+<button onclick="login()">Войти / Регистрация</button>
 </div>
 
 <div id="main" class="hidden">
-<p id="welcome"></p>
+<div class="topBar"><p id="welcome"></p><button onclick="logout()" style="width:auto;background:#333;color:#fff;padding:6px 12px">Выйти</button></div>
 <div id="jobs"></div>
-<button onclick="logout()" style="background:#444;color:#fff;margin-top:20px">Выйти</button>
+
+<div id="chatBox">
+<h3>💬 Чат с Директором</h3>
+<div id="chatMsgs" style="max-height:350px;overflow-y:auto;margin:10px 0"></div>
+<div style="display:flex;gap:6px"><input id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()" style="width:80px">Отпр.</button></div>
+</div>
+
 </div>
 
 <script>
 const JOBS = [
-{title:"Промоутер в ТЦ", pay:"1500₽ / день", desc:"Раздавать листовки 4 часа"},
-{title:"Выгул собак", pay:"500₽ / час", desc:"Выгул в парке рядом"},
-{title:"Курьер пеший", pay:"300₽ / заказ", desc:"Доставка в центре"},
-{title:"Расклейка объявлений", pay:"1000₽", desc:"100 объявлений район"},
-{title:"Уборка квартиры", pay:"2000₽", desc:"2-комн, 2 часа"},
-{title:"Помощь на даче", pay:"2500₽ / день", desc:"Копка, полив"},
-{title:"Оператор чата", pay:"400₽ / час", desc:"С телефона дома"},
-{title:"Тайный покупатель", pay:"800₽", desc:"Проверка магазина"}
+{icon:"🔫",title:"Перепродажа оружия",price:"25.000 ₽",desc:"Покупка и перепродажа оружия в рамках игрового RP."},
+{icon:"👔",title:"Продажа дорогой одежды",price:"15.000 ₽",desc:"Продажа эксклюзивной одежды и редких предметов."},
+{icon:"🚘",title:"Скрытие автомобиля и содержимого",price:"30.000 ₽",desc:"RP-услуга по сокрытию автомобиля и вещей."},
+{icon:"🏗️",title:"Строительный бизнес",price:"75.000 ₽ | 10.000 ₽ за перевозку",desc:"Перевозка строительных материалов."},
+{icon:"🚕",title:"Работа таксистом",price:"5.000 ₽",desc:"Перевозка пассажиров и выполнение заказов."},
+{icon:"💎",title:"Барыга",price:"700.000 ₽ / 700 🪙",desc:"Торговля редкими товарами и проведение выгодных сделок."},
+{icon:"🏢",title:"Директор строительной компании",price:"1.700.000 ₽ | Прибыль: 276.000 ₽ в день",desc:"Управление компанией, перевозками, сотрудниками и развитием бизнеса."},
+{icon:"🗺️",title:"Назначение карт и организация рейдов",price:"45.000 ₽",desc:"Организация RP-мероприятий, подготовка карт и проведение игровых рейдов."},
 ];
+
+let currentJob = null;
 
 function renderJobs(){
  let h="";
  JOBS.forEach((j,i)=>{
-  h+=`<div class="card"><h3>${j.title}</h3><b>${j.pay}</b><p>${j.desc}</p><button onclick="take(${i})">Взять задачу</button></div>`;
+  h+=`<div class="card"><h3>${j.icon} ${j.title}</h3><b>💰 ${j.price}</b><p class="desc">📄 ${j.desc}</p><button onclick="takeJob(${i})">Взять задачу</button></div>`;
  });
  document.getElementById("jobs").innerHTML=h;
 }
 
-function reg(){
- let u=document.getElementById("user").value;
- if(!u){alert("Введи логин");return}
+function login(){
+ let u=document.getElementById("user").value.trim();
+ if(!u){alert("Введи ник!");return}
  localStorage.setItem("mw_user",u);
  showMain();
+ loadChat();
 }
 function showMain(){
  let u=localStorage.getItem("mw_user");
  if(!u) return;
  document.getElementById("authBox").classList.add("hidden");
  document.getElementById("main").classList.remove("hidden");
- document.getElementById("welcome").innerText="Привет, "+u+"! Доступно 8 задач:";
+ document.getElementById("welcome").innerHTML=`Привет, <b>${u}</b>! Доступно 8 RP-задач:`;
  renderJobs();
 }
-function logout(){
- localStorage.removeItem("mw_user");
- location.reload();
+function logout(){localStorage.removeItem("mw_user");location.reload();}
+
+function takeJob(i){
+ currentJob = JOBS[i];
+ document.getElementById("chatBox").scrollIntoView({behavior:"smooth"});
+ addBossMsg(`Ты взял задачу: <b>${currentJob.icon} ${currentJob.title}</b><br><br>✅ <b>В ближайшее время вам ответит Директор Samo_Monopoly</b><br><br>Напиши ниже когда сможешь приступить и свой опыт в RP.`);
+ setTimeout(()=>{addBossMsg(`Привет! Я Samo_Monopoly. Вижу ты взял "${currentJob.title}". Расскажи подробнее, когда будешь в игре?`);},800);
 }
-function take(i){
- alert("Ты взял: "+JOBS[i].title+"! Свяжемся в чате.");
+
+function addMsg(text,isMe){
+ let box=document.getElementById("chatMsgs");
+ let div=document.createElement("div");
+ div.className="msg "+(isMe?"me":"boss");
+ let who=isMe?localStorage.getItem("mw_user"):"Samo_Monopoly (Директор)";
+ div.innerHTML=`<div style="font-weight:bold">${who}</div><div>${text}</div><div class="small">${new Date().toLocaleTimeString()}</div>`;
+ box.appendChild(div);
+ box.scrollTop=box.scrollHeight;
+ saveChat();
 }
+
+function addBossMsg(text){addMsg(text,false);}
+function addMyMsg(text){addMsg(text,true);}
+
+function sendMsg(){
+ let inp=document.getElementById("chatInput");
+ let t=inp.value.trim();
+ if(!t) return;
+ addMyMsg(t);
+ inp.value="";
+ // автоответ директора через 1.5 сек
+ setTimeout(()=>{
+  const replies=[
+   "Принял, скоро свяжусь в игре!",
+   "Ок, жду тебя на базе. Не забудь RP отыгровку!",
+   "Записал! Оплата после выполнения задания.",
+   "Понял, подготовлю все для рейда."
+  ];
+  addBossMsg(replies[Math.floor(Math.random()*replies.length)]);
+ },1500);
+}
+
+function saveChat(){
+ let box=document.getElementById("chatMsgs").innerHTML;
+ localStorage.setItem("mw_chat_"+localStorage.getItem("mw_user"),box);
+}
+function loadChat(){
+ let u=localStorage.getItem("mw_user");
+ let saved=localStorage.getItem("mw_chat_"+u);
+ if(saved){document.getElementById("chatMsgs").innerHTML=saved;}
+}
+
 showMain();
+if(localStorage.getItem("mw_user")) loadChat();
 </script>
 </body>
 </html>
