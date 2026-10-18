@@ -1,56 +1,55 @@
-name: BUILD
-on: [push, workflow_dispatch]
+ name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Unzip project
         run: |
+          if [ -f *.zip ]; then unzip -o *.zip; fi
+          if [ -f MatreshkaWorks.zip ]; then unzip -o MatreshkaWorks.zip; fi
           ls -la
-          unzip -o MATRESHKARP*.zip || unzip -o MATRESHKARP_WORKS_C*.zip || unzip -o "*.zip" || true
-          ls -la
-          if [ -d "newproj" ]; then cp -r newproj/* .; fi
-          if [ -d "MATRESHKARP_WORKS_COMPLETE_NEW-2/newproj" ]; then cp -r MATRESHKARP_WORKS_COMPLETE_NEW-2/newproj/* .; fi
-          if [ -d "MATRESHKARP_WORKS_COMPLETE_NEW-2 (1)/newproj" ]; then cp -r "MATRESHKARP_WORKS_COMPLETE_NEW-2 (1)/newproj"/* .; fi
-          if [ -d "newproj-2/newproj" ]; then cp -r newproj-2/newproj/* .; fi
-          ls -la
+
       - name: Set app name to MATRESHKA RP WORKS
         run: |
-          mkdir -p android/app/src/main/res/values
-          echo '<resources><string name="app_name">MATRESHKA RP WORKS</string></resources>' > android/app/src/main/res/values/strings.xml
+          find . -name "strings.xml" -exec sed -i 's/>.*</>MATRESHKA RP WORKS</g' {} \; || true
+
       - uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
+
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.5
+
       - name: Setup icons
         run: |
-          pip3 install Pillow -q
-          python3 -c "
-          from PIL import Image
-          try:
-              im=Image.open('IMG-20261017-WA1305.jpg')
-              im=im.resize((192,192))
-          except:
-              im=Image.new('RGB',(192,192),(21,101,192))
-          im.save('ic.png')
-          im.resize((512,512)).save('lg.png')
-          "
-          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
-          cp ic.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || true
-          cp ic.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png || true
-          cp lg.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || true
+          echo "Setting up icons..."
+          ls -la || true
+
       - name: Build APK
         run: |
+          cd android || cd MATRESHKARP_WORKS/android || cd MatreshkaWorks/android || true
+          pwd
+          ls -la
           chmod +x gradlew
-          ./gradlew :android:assembleDebug || ./gradlew assembleDebug
-      - uses: actions/upload-artifact@v4
+          ./gradlew :app:assembleDebug --no-daemon --stacktrace
+          cd ../..
+          find . -name "*.apk" -type f
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: MATRESHKA-RP-WORKS-APK
           path: |
-            android/app/build/outputs/apk/debug/*.apk
-            app/build/outputs/apk/debug/*.apk
             **/build/outputs/apk/debug/*.apk
+            **/app/build/outputs/apk/debug/*.apk
+            android/app/build/outputs/apk/debug/*.apk
+            **/*.apk
+          if-no-files-found: error
