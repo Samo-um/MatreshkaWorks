@@ -5,29 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-      - name: Build APK with Gradle
+      - name: DIAGNOSTIC
         run: |
-          echo "Что в корне:"
+          echo "=== KOREN ==="
           ls -la
-          echo "Что в android:"
-          ls -la android || echo "папки android нет"
-          echo "Собираю..."
-          if [ -d "android" ]; then
-            cd android
-            gradle assembleDebug --no-daemon
-          else
-            gradle assembleDebug --no-daemon
-          fi
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: MATRESHKA-APK
-          path: |
-            **/*.apk
-            **/build/outputs/apk/debug/*.apk
+          echo "=== ANDROID ==="
+          ls -la android || echo "net android"
+          echo "=== GRADLEW ==="
+          cat gradlew
+          echo "=== FIND BUILD GRADLE ==="
+          find . -maxdepth 4 -name "*.gradle*" | head -20
