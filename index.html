@@ -4,15 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MatreshkaWorks</title>
-<style>body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px} .card{background:#222;padding:15px;margin:10px 0;border-radius:12px} button{background:#2ecc71;color:#000;padding:10px 15px;border:0;border-radius:8px;font-weight:bold;width:100%;margin-top:10px} input{width:95%;padding:10px;margin:5px 0;border-radius:8px;border:0}</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px}
+h1{margin-bottom:15px}
+.card{background:#1e1e1e;padding:15px;margin:10px 0;border-radius:12px;border-left:4px solid #2ecc71}
+.card h3{color:#2ecc71}
+button{background:#2ecc71;color:#000;padding:12px;border:0;border-radius:10px;font-weight:bold;width:100%;margin-top:8px}
+input{width:100%;padding:12px;margin:5px 0;border-radius:10px;border:0;background:#2a2a2a;color:#fff}
+#jobs{display:block !important}
+.hidden{display:none}
+</style>
 </head>
 <body>
-<h2>🇷🇺 MatreshkaWorks</h2>
-<div id="app">
-<div id="auth"><input id="username" placeholder="Логин"><input id="password" type="password" placeholder="Пароль"><button onclick="register()">Регистрация</button><button onclick="login()">Войти</button></div>
-<div id="jobs"></div>
-<div id="profile"></div>
+<h1>🇷🇺 MatreshkaWorks</h1>
+
+<div id="authBox">
+<input id="user" placeholder="Придумай логин">
+<input id="pass" type="password" placeholder="Пароль">
+<button onclick="reg()">Регистрация / Войти</button>
 </div>
-<script src="app.js"></script>
+
+<div id="main" class="hidden">
+<p id="welcome"></p>
+<div id="jobs"></div>
+<button onclick="logout()" style="background:#444;color:#fff;margin-top:20px">Выйти</button>
+</div>
+
+<script>
+const JOBS = [
+{title:"Промоутер в ТЦ", pay:"1500₽ / день", desc:"Раздавать листовки 4 часа"},
+{title:"Выгул собак", pay:"500₽ / час", desc:"Выгул в парке рядом"},
+{title:"Курьер пеший", pay:"300₽ / заказ", desc:"Доставка в центре"},
+{title:"Расклейка объявлений", pay:"1000₽", desc:"100 объявлений район"},
+{title:"Уборка квартиры", pay:"2000₽", desc:"2-комн, 2 часа"},
+{title:"Помощь на даче", pay:"2500₽ / день", desc:"Копка, полив"},
+{title:"Оператор чата", pay:"400₽ / час", desc:"С телефона дома"},
+{title:"Тайный покупатель", pay:"800₽", desc:"Проверка магазина"}
+];
+
+function renderJobs(){
+ let h="";
+ JOBS.forEach((j,i)=>{
+  h+=`<div class="card"><h3>${j.title}</h3><b>${j.pay}</b><p>${j.desc}</p><button onclick="take(${i})">Взять задачу</button></div>`;
+ });
+ document.getElementById("jobs").innerHTML=h;
+}
+
+function reg(){
+ let u=document.getElementById("user").value;
+ if(!u){alert("Введи логин");return}
+ localStorage.setItem("mw_user",u);
+ showMain();
+}
+function showMain(){
+ let u=localStorage.getItem("mw_user");
+ if(!u) return;
+ document.getElementById("authBox").classList.add("hidden");
+ document.getElementById("main").classList.remove("hidden");
+ document.getElementById("welcome").innerText="Привет, "+u+"! Доступно 8 задач:";
+ renderJobs();
+}
+function logout(){
+ localStorage.removeItem("mw_user");
+ location.reload();
+}
+function take(i){
+ alert("Ты взял: "+JOBS[i].title+"! Свяжемся в чате.");
+}
+showMain();
+</script>
 </body>
 </html>
