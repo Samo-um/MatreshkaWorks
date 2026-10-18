@@ -1,32 +1,35 @@
-name: Build Matreshka Chat
+name: Build GROUND RUSSIA
 on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-          
       - uses: gradle/actions/setup-gradle@v4
-      
-      - name: Build APK
+      - name: Build APK with GROUND RUSSIA icon
         run: |
-          unzip -o MATRESHKARP_WORKS_COMPLETE_NEW-2.zip -d app_src
-          REAL=$(find app_src -type f -name "gradlew" | head -1)
+          ZIP=$(ls *.zip | head -1)
+          unzip -o "$ZIP" -d app_src || true
+          REAL=$(find . -type f -name "gradlew" | head -1)
           DIR=$(dirname $REAL)
-          echo "Собираю из: $DIR"
           cd $DIR
+          # Меняем иконку на твою
+          ICON_SRC="../../app_icon.png"
+          if [ ! -f "$ICON_SRC" ]; then ICON_SRC="../../../app_icon.png"; fi
+          if [ -f "$ICON_SRC" ]; then
+            find . -path "*mipmap*/ic_launcher.png" -exec cp "$ICON_SRC" {} \;
+            find . -path "*mipmap*/ic_launcher_round.png" -exec cp "$ICON_SRC" {} \; || true
+          fi
+          # Меняем название приложения
+          find . -name "strings.xml" -exec sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">GROUND RUSSIA<\/string>/g' {} \;
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-          echo "=== APK файлы ==="
-          find . -name "*.apk" -type f
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Matreshka-Chat-APK
-          path: app_src/**/*.apk
+          name: GROUND-RUSSIA-APK
+          path: '**/build/outputs/apk/debug/*.apk'
