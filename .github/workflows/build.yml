@@ -16,21 +16,17 @@ jobs:
       - name: Build APK
         run: |
           unzip -o MATRESHKARP_WORKS_COMPLETE_NEW-2.zip -d app_src
-          cd app_src
-          # Ищем где лежит настоящий проект
-          REAL=$(find . -type f -name "gradlew" | head -1)
-          if [ -z "$REAL" ]; then
-            echo "gradlew не найден, ищу build.gradle"
-            find . -type f -name "build.gradle*" | head -20
-            exit 1
-          fi
+          REAL=$(find app_src -type f -name "gradlew" | head -1)
           DIR=$(dirname $REAL)
           echo "Собираю из: $DIR"
           cd $DIR
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-          
+          echo "=== APK файлы ==="
+          find . -name "*.apk" -type f
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Matreshka-Chat-APK
+          path: app_src/**/*.apk
