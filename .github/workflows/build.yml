@@ -11,19 +11,23 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-      - name: Find and Build
+      - name: Build APK with Gradle
         run: |
-          echo "Ищу gradlew..."
-          find . -type f -name gradlew | head -20
-          GRADLE=$(find . -type f -name gradlew | head -1)
-          echo "Нашел: $GRADLE"
-          chmod +x $GRADLE
-          DIR=$(dirname $GRADLE)
-          echo "Папка: $DIR"
-          cd $DIR
-          ./gradlew assembleDebug --no-daemon
+          echo "Что в корне:"
+          ls -la
+          echo "Что в android:"
+          ls -la android || echo "папки android нет"
+          echo "Собираю..."
+          if [ -d "android" ]; then
+            cd android
+            gradle assembleDebug --no-daemon
+          else
+            gradle assembleDebug --no-daemon
+          fi
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: MATRESHKA-APK
-          path: '**/*.apk'
+          path: |
+            **/*.apk
+            **/build/outputs/apk/debug/*.apk
