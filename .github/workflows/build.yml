@@ -10,24 +10,47 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Build APK with GROUND RUSSIA icon
+      - name: Build APK - FORCE NAME GROUND RUSSIA
         run: |
           ZIP=$(ls *.zip | head -1)
+          echo "ZIP $ZIP"
           unzip -o "$ZIP" -d app_src || true
           REAL=$(find . -type f -name "gradlew" | head -1)
           DIR=$(dirname $REAL)
+          echo "DIR $DIR"
           cd $DIR
-          # Меняем иконку на твою
+          
+          # 1. Меняем иконку
           ICON_SRC="../../app_icon.png"
           if [ ! -f "$ICON_SRC" ]; then ICON_SRC="../../../app_icon.png"; fi
+          if [ ! -f "$ICON_SRC" ]; then ICON_SRC="../../../../app_icon.png"; fi
           if [ -f "$ICON_SRC" ]; then
-            find . -path "*mipmap*/ic_launcher.png" -exec cp "$ICON_SRC" {} \;
-            find . -path "*mipmap*/ic_launcher_round.png" -exec cp "$ICON_SRC" {} \; || true
+            echo "Меняю иконку"
+            for f in $(find . -name "ic_launcher.png" -o -name "ic_launcher_round.png"); do cp "$ICON_SRC" "$f"; done
           fi
-          # Меняем название приложения
-          find . -name "strings.xml" -exec sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">GROUND RUSSIA<\/string>/g' {} \;
+
+          # 2. ЖЕСТКО меняем название - во всех strings.xml
+          echo "Меняю название"
+          find . -name "strings.xml" -type f | while read f; do
+            echo "Патчу $f"
+            sed -i 's/app_name">.*</app_name">GROUND RUSSIA</g' "$f" || true
+            sed -i 's/MATRESHKA.*/GROUND RUSSIA/g' "$f" || true
+            sed -i 's/Matreshka.*/GROUND RUSSIA/g' "$f" || true
+          done
+          
+          # 3. Меняем в AndroidManifest.xml
+          find . -name "AndroidManifest.xml" -exec sed -i 's/android:label="[^"]*"/android:label="GROUND RUSSIA"/g' {} \;
+
+          # 4. Меняем в build.gradle - форсим resValue
+          APP_GRADLE=$(find . -name "build.gradle" | grep app | head -1)
+          if [ -f "$APP_GRADLE" ]; then
+            echo "resValue в $APP_GRADLE"
+            echo "android { defaultConfig { resValue \"string\", \"app_name\", \"GROUND RUSSIA\" } }" >> "$APP_GRADLE" || true
+          fi
+
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
+          
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
