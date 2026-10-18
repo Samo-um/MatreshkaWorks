@@ -1,4 +1,4 @@
- name: Build APK
+name: Build APK
 on: [push, workflow_dispatch]
 jobs:
   build:
@@ -9,11 +9,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - run: |
-          GRADLE=$(find . -name gradlew | head -1)
-          chmod +x $GRADLE
-          cd $(dirname $GRADLE)
-          ./gradlew :app:assembleDebug --no-daemon
+      - name: Build
+        run: chmod +x $(find . -name gradlew | head -1) && DIR=$(dirname $(find . -name gradlew | head -1)) && cd $DIR && ./gradlew :app:assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: APK
