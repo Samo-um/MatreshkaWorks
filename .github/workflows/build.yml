@@ -1,26 +1,20 @@
  name: Build APK
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      - name: Build APK
-        run: |
+      - run: |
           GRADLE=$(find . -name gradlew | head -1)
           chmod +x $GRADLE
           cd $(dirname $GRADLE)
           ./gradlew :app:assembleDebug --no-daemon
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: MATRESHKA-RP-WORKS-APK
+          name: APK
           path: '**/*.apk'
