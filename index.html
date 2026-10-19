@@ -5,73 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GROUND RUSSIA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#08080d;color:#fff;min-height:100vh}
-#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;transition:1s}
-#intro.hide{opacity:0;pointer-events:none;transform:scale(1.5)}
-#intro img{width:600px;max-width:80vw;filter:drop-shadow(0 0 60px #ff0028)}
-header{position:fixed;top:0;left:0;right:0;padding:15px 30px;display:flex;justify-content:space-between;background:rgba(0,0,0,.9);border-bottom:1px solid #ff002822;z-index:10}
-.main{height:100vh;display:flex;align-items:center;justify-content:center;gap:70px;padding:80px 30px 30px}
-.left-photo img{width:200px;height:200px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 40px #ff002855;object-fit:cover;background:#111;display:block}
-.box{width:420px;background:#121214;border:1px solid #ff002840;padding:30px;border-radius:16px}
-.box input{width:100%;padding:13px;margin:6px 0 16px;background:#09090b;border:1px solid #2a2a2a;border-radius:9px;color:#fff}
-.btn{width:100%;padding:14px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:9px;color:#fff;font-weight:800;cursor:pointer}
-#menuPage{display:none;min-height:100vh;padding:90px 20px 30px}.menu-wrap{max-width:900px;margin:0 auto}.welcome{font-size:26px;margin-bottom:20px}.welcome span{color:#ff0028}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:#121214;border:1px solid #ff002822;padding:28px;border-radius:18px;cursor:pointer;text-align:center;transition:.2s}
-.card:hover{border-color:#ff0028;transform:translateY(-4px)}.card.apk{border-color:#ff0028;background:linear-gradient(145deg,#1a0005,#2a0010)}
-.icon{font-size:36px;margin-bottom:10px}.btn-back{margin-top:25px;width:200px;padding:12px;background:#222;border:1px solid #333;border-radius:9px;color:#fff;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:radial-gradient(ellipse at top, #1a0a0f 0%, #08080d 60%);color:#fff;min-height:100vh;overflow-x:hidden}
+#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;transition:.8s}
+#intro.hide{opacity:0;pointer-events:none}
+#intro img{width:550px;max-width:80vw;filter:drop-shadow(0 0 60px #ff0028);animation:breath 2s infinite alternate}
+@keyframes breath{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+
+/* ВЕРХ */
+header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border-bottom:1px solid #ff002822;z-index:10}
+.logo-text{font-weight:900;letter-spacing:1px;font-size:16px}
+.logo-text span{color:#ff0028}
+.directors{font-size:12px;opacity:.8;text-align:right;line-height:1.3}
+.directors b{color:#ff0028}
+
+/* ГЛАВНЫЙ ЭКРАН */
+.main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 30px;gap:20px}
+.top-photo{position:relative}
+.top-photo img{width:180px;height:180px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 50px #ff0028, 0 0 100px #ff002822;object-fit:cover;background:#111;animation:glow 2.5s infinite alternate}
+@keyframes glow{0%{box-shadow:0 0 30px #ff0028}100%{box-shadow:0 0 60px #ff0028, 0 0 100px #ff002822}}
+.top-photo::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid #ff002840;animation:spin 4s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+.box{width:100%;max-width:400px;background:linear-gradient(145deg, #15151a, #0e0e12);border:1px solid #ff002830;padding:28px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05)}
+.box h2{font-size:22px;line-height:1.2;text-align:center;margin-bottom:20px}
+.box h2 span{color:#ff0028}
+.box label{font-size:13px;opacity:.7;margin-left:4px}
+.box input{width:100%;padding:14px 16px;margin:6px 0 16px;background:#08080a;border:1px solid #2a2a2e;border-radius:12px;color:#fff;outline:none;transition:.2s;font-size:15px}
+.box input:focus{border-color:#ff0028;box-shadow:0 0 0 3px #ff002822;background:#0f0f12}
+.btn{width:100%;padding:15px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:12px;color:#fff;font-weight:900;letter-spacing:1px;cursor:pointer;transition:.2s;box-shadow:0 10px 25px #ff002833;font-size:15px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 15px 35px #ff002855}
+.tg-link{margin-top:16px;text-align:center;font-size:13px;opacity:.6}.tg-link span{color:#ff0028}
+
+/* МЕНЮ ПОСЛЕ ВХОДА */
+#menuPage{display:none;min-height:100vh;padding:80px 20px 30px}
+.menu-wrap{max-width:900px;margin:0 auto}
+.welcome{text-align:center;font-size:26px;margin-bottom:25px}.welcome span{color:#ff0028}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:linear-gradient(145deg,#15151a,#0e0e12);border:1px solid #ff002822;padding:26px;border-radius:18px;cursor:pointer;text-align:center;transition:.25s}
+.card:hover{border-color:#ff0028;transform:translateY(-4px);box-shadow:0 15px 40px #ff002822}
+.card.apk{border-color:#ff0028;background:linear-gradient(145deg,#1a0008,#2a0012)}
+.btn-back{display:block;margin:25px auto 0;width:180px;padding:12px;background:#222;border:1px solid #333;border-radius:12px;color:#fff;cursor:pointer}
 #chatModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:150;align-items:center;justify-content:center;padding:20px}
 #chatModal.show{display:flex}
-.chatBox{width:100%;max-width:460px;background:#121214;border:1px solid #ff0028;border-radius:18px;overflow:hidden}
-.chatHead{padding:18px 20px;background:linear-gradient(90deg,#7a0000,#ff0028);display:flex;justify-content:space-between;font-weight:800}
-.chatBody{padding:22px}.chatBody textarea{width:100%;height:110px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;resize:none;margin:12px 0}
-.chatBody input{width:100%;padding:12px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;margin-bottom:12px}
-@media(max-width:768px){.main{flex-direction:column;gap:25px}.left-photo img{width:140px;height:140px}.box{width:95%;max-width:360px}}
+.chatBox{width:100%;max-width:440px;background:#121214;border:1px solid #ff0028;border-radius:18px;overflow:hidden}
+.chatHead{padding:16px 20px;background:linear-gradient(90deg,#7a0000,#ff0028);display:flex;justify-content:space-between;font-weight:800}
+.chatBody{padding:20px}.chatBody textarea{width:100%;height:100px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;margin:10px 0;resize:none}
+.chatBody input{width:100%;padding:12px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;margin-bottom:10px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.top-photo img{width:140px;height:140px}.directors{font-size:10px}}
 </style>
 </head>
 <body>
-<audio id="music" loop autoplay><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
+
+<audio id="music" loop autoplay playsinline>
+  <source src="oyrobinya.mp3" type="audio/mpeg">
+</audio>
+
 <div id="intro"><img src="./logo.png" onerror="this.src='logo.png'"></div>
-<header><b>GROUND RUSSIA</b></header>
+
+<header>
+<div class="logo-text">GROUND <span>RUSSIA</span></div>
+<div class="directors">Director:<br><b>Samo_Monopoly</b><br><b>Arsen_Samsonyan</b></div>
+</header>
+
 <div class="main" id="loginPage">
-<div class="left-photo"><img src="./logo.png" onerror="this.src='logo.png'"></div>
+<div class="top-photo"><img src="./logo.png" onerror="this.src='logo.png'"></div>
 <div class="box">
-<h2>Добро Пожаловать на форум<br><span style="color:#ff0028">Ground Russia!</span></h2><br>
-<label>Никнейм</label><input id="nick" placeholder="Введите ник">
-<label>Пароль</label><input id="pass" type="password" placeholder="Введите пароль">
+<h2>Добро Пожаловать на форум<br><span>Ground Russia!</span></h2>
+<label>Никнейм</label>
+<input id="nick" placeholder="Введите ник">
+<label>Пароль</label>
+<input id="pass" type="password" placeholder="Введите пароль">
 <button class="btn" onclick="login()">ВОЙТИ</button>
-<div style="margin-top:15px;text-align:center;font-size:13px">Связь: <span style="color:#ff0028">@hayem01</span></div>
+<div class="tg-link">Связь: <span>@hayem01</span></div>
 </div>
 </div>
+
 <div id="menuPage">
 <div class="menu-wrap">
 <div class="welcome">Привет, <span id="userName"></span>!</div>
 <div class="grid">
-<div class="card apk" onclick="downloadAPK()"><div class="icon">📦</div><b>1. СКАЧАТЬ APK</b></div>
-<div class="card" onclick="openChat('Задать вопрос')"><div class="icon">💬</div><b>2. Задать вопрос</b></div>
-<div class="card" onclick="openChat('Жалоба')"><div class="icon">🚨</div><b>3. Жалоба</b></div>
-<div class="card" onclick="openChat('Запрос на обновление')"><div class="icon">🚀</div><b>4. Запрос на обновление</b></div>
+<div class="card apk" onclick="downloadAPK()">📦<br><b>1. СКАЧАТЬ APK</b><br><small style="opacity:.6">Ground Russia</small></div>
+<div class="card" onclick="openChat('Задать вопрос')">💬<br><b>2. Задать вопрос</b></div>
+<div class="card" onclick="openChat('Жалоба')">🚨<br><b>3. Жалоба</b></div>
+<div class="card" onclick="openChat('Запрос на обновление')">🚀<br><b>4. Запрос на обновление</b></div>
 </div>
 <button class="btn-back" onclick="logout()">← Выйти</button>
 </div>
 </div>
+
 <div id="chatModal" onclick="if(event.target==this)closeChat()">
 <div class="chatBox">
 <div class="chatHead"><span id="chatTitle">Чат</span><span style="cursor:pointer" onclick="closeChat()">✕</span></div>
 <div class="chatBody">
-<div style="background:#1a1a20;padding:10px;border-radius:10px;font-size:13px;margin-bottom:10px">Напиши сообщение — оно улетит админу в ТГ чат @hayem01</div>
 <input id="chatName" placeholder="Твой ник...">
 <textarea id="chatMsg" placeholder="Напиши сообщение..."></textarea>
-<button class="btn" onclick="sendMsg()">ОТПРАВИТЬ В ТЕЛЕГРАМ ЧАТ</button>
+<button class="btn" onclick="sendMsg()">ОТПРАВИТЬ В ТЕЛЕГРАМ</button>
 </div>
 </div>
 </div>
+
 <script>
 const APK_LINK = "";
-const audio = document.getElementById('music'); audio.volume=0.25;
-window.addEventListener('load',()=>{audio.play().catch(()=>{document.body.addEventListener('click',()=>audio.play(),{once:true})})});
-setTimeout(()=>document.getElementById('intro').classList.add('hide'),2800);
+const audio = document.getElementById('music');
+audio.volume = 0.35;
+// БЕСКОНЕЧНАЯ МУЗЫКА ПОКА НА САЙТЕ
+function tryPlay(){ audio.play().catch(()=>{}); }
+window.addEventListener('load', ()=>{
+  tryPlay();
+  document.body.addEventListener('click', tryPlay, {once:true});
+  document.body.addEventListener('touchstart', tryPlay, {once:true});
+  // Если вкладку свернули и развернули - продолжает играть
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) tryPlay(); });
+});
+setTimeout(()=>document.getElementById('intro').classList.add('hide'),2500);
+
 function login(){
   let n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();
   if(!n||!p){alert('Введи ник и пароль!');return}
@@ -84,13 +132,15 @@ function logout(){document.getElementById('menuPage').style.display='none';docum
 function downloadAPK(){if(!APK_LINK){alert('APK скоро будет!');return} window.location.href=APK_LINK;}
 function openChat(t){document.getElementById('chatTitle').innerText=t;document.getElementById('chatModal').classList.add('show');}
 function closeChat(){document.getElementById('chatModal').classList.remove('show');}
-
-// ТЕПЕРЬ КИДАЕТ В ТВОЙ ТГ ЧАТ!
 function sendMsg(){
   let name=document.getElementById('chatName').value.trim()||'Гость';
   let msg=document.getElementById('chatMsg').value.trim();
   if(!msg){alert('Напиши сообщение!');return}
   let type=document.getElementById('chatTitle').innerText;
-  let fullText = `🔔 ${type} от ${name}:\n${msg}`;
-  // Кидает в твой чат t.me/hayem01
-  let url = `https://t
+  let full = `🔔 ${type} от ${name}:\n${msg}`;
+  window.open(`https://t.me/hayem01?text=${encodeURIComponent(full)}`,'_blank');
+  closeChat(); document.getElementById('chatMsg').value='';
+}
+</script>
+</body>
+</html>
