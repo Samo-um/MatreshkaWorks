@@ -113,8 +113,8 @@ function order(work){
  if(!nick) return; let err=checkNick(nick); if(err){alert(err); return;}
  saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
  let text = encodeURIComponent("Привет! Хочу взять работу: "+work+" | Мой ник: "+nick+" | С сайта GROUND RUSSIA");
- window.open("https://wa.me/33600000000?text="+text,"_blank");
- alert("Заявка на '"+work+"' принята! Тебя перекинуло в реальный чат.");
+ window.open("https://wa.me/33780512276?text="+text,"_blank");
+ alert("Заявка на '"+work+"' принята! Тебя перекинуло в WhatsApp к админу.");
 }
 function publishComp(){
  let nick=document.getElementById('nickComp').value.trim();
@@ -157,4 +157,4 @@ setInterval(()=>{ if(document.getElementById('chatTab').style.display!='none') r
 renderComps(); renderChat();
 </script>
 </body>
-                    </html>
+</html>
