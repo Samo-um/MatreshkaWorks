@@ -41,9 +41,12 @@ header{display:flex;justify-content:space-between;align-items:center;padding:11p
 .menu-btn:first-child{border-color:#ff3c00;box-shadow:0 0 25px rgba(255,60,0,.25)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:14px}
 .modal-bg.show{display:flex}
-.modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:18px;overflow:hidden}
+.modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:18px;overflow:hidden;animation:pop .4s cubic-bezier(.2,1.5,.5,1)}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-head{background:linear-gradient(90deg,#ff6a00,#ff1a1a);padding:12px 16px;display:flex;justify-content:space-between;font-weight:900}
 .hidden{display:none!important}
+.apk-box{padding:30px 20px;text-align:center}
+.apk-icon{font-size:50px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -76,7 +79,8 @@ header{display:flex;justify-content:space-between;align-items:center;padding:11p
 
 <div id="menuBox" class="hidden">
 <div style="text-align:center;margin:20px 0 6px;font-size:23px;font-weight:900">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div>
-<div class="menu-btn" onclick="goApk()">📦 1. СКАЧАТЬ APK</div>
+<div style="text-align:center;color:#666;font-size:11px;margin-bottom:16px;letter-spacing:1px">ВЫБЕРИ ДЕЙСТВИЕ</div>
+<div class="menu-btn" onclick="openApk()">📦 1. СКАЧАТЬ APK</div>
 <div class="menu-btn" onclick="goTG('Вопрос')">💬 2. ВОПРОС</div>
 <div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div>
 <div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div>
@@ -84,13 +88,26 @@ header{display:flex;justify-content:space-between;align-items:center;padding:11p
 </div>
 </div>
 
+<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeApk()">
+<div class="modal">
+<div class="modal-head"><span>APK</span><span onclick="closeApk()" style="cursor:pointer">✕</span></div>
+<div class="apk-box">
+<div class="apk-icon">📦</div>
+<div style="font-size:18px;font-weight:900">APK ещё не добавлен</div>
+<div style="font-size:12px;color:#888;margin-top:8px">Следи за новостями в нашем Telegram канале</div>
+<a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:16px;padding:12px;background:linear-gradient(90deg,#229ED9,#1a8ac0);border-radius:10px;color:#fff;text-decoration:none;font-weight:900">ПЕРЕЙТИ В КАНАЛ</a>
+</div>
+</div>
+</div>
+
 <div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeModal()">
 <div class="modal">
-<div class="modal-head"><span id="modalTitle">Вопрос</span><span onclick="closeModal()">✕</span></div>
+<div class="modal-head"><span id="modalTitle">Вопрос</span><span onclick="closeModal()" style="cursor:pointer">✕</span></div>
 <div style="padding:16px">
 <input id="mNick" class="inp" style="margin-bottom:12px" placeholder="Nick_Name">
-<textarea id="mText" style="width:100%;min-height:120px;background:#080808;border:1px solid #2a2a2a;border-radius:12px;color:#fff;padding:12px" placeholder="Напиши сообщение..."></textarea>
-<button class="btn" onclick="sendTG()">ОТПРАВИТЬ В ТГ @hayem01</button>
+<textarea id="mText" style="width:100%;min-height:120px;background:#080808;border:1px solid #2a2a2a;border-radius:12px;color:#fff;padding:12px" placeholder="Опишите жалобу / вопрос..."></textarea>
+<button class="btn" onclick="sendTG()">ОТПРАВИТЬ</button>
+<div style="text-align:center;font-size:10px;color:#666;margin-top:10px">Отправится в t.me/groundrussia1</div>
 </div>
 </div>
 </div>
@@ -98,6 +115,7 @@ header{display:flex;justify-content:space-between;align-items:center;padding:11p
 <audio id="bgMusic" loop preload="auto" playsinline><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
 
 <script>
+const TG_LINK = "https://t.me/groundrussia1";
 const audio=document.getElementById('bgMusic'), splash=document.getElementById('splash');
 setTimeout(()=>{splash.classList.add('hide');document.body.style.overflow='auto';play();},3600);
 function play(){audio.volume=0.8;audio.play().catch(()=>{document.addEventListener('click',()=>audio.play(),{once:true});});}
@@ -106,19 +124,21 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlaying
 window.addEventListener('pagehide',()=>audio.pause());
 window.addEventListener('blur',()=>{if(!audio.paused){wasPlaying=true;audio.pause();}});
 window.addEventListener('focus',()=>{if(wasPlaying){audio.play();wasPlaying=false;}});
+
 function register(){
  const n=document.getElementById('nick').value.trim(), p=document.getElementById('pass').value.trim();
  if(n.length<3||p.length<4){alert('Ник Nick_Name от 3 симв, пароль 4');return;}
  localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;
  document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');play();
 }
-function goApk(){location.href='https://t.me/hayem01?text='+encodeURIComponent('Привет! Дай скачать APK Ground Russia');}
+function openApk(){document.getElementById('apkBg').classList.add('show');}
+function closeApk(){document.getElementById('apkBg').classList.remove('show');}
 function goTG(t){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBg').classList.add('show');}
 function closeModal(){document.getElementById('modalBg').classList.remove('show');}
 function sendTG(){
  const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}
  const nick=document.getElementById('mNick').value.trim()||'Игрок', type=document.getElementById('modalTitle').textContent;
- location.href='https://t.me/hayem01?text='+encodeURIComponent(`[${type}] от ${nick}: ${txt}`);
+ window.location.href = TG_LINK + '?text=' + encodeURIComponent(`[${type}] от ${nick}: ${txt}`);
 }
 </script>
 </body>
