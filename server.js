@@ -14,44 +14,68 @@ let users = {};
 let messages = [];
 
 try {
-  if(fs.existsSync('users.json')) users = JSON.parse(fs.readFileSync('users.json'));
-  if(fs.existsSync('messages.json')) messages = JSON.parse(fs.readFileSync('messages.json'));
-} catch(e){}
+  if (fs.existsSync('users.json')) users = JSON.parse(fs.readFileSync('users.json'));
+  if (fs.existsSync('messages.json')) messages = JSON.parse(fs.readFileSync('messages.json'));
+} catch (e) {
+  console.log("No old data");
+}
 
-function save(){
+function save() {
   fs.writeFileSync('users.json', JSON.stringify(users));
   fs.writeFileSync('messages.json', JSON.stringify(messages));
 }
 
-app.post('/api/register', (req,res)=>{
-  let {nick, pass} = req.body;
-  nick = String(nick||"").trim();
-  if(!nick.includes("_")){
-    return res.json({ok:false, msg:"Формат: Nick_Name Пример: Ivan_Ivanov"});
+// РЕГИСТРАЦИЯ / ВХОД
+app.post('/api/register', (req, res) => {
+  let { nick, pass } = req.body;
+  nick = String(nick || "").trim();
+  pass = String(pass || "").trim();
+
+  // Проверка формата Nick_Name
+  if (!nick.includes("_")) {
+    return res.json({ ok: false, msg: "Формат: Nick_Name Пример: Nanya_Kauna" });
   }
-  if(nick.length < 3 || nick.length > 30){
-    return res.json({ok:false, msg:"Ник от 3 до 30 символов"});
+  if (nick.length < 3) {
+    return res.json({ ok: false, msg: "Ник слишком короткий" });
   }
-  if(users[nick]){
-    if(users[nick].pass !== pass) return res.json({ok:false, msg:"Никнейм занят! Придумай другой."});
-    return res.json({ok:true, nick});
+  if (pass.length < 4) {
+    return res.json({ ok: false, msg: "Пароль от 4 символов" });
   }
-  users[nick] = {pass, created: Date.now()};
+
+  // ЕСЛИ НИК УЖЕ СУЩЕСТВУЕТ
+  if (users[nick]) {
+    // Если пароль НЕ совпадает - ник занят!
+    if (users[nick].pass !== pass) {
+      return res.json({ ok: false, msg: "Никнейм занят! Придумай другой." });
+    }
+    // Если пароль совпадает - это владелец, пускаем
+    return res.json({ ok: true, nick });
+  }
+
+  // ЕСЛИ НИК НОВЫЙ - РЕГИСТРИРУЕМ
+  users[nick] = { pass, created: Date.now() };
   save();
-  res.json({ok:true, nick});
+  return res.json({ ok: true, nick });
 });
 
-app.get('/api/messages', (req,res)=> res.json(messages));
+app.get('/api/messages', (req, res) => {
+  res.json(messages);
+});
 
-io.on('connection', (socket)=>{
-  socket.on('chat', (data)=>{
-    const msg = {user: data.user, text: data.text, time: new Date().toLocaleTimeString(), job: data.job||""};
+io.on('connection', (socket) => {
+  socket.on('chat', (data) => {
+    const msg = {
+      user: data.user,
+      text: data.text,
+      time: new Date().toLocaleTimeString(),
+      job: data.job || ""
+    };
     messages.push(msg);
-    if(messages.length>200) messages.shift();
+    if (messages.length > 200) messages.shift();
     save();
     io.emit('new_message', msg);
   });
 });
 
 const PORT = process.env.PORT || 10000;
-server.listen(PORT, ()=> console.log("GROUND RUSSIA Forum running on "+PORT));
+server.listen(PORT, () => console.log("GROUND RUSSIA Forum running on " + PORT));
