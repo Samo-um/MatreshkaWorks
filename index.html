@@ -87,23 +87,22 @@ header span{color:#ff1a1a}
 
 <audio id="bgMusic" loop preload="auto" playsinline>
 <source src="oyrobinya.mp3" type="audio/mpeg">
-<source src="./oyrobinya.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const audio=document.getElementById('bgMusic');
 const splash=document.getElementById('splash');
-const loginBox=document.getElementById('loginBox');
-const menuBox=document.getElementById('menuBox');
 let isPlaying=false;
 
-// 1. АНИМАЦИЯ ЛОГО 2.5 сек потом показываем сайт
-setTimeout(()=>{ splash.classList.add('hide'); document.body.style.overflow='auto'; tryAutoPlay(); },2500);
+setTimeout(()=>{ 
+  splash.classList.add('hide'); 
+  document.body.style.overflow='auto'; 
+  tryAutoPlay(); 
+},2500);
 
 function tryAutoPlay(){
   audio.volume=0.6;
   audio.play().then(()=>{isPlaying=true;}).catch(()=>{
-    // если браузер блокирует - включаем по первому тапу
     document.addEventListener('click', firstPlay, {once:true});
     document.addEventListener('touchstart', firstPlay, {once:true});
   });
@@ -116,8 +115,9 @@ function doLogin(){
   localStorage.setItem('gr_nick',n);
   document.getElementById('uName').textContent=n;
   document.getElementById('mNick').value=n;
-  loginBox.classList.add('hidden'); menuBox.classList.remove('hidden');
-  if(!isPlaying){ audio.play().catch(()=>{}); }
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('menuBox').classList.remove('hidden');
+  if(!isPlaying){ audio.play().catch(()=>{}); isPlaying=true; }
 }
 function logout(){localStorage.removeItem('gr_nick'); location.reload();}
 function openModal(t){document.getElementById('modalTitle').textContent=t; document.getElementById('modalBg').classList.add('flex-show');}
@@ -130,20 +130,18 @@ function sendTG(){
   closeModal();
 }
 function toggleMusic(){
-  if(audio.paused){audio.play(); document.getElementById('soundBtn').textContent='🔊';}
-  else{audio.pause(); document.getElementById('soundBtn').textContent='🔇';}
+  if(audio.paused){audio.play(); isPlaying=true; document.getElementById('soundBtn').textContent='🔊';}
+  else{audio.pause(); isPlaying=false; document.getElementById('soundBtn').textContent='🔇';}
 }
 
-// НЕ СТАВИТЬ НА ПАУЗУ КОГДА СВЕРНУЛ - вот фикс
+// КОГДА СВЕРНУЛ - СТОП, ВЕРНУЛСЯ - ПРОДОЛЖЕНИЕ
 document.addEventListener('visibilitychange', ()=>{
-  if(!document.hidden && isPlaying){ audio.play().catch(()=>{}); }
-});
-// чтобы не останавливалась когда свернул
-audio.addEventListener('pause', ()=>{
-  if(isPlaying && !audio.ended && document.hidden){ 
-    setTimeout(()=>audio.play().catch(()=>{}), 300);
+  if(document.hidden){
+    if(!audio.paused){ audio.pause(); }
+  } else {
+    if(isPlaying){ audio.play().catch(()=>{}); }
   }
 });
 </script>
 </body>
-  </html>
+</html>
