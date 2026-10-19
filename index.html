@@ -51,14 +51,12 @@ header{display:flex;justify-content:space-between;align-items:center;padding:12p
 </style>
 </head>
 <body>
-
 <div id="splash">
 <div class="s-bg"></div><div class="s-dark"></div><div class="s-glow"></div>
 <img src="logo.png" class="s-logo" alt="Ground Russia">
 <div class="s-load"><div class="s-bar"></div></div>
 <div class="s-txt">GROUND RUSSIA</div>
 </div>
-
 <header>
 <div class="h-left">GROUND <span>RUSSIA</span></div>
 <div class="h-right">
@@ -66,7 +64,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:12p
 <div class="director">Director: Samo_Monopoly</div>
 </div>
 </header>
-
 <div class="wrap">
 <div id="loginBox">
 <div class="card">
@@ -78,7 +75,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:12p
 <button class="btn" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button>
 </div>
 </div>
-
 <div id="menuBox" class="hidden">
 <div class="menu-title">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div>
 <div class="menu-sub">ВЫБЕРИ ДЕЙСТВИЕ</div>
@@ -88,7 +84,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:12p
 <div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div>
 </div>
 </div>
-
 <div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
 <div class="modal">
 <div class="modal-head"><span>СКАЧАТЬ APK</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
@@ -100,20 +95,17 @@ header{display:flex;justify-content:space-between;align-items:center;padding:12p
 </div>
 </div>
 </div>
-
 <div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
 <div class="modal">
 <div class="modal-head"><span id="modalTitle">Вопрос</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
 <div style="padding:18px">
 <input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Ваш Nick_Name">
-<textarea id="mText" style="width:100%;min-height:130px;background:#080808;border:1px solid #2a2a2a;border-radius:13px;color:#fff;padding:14px;font-family:Arial" placeholder="Здравствуйте, ваше имя (Boz_Agarka)&#10;Имя виновника (Agarki_Txa)&#10;Заскамил на..."></textarea>
+<textarea id="mText" style="width:100%;min-height:130px;background:#080808;border:1px solid #2a2a2a;border-radius:13px;color:#fff;padding:14px;font-family:Arial" placeholder="Опишите вашу ситуацию..."></textarea>
 <button class="btn" onclick="sendTG()">ОТПРАВИТЬ</button>
 </div>
 </div>
 </div>
-
 <audio id="bgMusic" loop preload="auto" playsinline><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
-
 <script>
 const TG_LINK = "https://t.me/groundrussia1";
 const audio=document.getElementById('bgMusic'), splash=document.getElementById('splash');
@@ -124,7 +116,6 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlaying
 window.addEventListener('pagehide',()=>audio.pause());
 window.addEventListener('blur',()=>{if(!audio.paused){wasPlaying=true;audio.pause();}});
 window.addEventListener('focus',()=>{if(wasPlaying){audio.play();wasPlaying=false;}});
-
 function register(){
  const n=document.getElementById('nick').value.trim(), p=document.getElementById('pass').value.trim();
  if(n.length<3){alert('Введи ник от 3 символов в формате Nick_Name');return;}
