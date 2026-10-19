@@ -3,158 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GROUND RUSSIA - Форум</title>
+<title>GROUND RUSSIA WORKS</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
-.top{position:relative;height:220px;overflow:hidden;border-bottom:3px solid #ff1a1a}
-.top img{width:100%;height:100%;object-fit:cover;filter:brightness(0.55)}
-.top-overlay{position:absolute;inset:0;background:linear-gradient(to top,#0a0a0a 10%,transparent 80%);display:flex;align-items:flex-end;padding:16px}
-.logo{width:58px;height:58px;border-radius:14px;border:2px solid #ff1a1a;background:#000;display:flex;align-items:center;justify-content:center;font-weight:900;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:cover}
-.title{margin-left:12px}
-.title b{font-size:20px;display:block}
-.title span{font-size:12px;color:#ff9999}
-.container{max-width:480px;margin:0 auto;padding:12px}
-.tabs{display:flex;gap:8px;margin:12px 0;overflow-x:auto}
-.tab{padding:10px 16px;background:#1c1c1c;border:1px solid #333;border-radius:20px;font-size:13px;white-space:nowrap}
-.tab.active{background:#ff1a1a;border-color:#ff1a1a}
-.card{background:#151515;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin-bottom:12px}
-.badge{font-size:11px;background:#222;border:1px solid #333;padding:3px 10px;border-radius:20px;color:#aaa}
-.name{font-weight:800;margin:8px 0 4px}
-.price{color:#ffcc00;font-weight:800;font-size:13px}
-.desc{color:#999;font-size:13px;margin-top:4px;line-height:1.4}
-.btn{width:100%;margin-top:10px;padding:11px;background:#ff1a1a;border:0;border-radius:10px;color:#fff;font-weight:800}
-.btn-gold{background:#ffcc00;color:#000}
-input,textarea{width:100%;background:#0f0f0f;border:1px solid #333;border-radius:10px;padding:12px;color:#fff;margin-top:8px;font-size:14px}
-.post{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px}
-.post b{color:#ff1a1a}
-.post small{color:#666;font-size:11px}
-.chat-box{height:260px;overflow-y:auto;background:#0f0f0f;border:1px solid #333;border-radius:12px;padding:10px;margin-top:10px}
-.msg{margin-bottom:8px;font-size:13px}
-.msg b{color:#ffcc00}
-.error{color:#ff4444;font-size:12px;margin-top:6px}
-.ok{color:#44ff88;font-size:12px;margin-top:6px}
+.login-screen{position:fixed;inset:0;background:#0f0f0f;display:flex;align-items:center;justify-content:center;z-index:999;padding:16px}
+.login-box{background:#1e1e1e;border:2px solid #ff2222;border-radius:20px;padding:28px;width:100%;max-width:380px;text-align:center}
+.input{width:100%;background:#111;border:1px solid #333;border-radius:12px;padding:13px;color:#fff;margin-bottom:10px}
+.btn{width:100%;background:#ff2222;border:0;border-radius:12px;padding:13px;color:#fff;font-weight:800;cursor:pointer}
+.error{color:#ff4444;font-size:13px;margin-top:8px;display:none}
+.header{position:sticky;top:0;background:#141414;border-bottom:2px solid #ff2222;padding:10px 14px;display:flex;gap:10px;align-items:center;z-index:50}
+.h-logo{width:42px;height:42px;border-radius:50%;border:2px solid #ffcc00}
+.h-nick{margin-left:auto;background:#252525;padding:5px 12px;border-radius:20px;font-size:12px}
+.tabs{display:flex;gap:8px;padding:10px 12px;background:#111;position:sticky;top:62px;z-index:40}
+.tab{flex:1;padding:10px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#aaa;font-weight:700;font-size:13px}
+.tab.active{background:#ff2222;color:#fff;border-color:#ff2222}
+.wrap{max-width:500px;margin:0 auto;padding:12px;padding-bottom:80px}
+.card{background:#1e1e1e;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:12px}
+.card.gold{border-color:#ffcc00}
+.badge{font-size:11px;background:#252525;border:1px solid #333;padding:3px 10px;border-radius:20px;color:#aaa}
+.name{font-weight:800;margin-top:6px}
+.price{color:#ffcc00;font-weight:800;font-size:13px;margin:6px 0}
+.desc{color:#999;font-size:13px}
+.btn-small{margin-top:10px;width:100%;padding:11px;border-radius:10px;border:0;background:#ff2222;color:#fff;font-weight:800}
+.btn-small.gold{background:#ffcc00;color:#000}
+.forum-input{background:#111;border:1px solid #333;border-radius:12px;padding:12px;width:100%;color:#fff;margin-bottom:8px}
+.forum-post{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:12px;margin-bottom:10px}
+.post-head{display:flex;justify-content:space-between;font-size:11px;color:#666}
+.post-nick{color:#ff2222;font-weight:700}
+.post-text{font-size:13px;color:#ccc;margin:8px 0}
+.answer-box{margin-top:8px;padding:10px;background:#111;border-radius:10px;border-left:3px solid #25D366}
+.answer-text{font-size:12px;color:#aaa}
+.admin-panel{margin-top:8px;display:flex;gap:6px}
+.admin-input{flex:1;background:#0f0f0f;border:1px solid #ffcc00;border-radius:8px;padding:8px;color:#fff;font-size:12px}
+.admin-btn{background:#ffcc00;color:#000;border:0;padding:8px 12px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer}
+.chat-box{height:50vh;overflow-y:auto;background:#111;border:1px solid #222;border-radius:16px;padding:10px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:80%;padding:10px 12px;border-radius:14px;font-size:13px}
+.msg.me{align-self:flex-end;background:#ff2222;color:#fff}
+.msg.other{align-self:flex-start;background:#1e1e1e;border:1px solid #2a2a2a}
+.hidden{display:none}
+.foot{text-align:center;color:#333;font-size:11px;padding:20px}
 </style>
 </head>
 <body>
 
-<div class="top">
-<img src="IMG-20261017-WA1305.jpg" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-<div class="top-overlay">
-<div class="logo"><img src="IMG-20261017-WA1305.jpg" onerror="this.textContent='GR'"></div>
-<div class="title"><b>GROUND RUSSIA WORKS</b><span>Форум • 8 работ • Жалобы • Live Чат</span></div>
+<div id="login" class="login-screen">
+<div class="login-box">
+<div style="font-size:60px">🐻</div>
+<h1 style="color:#ffcc00">GROUND RUSSIA WORKS</h1>
+<p style="color:#777;font-size:12px;margin:10px 0">Введи ник - 2 одинаковых нельзя</p>
+<input id="nickInput" class="input" placeholder="Ник, напр. Samo_Monopoly">
+<input id="passInput" class="input" type="password" placeholder="Пароль">
+<button class="btn" onclick="register()">Войти</button>
+<div id="err" class="error"></div>
+<p style="color:#555;font-size:10px;margin-top:10px">Админ ники: Samo_Monopoly, Admin, GroundAdmin - могут отвечать на жалобы</p>
 </div>
 </div>
 
-<div class="container">
+<div id="app" class="hidden">
+<div class="header">
+<img src="bear.png" class="h-logo" onerror="this.style.display='none'">
+<div><div style="font-weight:900">GROUND RUSSIA WORKS</div><div style="font-size:11px;color:#888">Форум • Жалобы • Чат</div></div>
+<div class="h-nick" id="myNick"></div>
+</div>
 <div class="tabs">
-<div class="tab active" onclick="showTab('works')">💼 8 Работ</div>
-<div class="tab" onclick="showTab('complaints')">📢 Жалобы</div>
-<div class="tab" onclick="showTab('chat')">💬 Live Чат</div>
+<button class="tab active" onclick="switchTab('jobs')">💼 Работы</button>
+<button class="tab" onclick="switchTab('forum')">📝 Жалобы</button>
+<button class="tab" onclick="switchTab('chat')">💬 Чат</button>
+</div>
+<div class="wrap">
+<div id="tab-jobs">
+<div class="card"><span class="badge">🔫 №1</span><div class="name">Перепродажа оружия</div><div class="price">25.000 ₽</div><button class="btn-small" onclick="orderJob('Перепродажа оружия')">Заказать • WhatsApp</button></div>
+<div class="card"><span class="badge">👔 №2</span><div class="name">Продажа дорогой одежды</div><div class="price">15.000 ₽</div><button class="btn-small" onclick="orderJob('Одежда')">Заказать</button></div>
+<div class="card"><span class="badge">🚘 №3</span><div class="name">Скрытие авто</div><div class="price">30.000 ₽</div><button class="btn-small" onclick="orderJob('Скрытие авто')">Заказать</button></div>
+<div class="card"><span class="badge">🏗️ №4</span><div class="name">Строительный бизнес</div><div class="price">75.000 ₽</div><button class="btn-small" onclick="orderJob('Строй бизнес')">Заказать</button></div>
+<div class="card"><span class="badge">🚕 №5</span><div class="name">Таксист</div><div class="price">5.000 ₽</div><button class="btn-small" onclick="orderJob('Таксист')">Заказать</button></div>
+<div class="card gold"><span class="badge">💎 №6 ТОП</span><div class="name">Барыга</div><div class="price">700.000 ₽ / 700 🪙</div><button class="btn-small gold" onclick="orderJob('Барыга 700к')">Купить</button></div>
+<div class="card gold"><span class="badge">🏢 №7 БИЗНЕС</span><div class="name">Директор стройки</div><div class="price">1.700.000 ₽ • 276к/день</div><button class="btn-small gold" onclick="orderJob('Директор 1.7кк')">Купить бизнес</button></div>
+<div class="card"><span class="badge">🗺️ №8</span><div class="name">Карты и рейды</div><div class="price">45.000 ₽</div><button class="btn-small" onclick="orderJob('Карты и рейды')">Заказать</button></div>
 </div>
 
-<div id="worksTab">
-<div class="card"><span class="badge">🔫 №1</span><div class="name">Перепродажа оружия</div><div class="price">25.000 ₽</div><div class="desc">Покупка и перепродажа оружия в рамках RP.</div><button class="btn" onclick="order('Перепродажа оружия')">Взять заказ - написать</button></div>
-<div class="card"><span class="badge">👔 №2</span><div class="name">Продажа дорогой одежды</div><div class="price">15.000 ₽</div><div class="desc">Эксклюзивная одежда и редкие предметы.</div><button class="btn" onclick="order('Продажа дорогой одежды')">Взять заказ</button></div>
-<div class="card"><span class="badge">🚘 №3</span><div class="name">Скрытие автомобиля и содержимого</div><div class="price">30.000 ₽</div><div class="desc">RP-услуга по сокрытию автомобиля.</div><button class="btn" onclick="order('Скрытие автомобиля')">Взять заказ</button></div>
-<div class="card"><span class="badge">🏗️ №4</span><div class="name">Строительный бизнес</div><div class="price">75.000 ₽ • 10.000 ₽ за перевозку</div><div class="desc">Перевозка строительных материалов.</div><button class="btn" onclick="order('Строительный бизнес')">Взять заказ</button></div>
-<div class="card"><span class="badge">🚕 №5</span><div class="name">Работа таксистом</div><div class="price">5.000 ₽</div><div class="desc">Перевозка пассажиров.</div><button class="btn" onclick="order('Работа таксистом')">Взять заказ</button></div>
-<div class="card" style="border-color:#ffcc00"><span class="badge">💎 №6 ТОП</span><div class="name">Барыга</div><div class="price">700.000 ₽ / 700 🪙</div><div class="desc">Торговля редкими товарами.</div><button class="btn btn-gold" onclick="order('Барыга')">Купить за 700 🪙</button></div>
-<div class="card" style="border-color:#ffcc00"><span class="badge">🏢 №7 БИЗНЕС</span><div class="name">Директор строительной компании</div><div class="price">1.700.000 ₽ • Прибыль 276.000 ₽/день</div><div class="desc">Управление строительной компанией, перевозками, сотрудниками и развитием бизнеса. Пассивный доход каждый день.</div><button class="btn btn-gold" onclick="order('Директор строительной компании')">Купить бизнес</button></div>
-<div class="card"><span class="badge">🗺️ №8</span><div class="name">Назначение карт и организация рейдов</div><div class="price">45.000 ₽</div><div class="desc">Организация RP-мероприятий и рейдов.</div><button class="btn" onclick="order('Назначение карт и организация рейдов')">Взять заказ</button></div>
+<div id="tab-forum" class="hidden">
+<b>Форум жалоб</b><p style="color:#666;font-size:12px;margin-bottom:10px">Пишут жалобу - ты видишь и отвечаешь (если ты админ)</p>
+<textarea id="complaintText" class="forum-input" rows="3" placeholder="Опиши жалобу..."></textarea>
+<button class="btn" onclick="postComplaint()">📤 Опубликовать жалобу</button>
+<div id="posts" style="margin-top:14px"></div>
 </div>
 
-<div id="complaintsTab" style="display:none">
-<div class="card">
-<b>📢 Опубликовать жалобу / предложение</b>
-<input id="nickComp" placeholder="Твой ник-нейм (уникальный)">
-<input id="titleComp" placeholder="Тема жалобы">
-<textarea id="textComp" placeholder="Опиши ситуацию..."></textarea>
-<button class="btn" onclick="publishComp()">Опубликовать</button>
-<div id="compError" class="error"></div>
-<div id="compOk" class="ok"></div>
+<div id="tab-chat" class="hidden">
+<div id="chatBox" class="chat-box"></div>
+<div style="display:flex;gap:8px"><input id="chatInput" class="forum-input" placeholder="Сообщение..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn" style="width:80px" onclick="sendMsg()">➤</button></div>
 </div>
-<div id="compList"></div>
-</div>
-
-<div id="chatTab" style="display:none">
-<div class="card">
-<b>💬 Live Чат в реальном времени</b>
-<p style="color:#777;font-size:12px;margin-top:4px">Пишешь - все видят сразу. 2 одинаковых ника нельзя.</p>
-<input id="nickChat" placeholder="Твой ник-нейм">
-<input id="msgChat" placeholder="Напиши сообщение...">
-<button class="btn" onclick="sendMsg()">Отправить</button>
-<div id="chatError" class="error"></div>
-<div class="chat-box" id="chatBox"></div>
-</div>
+<div class="foot">GROUND RUSSIA WORKS • 2026 🐻</div>
 </div>
 </div>
 
 <script>
-const KEY_NICKS="gr_nicks"; const KEY_COMPS="gr_comps"; const KEY_CHAT="gr_chat";
-function getNicks(){return JSON.parse(localStorage.getItem(KEY_NICKS)||"[]");}
-function saveNick(n){let a=getNicks(); if(!a.includes(n)){a.push(n); localStorage.setItem(KEY_NICKS,JSON.stringify(a));} }
-function checkNick(n){
- if(!n||n.length<3) return "Ник минимум 3 символа";
- let a=getNicks(); let current = localStorage.getItem("myNick");
- if(a.includes(n.toLowerCase()) && current!==n.toLowerCase()) return "Ник '"+n+"' уже занят! Выбери другой.";
- return null;
-}
-function showTab(t){
- document.getElementById('worksTab').style.display=t=='works'?'block':'none';
- document.getElementById('complaintsTab').style.display=t=='complaints'?'block':'none';
- document.getElementById('chatTab').style.display=t=='chat'?'block':'none';
- document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active', (['works','complaints','chat'][i]==t)));
- if(t=='complaints') renderComps(); if(t=='chat') renderChat();
-}
-function order(work){
- let nick = prompt("Введи свой ник-нейм для заказа ("+work+"):");
- if(!nick) return; let err=checkNick(nick); if(err){alert(err); return;}
- saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
- let text = encodeURIComponent("Привет! Хочу взять работу: "+work+" | Мой ник: "+nick+" | С сайта GROUND RUSSIA");
- window.open("https://wa.me/33780512276?text="+text,"_blank");
- alert("Заявка на '"+work+"' принята! Тебя перекинуло в WhatsApp к админу.");
-}
-function publishComp(){
- let nick=document.getElementById('nickComp').value.trim();
- let title=document.getElementById('titleComp').value.trim();
- let text=document.getElementById('textComp').value.trim();
- let err=checkNick(nick);
- document.getElementById('compError').textContent=""; document.getElementById('compOk').textContent="";
- if(err){document.getElementById('compError').textContent=err; return;}
- if(!title||!text){document.getElementById('compError').textContent="Заполни все поля"; return;}
- saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
- let comps=JSON.parse(localStorage.getItem(KEY_COMPS)||"[]");
- comps.unshift({nick,title,text,time:new Date().toLocaleString(),answer:""});
- localStorage.setItem(KEY_COMPS,JSON.stringify(comps));
- document.getElementById('compOk').textContent="Опубликовано! Ответят в ближайшее время.";
- document.getElementById('titleComp').value=""; document.getElementById('textComp').value="";
- renderComps();
-}
-function renderComps(){
- let comps=JSON.parse(localStorage.getItem(KEY_COMPS)||"[]"); let html="";
- comps.forEach(c=>{html+=`<div class="post"><b>${c.nick}</b> <small>${c.time}</small><br><b style="color:#fff">${c.title}</b><br><div style="margin-top:6px;color:#ccc">${c.text}</div>${c.answer?`<div style="margin-top:8px;background:#0f0f0f;padding:8px;border-radius:8px"><small>Ответ админа:</small><br>${c.answer}</div>`:`<div style="margin-top:8px;color:#666;font-size:11px">⏳ Ожидает ответа админа...</div>`}</div>`;});
- document.getElementById('compList').innerHTML=html||"<p style='color:#555;text-align:center;margin-top:12px'>Пока жалоб нет</p>";
-}
-function sendMsg(){
- let nick=document.getElementById('nickChat').value.trim(); let msg=document.getElementById('msgChat').value.trim();
- document.getElementById('chatError').textContent="";
- if(!nick||!msg){document.getElementById('chatError').textContent="Введи ник и сообщение"; return;}
- let existingNick = localStorage.getItem("myNick");
- if(!existingNick){ let err=checkNick(nick); if(err){document.getElementById('chatError').textContent=err; return;} }
- else { if(nick.toLowerCase()!==existingNick && getNicks().includes(nick.toLowerCase())){document.getElementById('chatError').textContent="Ник занят! Нельзя 2 одинаковых ника."; return;} }
- saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
- let chat=JSON.parse(localStorage.getItem(KEY_CHAT)||"[]"); chat.push({nick,msg,time:new Date().toLocaleTimeString()});
- localStorage.setItem(KEY_CHAT,JSON.stringify(chat)); document.getElementById('msgChat').value=""; renderChat();
-}
-function renderChat(){
- let chat=JSON.parse(localStorage.getItem(KEY_CHAT)||"[]"); let html="";
- chat.slice(-50).forEach(c=>{html+=`<div class="msg"><b>${c.nick}</b> <small style="color:#666">${c.time}</small>: ${c.msg}</div>`;});
- document.getElementById('chatBox').innerHTML=html||"Чат пустой - напиши первым!"; document.getElementById('chatBox').scrollTop=9999;
-}
-setInterval(()=>{ if(document.getElementById('chatTab').style.display!='none') renderChat(); if(document.getElementById('complaintsTab').style.display!='none') renderComps(); },2000);
-renderComps(); renderChat();
+const WA="33780512276";let myNick=localStorage.getItem('grw_myNick')||'';
+const ADMINS=["samo_monopoly","admin","groundadmin","samom","groundrussia"];
+const USERS='grw_users',POSTS='grw_posts',CHAT='grw_chat';
+function getUsers(){try{return JSON.parse(localStorage.getItem(USERS)||'[]')}catch{return[]}}
+function saveUsers(u){localStorage.setItem(USERS,JSON.stringify(u))}
+function register(){const n=document.getElementById('nickInput').value.trim();const e=document.getElementById('err');if(n.length<3){e.textContent='Минимум 3 символа';e.style.display='block';return;}let u=getUsers();if(u.find(x=>x.nick.toLowerCase()===n.toLowerCase())){e.textContent='⚠️ Ник занят! 2 одинаковых нельзя!';e.style.display='block';return;}u.push({nick:n});saveUsers(u);localStorage.setItem('grw_myNick',n);startApp(n);}
+function startApp(n){myNick=n;document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('myNick').textContent=n;loadPosts();loadChat();}
+function isAdmin(){return ADMINS.includes(myNick.toLowerCase());}
+function switchTab(t){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.getElementById('tab-jobs').classList.add('hidden');document.getElementById('tab-forum').classList.add('hidden');document.getElementById('tab-chat').classList.add('hidden');document.getElementById('tab-'+t).classList.remove('hidden');document.querySelectorAll('.tab')[['jobs','forum','chat'].indexOf(t)].classList.add('active');if(t==='forum')loadPosts();if(t==='chat')loadChat();}
+function orderJob(j){window.open(`https://wa.me/${WA}?text=`+encodeURIComponent(`Привет! Я ${myNick} с форума. Хочу: ${j}`),'_blank');}
+function postComplaint(){const t=document.getElementById('complaintText').value.trim();if(!t)return;let p=[];try{p=JSON.parse(localStorage.getItem(POSTS)||'[]')}catch{}p.unshift({id:Date.now(),nick:myNick,text:t,time:new Date().toLocaleString(),answer:''});localStorage.setItem(POSTS,JSON.stringify(p));document.getElementById('complaintText').value='';loadPosts();}
+function loadPosts(){let p=[];try{p=JSON.parse(localStorage.getItem(POSTS)||'[]')}catch{}const box=document.getElementById('posts');if(p.length===0){box.innerHTML='<p style="color:#444;text-align:center">Пока нет жалоб</p>';return;}box.innerHTML=p.map(post=>{let adminHtml='';if(isAdmin()){adminHtml=`<div class="admin-panel"><input id="ans-${post.id}" class="admin-input" placeholder="Напиши ответ как админ..."><button class="admin-btn" onclick="answerPost(${post.id})">Ответить</button></div>`}let answerHtml=post.answer?`<div class="answer-box"><div style="font-size:10px;color:#25D366;font-weight:800">✅ Ответ администрации (${post.answeredBy||'Admin'}):</div><div class="answer-text">${post.answer}</div></div>`:`<div class="answer-box"><div class="answer-text">⏳ Ожидает ответа администрации...</div></div>`;return `<div class="forum-post"><div class="post-head"><span class="post-nick">${post.nick}</span><span>${post.time}</span></div><div class="post-text">${post.text}</div>${answerHtml}${adminHtml}</div>`}).join('');}
+function answerPost(id){const input=document.getElementById('ans-'+id);const ans=input.value.trim();if(!ans)return;let p=JSON.parse(localStorage.getItem(POSTS)||'[]');let idx=p.findIndex(x=>x.id===id);if(idx>=0){p[idx].answer=ans;p[idx].answeredBy=myNick;localStorage.setItem(POSTS,JSON.stringify(p));loadPosts();}}
+function getChat(){try{return JSON.parse(localStorage.getItem(CHAT)||'[]')}catch{return[]}}
+function saveChat(c){localStorage.setItem(CHAT,JSON.stringify(c.slice(-100)))}
+function sendMsg(){const i=document.getElementById('chatInput');const t=i.value.trim();if(!t)return;let c=getChat();c.push({nick:myNick,text:t});saveChat(c);i.value='';loadChat();}
+function loadChat(){const b=document.getElementById('chatBox');let c=getChat();if(c.length===0){b.innerHTML='<div class="msg other">Добро пожаловать в Live чат!</div>';return;}b.innerHTML=c.map(m=>`<div class="msg ${m.nick===myNick?'me':'other'}"><div style="font-size:10px;opacity:.6">${m.nick}</div>${m.text}</div>`).join('');b.scrollTop=b.scrollHeight;}
+if(myNick){if(getUsers().find(u=>u.nick===myNick))startApp(myNick);}
 </script>
 </body>
 </html>
