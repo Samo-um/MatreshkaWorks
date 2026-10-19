@@ -25,8 +25,12 @@ function save(){
 
 app.post('/api/register', (req,res)=>{
   let {nick, pass} = req.body;
-  if(!/^[A-Za-z]+_[A-Za-z]+$/.test(nick)){
-    return res.json({ok:false, msg:"Ник должен быть в формате Nick_Name Пример: Samo_Monopoly"});
+  nick = String(nick||"").trim();
+  if(!nick.includes("_")){
+    return res.json({ok:false, msg:"Формат: Nick_Name Пример: Ivan_Ivanov"});
+  }
+  if(nick.length < 3 || nick.length > 30){
+    return res.json({ok:false, msg:"Ник от 3 до 30 символов"});
   }
   if(users[nick]){
     if(users[nick].pass !== pass) return res.json({ok:false, msg:"Никнейм занят! Придумай другой."});
