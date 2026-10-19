@@ -11,22 +11,15 @@ body{background:radial-gradient(ellipse at top, #1a0a0f 0%, #08080d 60%);color:#
 #intro.hide{opacity:0;pointer-events:none}
 #intro img{width:550px;max-width:80vw;filter:drop-shadow(0 0 60px #ff0028);animation:breath 2s infinite alternate}
 @keyframes breath{0%{transform:scale(1)}100%{transform:scale(1.05)}}
-
-/* ВЕРХ */
 header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border-bottom:1px solid #ff002822;z-index:10}
 .logo-text{font-weight:900;letter-spacing:1px;font-size:16px}
 .logo-text span{color:#ff0028}
 .directors{font-size:12px;opacity:.8;text-align:right;line-height:1.3}
 .directors b{color:#ff0028}
-
-/* ГЛАВНЫЙ ЭКРАН */
 .main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 30px;gap:20px}
 .top-photo{position:relative}
 .top-photo img{width:180px;height:180px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 50px #ff0028, 0 0 100px #ff002822;object-fit:cover;background:#111;animation:glow 2.5s infinite alternate}
 @keyframes glow{0%{box-shadow:0 0 30px #ff0028}100%{box-shadow:0 0 60px #ff0028, 0 0 100px #ff002822}}
-.top-photo::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid #ff002840;animation:spin 4s linear infinite}
-@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-
 .box{width:100%;max-width:400px;background:linear-gradient(145deg, #15151a, #0e0e12);border:1px solid #ff002830;padding:28px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05)}
 .box h2{font-size:22px;line-height:1.2;text-align:center;margin-bottom:20px}
 .box h2 span{color:#ff0028}
@@ -36,8 +29,6 @@ header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justif
 .btn{width:100%;padding:15px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:12px;color:#fff;font-weight:900;letter-spacing:1px;cursor:pointer;transition:.2s;box-shadow:0 10px 25px #ff002833;font-size:15px}
 .btn:hover{transform:translateY(-2px);box-shadow:0 15px 35px #ff002855}
 .tg-link{margin-top:16px;text-align:center;font-size:13px;opacity:.6}.tg-link span{color:#ff0028}
-
-/* МЕНЮ ПОСЛЕ ВХОДА */
 #menuPage{display:none;min-height:100vh;padding:80px 20px 30px}
 .menu-wrap{max-width:900px;margin:0 auto}
 .welcome{text-align:center;font-size:26px;margin-bottom:25px}.welcome span{color:#ff0028}
@@ -109,16 +100,30 @@ header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justif
 const APK_LINK = "";
 const audio = document.getElementById('music');
 audio.volume = 0.35;
-// БЕСКОНЕЧНАЯ МУЗЫКА ПОКА НА САЙТЕ
-function tryPlay(){ audio.play().catch(()=>{}); }
+
+function tryPlay(){ 
+  audio.play().catch(()=>{});
+}
+
 window.addEventListener('load', ()=>{
   tryPlay();
   document.body.addEventListener('click', tryPlay, {once:true});
   document.body.addEventListener('touchstart', tryPlay, {once:true});
-  // Если вкладку свернули и развернули - продолжает играть
-  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) tryPlay(); });
 });
+
 setTimeout(()=>document.getElementById('intro').classList.add('hide'),2500);
+
+// ФИКС: когда сворачиваешь приложение - музыка стопается
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden){
+    audio.pause();
+  } else {
+    tryPlay();
+  }
+});
+window.addEventListener('pagehide', ()=> audio.pause());
+window.addEventListener('blur', ()=> audio.pause());
+window.addEventListener('focus', ()=> tryPlay());
 
 function login(){
   let n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();
