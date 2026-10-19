@@ -12,8 +12,7 @@ body{background:#000;color:#fff;overflow:hidden}
 .s-bg{position:absolute;inset:0;background:url('splash.jpg') center/cover no-repeat}
 .s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%, transparent 10%, #000 90%)}
 .s-glow{position:absolute;inset:0;background:radial-gradient(circle at 20% 80%, rgba(255,69,0,.7), transparent 40%), radial-gradient(circle at 85% 25%, rgba(0,255,136,.5), transparent 35%)}
-.s-logo{position:relative;z-index:5;width:420px;max-width:90vw;filter:drop-shadow(0 0 15px #ff0000) drop-shadow(0 0 45px #ff6a00);animation:logoTop 1.8s forwards}
-@keyframes logoTop{0%{transform:translateY(120vh) scale(.1)}100%{transform:translateY(0) scale(1)}}
+.s-logo{position:relative;z-index:5;width:420px;max-width:90vw;filter:drop-shadow(0 0 15px #ff0000) drop-shadow(0 0 45px #ff6a00)}
 .s-load{position:relative;z-index:5;margin-top:28px;width:300px;height:3px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
 .s-bar{height:100%;width:0;background:linear-gradient(90deg,#ff6a00,#ff1a1a,#00ff88);animation:loadTop 3s forwards}
 @keyframes loadTop{to{width:100%}}
@@ -36,6 +35,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;display:flex
 .tg-info{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
 .tg-name{font-size:10px;color:#00ff88;font-weight:900;white-space:nowrap}
 .hidden{display:none!important}
+#musicBtn{position:fixed;bottom:20px;right:16px;z-index:1200;background:#fff;color:#000;padding:10px 14px;border-radius:30px;font-size:12px;font-weight:900;cursor:pointer;border:0}
 </style>
 </head>
 <body>
@@ -46,38 +46,80 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;display:flex
 <div id="menuBox" class="hidden"><div style="text-align:center;margin:22px 0 5px;font-size:26px;font-weight:900">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div><div class="menu-btn" onclick="goApk()">📦 1. СКАЧАТЬ APK</div><div class="menu-btn" onclick="goTG('Вопрос')">💬 2. ВОПРОС</div><div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div><div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div></div>
 </div>
 
-<!-- КОРОБОЧКА ПРО APK - ВОТ ОНА -->
+<button id="musicBtn" onclick="toggleMusic()">🔊 ВКЛ МУЗЫКУ</button>
+
+<!-- 1. КОРОБОЧКА APK -->
 <div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
 <div class="modal">
 <div class="modal-head"><span>APK</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
 <div style="padding:40px 22px;text-align:center">
 <div style="font-size:60px">📦</div>
 <div style="font-size:24px;font-weight:900;margin-top:12px">APK ещё не готово</div>
-<div style="font-size:13px;color:#888;margin-top:10px">Мы скоро добавим файл для скачивания. Следи за новостями в ТГ канале!</div>
-<a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В КАНАЛ</a>
+<div style="font-size:13px;color:#888;margin-top:10px">Скоро будет доступно для скачивания</div>
+<a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a>
 </div>
 </div>
 </div>
 
-<!-- КОРОБОЧКИ ДЛЯ ВОПРОС / ЖАЛОБА / ОБНОВЛЕНИЕ -->
+<!-- 2-4. КОРОБОЧКИ ВОПРОС / ЖАЛОБА / ЗАПРОС -->
 <div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
 <div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
 <div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><div class="tg-info"><button class="btn" style="margin-top:0;flex:1" onclick="sendTG()">ОТПРАВИТЬ</button><div class="tg-name">Наш ТГ:<br>t.me/groundrussia1</div></div></div></div>
 </div>
 
-<audio id="bgMusic" loop preload="auto"><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
+<audio id="bgMusic" loop><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
+
 <script>
 const TG_LINK="https://t.me/groundrussia1";
-const audio=document.getElementById('bgMusic'), splash=document.getElementById('splash');
-let musicStarted=false;
-function tryPlayMusic(){if(musicStarted) return; musicStarted=true; audio.volume=0.75; audio.play().catch(()=>{});}
+const audio=document.getElementById('bgMusic');
+const splash=document.getElementById('splash');
+const musicBtn=document.getElementById('musicBtn');
+let isPlaying=false;
+
+function toggleMusic(){
+  if(isPlaying){audio.pause(); isPlaying=false; musicBtn.textContent="🔊 ВКЛ МУЗЫКУ";}
+  else{audio.volume=0.8; audio.play().then(()=>{isPlaying=true; musicBtn.textContent="🔇 ВЫКЛ МУЗЫКУ";}).catch(()=>{alert("Залей файл oyrobinya.mp3 на GitHub в корень!");});}
+}
+function tryPlayMusic(){
+  if(!isPlaying){audio.volume=0.8; audio.play().then(()=>{isPlaying=true; musicBtn.textContent="🔇 ВЫКЛ МУЗЫКУ";}).catch(()=>{});}
+}
+
 setTimeout(()=>{splash.classList.add('hide');document.body.style.overflow='auto';tryPlayMusic();},3500);
-document.addEventListener('click', tryPlayMusic); document.addEventListener('touchstart', tryPlayMusic);
-function register(){tryPlayMusic();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
+document.addEventListener('click', tryPlayMusic, {once:true});
+
+function register(){
+  tryPlayMusic();
+  const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();
+  if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}
+  localStorage.setItem('gr_nick',n);
+  document.getElementById('uName').textContent=n;
+  document.getElementById('mNick').value=n;
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('menuBox').classList.remove('hidden');
+}
 function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
 function goApk(){tryPlayMusic();document.getElementById('apkBg').classList.add('show');}
-function goTG(t){tryPlayMusic();document.getElementById('modalTitle').textContent=t;let ph=""; if(t==="Вопрос") ph="Задайте вопрос..."; if(t==="Жалоба") ph="Введите сообщение, докажите и представьте доказательства и материалы..."; if(t==="Запрос на обновление") ph="Что вы хотите чтобы мы добавили..."; document.getElementById('mText').placeholder=ph; document.getElementById('modalBg').classList.add('show');}
-async function sendTG(){tryPlayMusic();const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full);}catch(e){}window.open(TG_LINK,'_blank');closeAll();}
+function goTG(t){
+  tryPlayMusic();
+  document.getElementById('modalTitle').textContent=t;
+  let ph="";
+  if(t==="Вопрос") ph="Задайте вопрос...";
+  if(t==="Жалоба") ph="Введите сообщение, докажите и представьте доказательства и материалы...";
+  if(t==="Запрос на обновление") ph="Что вы хотите чтобы мы добавили...";
+  const ta=document.getElementById('mText');
+  ta.placeholder=ph;
+  ta.value="";
+  document.getElementById('modalBg').classList.add('show');
+}
+async function sendTG(){
+  const txt=document.getElementById('mText').value.trim();
+  if(!txt){alert('Напиши сообщение!');return;}
+  const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;
+  const full=`[${type}] от ${nick}: ${txt}`;
+  try{await navigator.clipboard.writeText(full);}catch(e){}
+  window.open(TG_LINK,'_blank');
+  closeAll();
+}
 </script>
 </body>
 </html>
