@@ -3,67 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA | MatreshkaWorks</title>
+<title>GROUND RUSSIA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#0a0a0a;color:#fff;min-height:100vh}
-header{display:flex;justify-content:space-between;padding:18px 20px;background:#000;border-bottom:1px solid #1a1a1a}
-.logo{font-weight:900}.logo span{color:#ff1a1a}
-.director{font-size:11px;text-align:right;color:#ff1a1a}
-.container{max-width:520px;margin:0 auto;padding:24px 16px}
-.card{background:#141414;border:1px solid #222;border-radius:16px;padding:22px;margin-top:20px}
-h1{font-size:28px;text-align:center;margin:18px 0 6px} h1 b{color:#ff1a1a}
-input{width:100%;padding:14px 16px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:12px;color:#fff;font-size:16px}
-.btn{width:100%;margin-top:12px;padding:14px;background:#ff1a1a;color:#fff;border:0;border-radius:12px;font-weight:800;cursor:pointer}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.menu-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:18px;text-align:center}
-.player{margin-top:16px;background:#000;border-radius:14px;padding:14px;border:1px solid #222}
-audio{width:100%;margin-top:10px}
-.hidden{display:none!important}
-.greet{font-size:24px;text-align:center;padding:20px 0 10px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:radial-gradient(ellipse at top, #1a0a0f 0%, #08080d 60%);color:#fff;min-height:100vh;overflow-x:hidden}
+#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;transition:.8s}
+#intro.hide{opacity:0;pointer-events:none}
+#intro img{width:550px;max-width:80vw;filter:drop-shadow(0 0 60px #ff0028)}
+header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border-bottom:1px solid #ff002822;z-index:10}
+.logo-text{font-weight:900;font-size:16px}.logo-text span{color:#ff0028}
+.directors{font-size:12px;opacity:.8;text-align:right}.directors b{color:#ff0028}
+.main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 30px;gap:20px}
+.top-photo img{width:180px;height:180px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 50px #ff0028;object-fit:cover;background:#111}
+.box{width:100%;max-width:400px;background:linear-gradient(145deg, #15151a, #0e0e12);border:1px solid #ff002830;padding:28px;border-radius:20px}
+.box h2{font-size:22px;text-align:center;margin-bottom:20px}.box h2 span{color:#ff0028}
+.box input{width:100%;padding:14px 16px;margin:6px 0 16px;background:#08080a;border:1px solid #2a2a2e;border-radius:12px;color:#fff;outline:none;font-size:15px}
+.btn{width:100%;padding:15px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:12px;color:#fff;font-weight:900;cursor:pointer}
+#menuPage{display:none;min-height:100vh;padding:80px 20px 30px}
 </style>
 </head>
 <body>
+
+<audio id="music" loop preload="auto">
+  <source src="oyrobinya.mp3" type="audio/mpeg">
+</audio>
+
+<div id="intro"><img src="./logo.png" onerror="this.src='logo.png'"></div>
 <header>
-<div class="logo">GROUND <span>RUSSIA</span></div>
-<div class="director">Director:<br><b>Samo_Monopoly<br>Arsen_Samsonyan</b></div>
+<div class="logo-text">GROUND <span>RUSSIA</span></div>
+<div class="directors">Director:<br><b>Samo_Monopoly</b><br><b>Arsen_Samsonyan</b></div>
 </header>
-<div class="container">
-  <div id="auth">
-    <h1>MATRESHKA <b>WORKS</b></h1>
-    <div class="card">
-      <input id="nameInput" placeholder="Введи ник, например Same-Jan">
-      <button class="btn" onclick="register()">ВОЙТИ В ИГРУ</button>
-    </div>
-  </div>
-  <div id="main" class="hidden">
-    <div class="greet">Привет, <b id="userName" style="color:#ff1a1a">Same-Jan</b>!</div>
-    <div class="player">
-      <div style="font-size:13px;font-weight:700">OYROBINYA • ORIGINAL</div>
-      <audio id="audio" controls loop><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
-    </div>
-    <div class="menu">
-      <div class="menu-item">🎮 Играть</div>
-      <div class="menu-item">👥 Братва</div>
-      <div class="menu-item">🏠 Имущество</div>
-      <div class="menu-item">⚙️ Настройки</div>
-    </div>
-    <button class="btn" style="background:#222;margin-top:16px" onclick="logout()">ВЫЙТИ</button>
-  </div>
+
+<div class="main" id="loginPage">
+<div class="top-photo"><img src="./logo.png" onerror="this.src='logo.png'"></div>
+<div class="box">
+<h2>Добро Пожаловать на форум<br><span>Ground Russia!</span></h2>
+<input id="nick" placeholder="Никнейм">
+<input id="pass" type="password" placeholder="Пароль">
+<button class="btn" onclick="login()">ВОЙТИ</button>
 </div>
+</div>
+
+<div id="menuPage"><div style="text-align:center;margin-top:100px;font-size:26px">Привет, <span id="userName" style="color:#ff0028"></span>!</div></div>
+
 <script>
-function register(){
-  const v=document.getElementById('nameInput').value.trim()||'Same-Jan';
-  localStorage.setItem('mw_name',v); showMain(v);
+const audio = document.getElementById('music');
+audio.volume = 0.35;
+let isPlaying = false;
+
+function playMusic(){
+  if(isPlaying) return;
+  audio.play().then(()=>{ isPlaying = true; }).catch(()=>{});
 }
-function showMain(name){
-  document.getElementById('userName').textContent=name;
-  document.getElementById('auth').classList.add('hidden');
-  document.getElementById('main').classList.remove('hidden');
-  document.getElementById('audio').play().catch(()=>{});
+function stopMusic(){
+  audio.pause();
+  isPlaying = false;
 }
-function logout(){localStorage.removeItem('mw_name');location.reload();}
-const saved=localStorage.getItem('mw_name'); if(saved) showMain(saved);
+
+window.addEventListener('load', ()=>{
+  playMusic();
+  document.body.addEventListener('click', playMusic, {once:true});
+  setTimeout(()=>document.getElementById('intro').classList.add('hide'),2500);
+});
+
+// ГЛАВНЫЙ ФИКС - СТОПАЕТ КОГДА СВОРАЧИВАЕШЬ
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden){
+    console.log('Свернули - стоп музыка');
+    stopMusic();
+  } else {
+    console.log('Вернулись - играй');
+    playMusic();
+  }
+});
+
+// Дополнительно для Андроида
+window.addEventListener('blur', stopMusic);
+window.addEventListener('pagehide', stopMusic);
+window.addEventListener('beforeunload', stopMusic);
+window.addEventListener('focus', playMusic);
+
+function login(){
+  let n=document.getElementById('nick').value.trim();
+  if(!n){alert('Введи ник!');return}
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('menuPage').style.display='block';
+  document.getElementById('userName').innerText=n;
+}
 </script>
 </body>
 </html>
