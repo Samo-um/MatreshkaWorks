@@ -2,106 +2,159 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GROUND RUSSIA - Форум Работ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GROUND RUSSIA - Форум</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0e0e0e;color:#fff;font-family:Arial,sans-serif}
-.top{background:#151515;padding:14px 16px;border-bottom:2px solid #ff1f1f;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:99}
-.logo{width:36px;height:36px;background:#ff1f1f;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold}
-.h1{font-weight:bold;font-size:16px}
-.sub{font-size:12px;color:#888}
-.wrap{max-width:480px;margin:0 auto;padding:12px}
-.card{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:14px;padding:14px;margin-bottom:12px}
-.card b{font-size:15px}
-.price{color:#ffcc00;font-weight:bold;font-size:14px;margin:6px 0}
-.desc{color:#a0a0a0;font-size:13px;line-height:1.35}
-.tag{display:inline-block;background:#252525;border:1px solid #333;border-radius:20px;padding:3px 10px;font-size:11px;color:#ccc;margin-bottom:6px}
-.btn{width:100%;margin-top:10px;background:#ff1f1f;border:none;color:#fff;padding:11px;border-radius:10px;font-weight:bold;font-size:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
+.top{position:relative;height:220px;overflow:hidden;border-bottom:3px solid #ff1a1a}
+.top img{width:100%;height:100%;object-fit:cover;filter:brightness(0.55)}
+.top-overlay{position:absolute;inset:0;background:linear-gradient(to top,#0a0a0a 10%,transparent 80%);display:flex;align-items:flex-end;padding:16px}
+.logo{width:58px;height:58px;border-radius:14px;border:2px solid #ff1a1a;background:#000;display:flex;align-items:center;justify-content:center;font-weight:900;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:cover}
+.title{margin-left:12px}
+.title b{font-size:20px;display:block}
+.title span{font-size:12px;color:#ff9999}
+.container{max-width:480px;margin:0 auto;padding:12px}
+.tabs{display:flex;gap:8px;margin:12px 0;overflow-x:auto}
+.tab{padding:10px 16px;background:#1c1c1c;border:1px solid #333;border-radius:20px;font-size:13px;white-space:nowrap}
+.tab.active{background:#ff1a1a;border-color:#ff1a1a}
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin-bottom:12px}
+.badge{font-size:11px;background:#222;border:1px solid #333;padding:3px 10px;border-radius:20px;color:#aaa}
+.name{font-weight:800;margin:8px 0 4px}
+.price{color:#ffcc00;font-weight:800;font-size:13px}
+.desc{color:#999;font-size:13px;margin-top:4px;line-height:1.4}
+.btn{width:100%;margin-top:10px;padding:11px;background:#ff1a1a;border:0;border-radius:10px;color:#fff;font-weight:800}
 .btn-gold{background:#ffcc00;color:#000}
-.header-text{padding:14px 16px 2px}
-.header-text h2{margin:0;font-size:20px}
-.header-text p{margin:4px 0 0;color:#777;font-size:13px}
+input,textarea{width:100%;background:#0f0f0f;border:1px solid #333;border-radius:10px;padding:12px;color:#fff;margin-top:8px;font-size:14px}
+.post{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px}
+.post b{color:#ff1a1a}
+.post small{color:#666;font-size:11px}
+.chat-box{height:260px;overflow-y:auto;background:#0f0f0f;border:1px solid #333;border-radius:12px;padding:10px;margin-top:10px}
+.msg{margin-bottom:8px;font-size:13px}
+.msg b{color:#ffcc00}
+.error{color:#ff4444;font-size:12px;margin-top:6px}
+.ok{color:#44ff88;font-size:12px;margin-top:6px}
 </style>
 </head>
 <body>
+
 <div class="top">
-<div class="logo">GR</div>
-<div><div class="h1">GROUND RUSSIA WORKS</div><div class="sub">Форум • 8 работ • Официально</div></div>
+<img src="IMG-20261017-WA1305.jpg" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+<div class="top-overlay">
+<div class="logo"><img src="IMG-20261017-WA1305.jpg" onerror="this.textContent='GR'"></div>
+<div class="title"><b>GROUND RUSSIA WORKS</b><span>Форум • 8 работ • Жалобы • Live Чат</span></div>
+</div>
 </div>
 
-<div class="wrap">
-<div class="header-text">
-<h2>Доступные работы</h2>
-<p>Выбери работу - телефон вертикально, листай вниз</p>
+<div class="container">
+<div class="tabs">
+<div class="tab active" onclick="showTab('works')">💼 8 Работ</div>
+<div class="tab" onclick="showTab('complaints')">📢 Жалобы</div>
+<div class="tab" onclick="showTab('chat')">💬 Live Чат</div>
 </div>
 
+<div id="worksTab">
+<div class="card"><span class="badge">🔫 №1</span><div class="name">Перепродажа оружия</div><div class="price">25.000 ₽</div><div class="desc">Покупка и перепродажа оружия в рамках RP.</div><button class="btn" onclick="order('Перепродажа оружия')">Взять заказ - написать</button></div>
+<div class="card"><span class="badge">👔 №2</span><div class="name">Продажа дорогой одежды</div><div class="price">15.000 ₽</div><div class="desc">Эксклюзивная одежда и редкие предметы.</div><button class="btn" onclick="order('Продажа дорогой одежды')">Взять заказ</button></div>
+<div class="card"><span class="badge">🚘 №3</span><div class="name">Скрытие автомобиля и содержимого</div><div class="price">30.000 ₽</div><div class="desc">RP-услуга по сокрытию автомобиля.</div><button class="btn" onclick="order('Скрытие автомобиля')">Взять заказ</button></div>
+<div class="card"><span class="badge">🏗️ №4</span><div class="name">Строительный бизнес</div><div class="price">75.000 ₽ • 10.000 ₽ за перевозку</div><div class="desc">Перевозка строительных материалов.</div><button class="btn" onclick="order('Строительный бизнес')">Взять заказ</button></div>
+<div class="card"><span class="badge">🚕 №5</span><div class="name">Работа таксистом</div><div class="price">5.000 ₽</div><div class="desc">Перевозка пассажиров.</div><button class="btn" onclick="order('Работа таксистом')">Взять заказ</button></div>
+<div class="card" style="border-color:#ffcc00"><span class="badge">💎 №6 ТОП</span><div class="name">Барыга</div><div class="price">700.000 ₽ / 700 🪙</div><div class="desc">Торговля редкими товарами.</div><button class="btn btn-gold" onclick="order('Барыга')">Купить за 700 🪙</button></div>
+<div class="card" style="border-color:#ffcc00"><span class="badge">🏢 №7 БИЗНЕС</span><div class="name">Директор строительной компании</div><div class="price">1.700.000 ₽ • Прибыль 276.000 ₽/день</div><div class="desc">Управление строительной компанией, перевозками, сотрудниками и развитием бизнеса. Пассивный доход каждый день.</div><button class="btn btn-gold" onclick="order('Директор строительной компании')">Купить бизнес</button></div>
+<div class="card"><span class="badge">🗺️ №8</span><div class="name">Назначение карт и организация рейдов</div><div class="price">45.000 ₽</div><div class="desc">Организация RP-мероприятий и рейдов.</div><button class="btn" onclick="order('Назначение карт и организация рейдов')">Взять заказ</button></div>
+</div>
+
+<div id="complaintsTab" style="display:none">
 <div class="card">
-<span class="tag">🔫 1. Перепродажа оружия</span><br>
-<b>Перепродажа оружия</b>
-<div class="price">💰 Цена: 25.000 ₽</div>
-<div class="desc">Покупка и перепродажа оружия в рамках игрового RP.</div>
-<button class="btn">Взять работу</button>
+<b>📢 Опубликовать жалобу / предложение</b>
+<input id="nickComp" placeholder="Твой ник-нейм (уникальный)">
+<input id="titleComp" placeholder="Тема жалобы">
+<textarea id="textComp" placeholder="Опиши ситуацию..."></textarea>
+<button class="btn" onclick="publishComp()">Опубликовать</button>
+<div id="compError" class="error"></div>
+<div id="compOk" class="ok"></div>
+</div>
+<div id="compList"></div>
 </div>
 
+<div id="chatTab" style="display:none">
 <div class="card">
-<span class="tag">👔 2. Дорогая одежда</span><br>
-<b>Продажа дорогой одежды</b>
-<div class="price">💰 Цена: 15.000 ₽</div>
-<div class="desc">Продажа эксклюзивной одежды и редких предметов.</div>
-<button class="btn">Взять работу</button>
+<b>💬 Live Чат в реальном времени</b>
+<p style="color:#777;font-size:12px;margin-top:4px">Пишешь - все видят сразу. 2 одинаковых ника нельзя.</p>
+<input id="nickChat" placeholder="Твой ник-нейм">
+<input id="msgChat" placeholder="Напиши сообщение...">
+<button class="btn" onclick="sendMsg()">Отправить</button>
+<div id="chatError" class="error"></div>
+<div class="chat-box" id="chatBox"></div>
+</div>
+</div>
 </div>
 
-<div class="card">
-<span class="tag">🚘 3. Скрытие авто</span><br>
-<b>Скрытие автомобиля и содержимого</b>
-<div class="price">💰 Цена: 30.000 ₽</div>
-<div class="desc">RP-услуга по сокрытию автомобиля и вещей.</div>
-<button class="btn">Взять работу</button>
-</div>
-
-<div class="card">
-<span class="tag">🏗️ 4. Строй бизнес</span><br>
-<b>Строительный бизнес</b>
-<div class="price">💰 Цена: 75.000 ₽ • Оплата 10.000 ₽ за перевозку</div>
-<div class="desc">Перевозка строительных материалов.</div>
-<button class="btn">Взять работу</button>
-</div>
-
-<div class="card">
-<span class="tag">🚕 5. Таксист</span><br>
-<b>Работа таксистом</b>
-<div class="price">💰 Цена: 5.000 ₽</div>
-<div class="desc">Перевозка пассажиров и выполнение заказов.</div>
-<button class="btn">Взять работу</button>
-</div>
-
-<div class="card" style="border-color:#ffcc00">
-<span class="tag" style="background:#ffcc00;color:#000">💎 6. ТОП Барыга</span><br>
-<b>Барыга</b>
-<div class="price">💰 Цена: 700.000 ₽ / 700 🪙</div>
-<div class="desc">Торговля редкими товарами и проведение выгодных сделок.</div>
-<button class="btn btn-gold">Купить за 700 🪙</button>
-</div>
-
-<div class="card" style="border-color:#ffcc00">
-<span class="tag" style="background:#ffcc00;color:#000">🏢 7. Бизнес Директор</span><br>
-<b>Директор строительной компании</b>
-<div class="price">💰 Цена: 1.700.000 ₽ • Прибыль 276.000 ₽ в день</div>
-<div class="desc">Управление компанией, перевозками, сотрудниками и развитием бизнеса.</div>
-<button class="btn btn-gold">Купить бизнес</button>
-</div>
-
-<div class="card">
-<span class="tag">🗺️ 8. Карты и рейды</span><br>
-<b>Назначение карт и организация рейдов</b>
-<div class="price">💰 Цена: 45.000 ₽</div>
-<div class="desc">Организация RP-мероприятий, подготовка карт и проведение игровых рейдов.</div>
-<button class="btn">Взять работу</button>
-</div>
-
-<p style="text-align:center;color:#444;font-size:11px;margin:20px 0">GROUND RUSSIA WORKS • Samo_Monopoly • Форум работ</p>
-
-</div>
+<script>
+const KEY_NICKS="gr_nicks"; const KEY_COMPS="gr_comps"; const KEY_CHAT="gr_chat";
+function getNicks(){return JSON.parse(localStorage.getItem(KEY_NICKS)||"[]");}
+function saveNick(n){let a=getNicks(); if(!a.includes(n)){a.push(n); localStorage.setItem(KEY_NICKS,JSON.stringify(a));} }
+function checkNick(n){
+ if(!n||n.length<3) return "Ник минимум 3 символа";
+ let a=getNicks(); let current = localStorage.getItem("myNick");
+ if(a.includes(n.toLowerCase()) && current!==n.toLowerCase()) return "Ник '"+n+"' уже занят! Выбери другой.";
+ return null;
+}
+function showTab(t){
+ document.getElementById('worksTab').style.display=t=='works'?'block':'none';
+ document.getElementById('complaintsTab').style.display=t=='complaints'?'block':'none';
+ document.getElementById('chatTab').style.display=t=='chat'?'block':'none';
+ document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active', (['works','complaints','chat'][i]==t)));
+ if(t=='complaints') renderComps(); if(t=='chat') renderChat();
+}
+function order(work){
+ let nick = prompt("Введи свой ник-нейм для заказа ("+work+"):");
+ if(!nick) return; let err=checkNick(nick); if(err){alert(err); return;}
+ saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
+ let text = encodeURIComponent("Привет! Хочу взять работу: "+work+" | Мой ник: "+nick+" | С сайта GROUND RUSSIA");
+ window.open("https://wa.me/33600000000?text="+text,"_blank");
+ alert("Заявка на '"+work+"' принята! Тебя перекинуло в реальный чат.");
+}
+function publishComp(){
+ let nick=document.getElementById('nickComp').value.trim();
+ let title=document.getElementById('titleComp').value.trim();
+ let text=document.getElementById('textComp').value.trim();
+ let err=checkNick(nick);
+ document.getElementById('compError').textContent=""; document.getElementById('compOk').textContent="";
+ if(err){document.getElementById('compError').textContent=err; return;}
+ if(!title||!text){document.getElementById('compError').textContent="Заполни все поля"; return;}
+ saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
+ let comps=JSON.parse(localStorage.getItem(KEY_COMPS)||"[]");
+ comps.unshift({nick,title,text,time:new Date().toLocaleString(),answer:""});
+ localStorage.setItem(KEY_COMPS,JSON.stringify(comps));
+ document.getElementById('compOk').textContent="Опубликовано! Ответят в ближайшее время.";
+ document.getElementById('titleComp').value=""; document.getElementById('textComp').value="";
+ renderComps();
+}
+function renderComps(){
+ let comps=JSON.parse(localStorage.getItem(KEY_COMPS)||"[]"); let html="";
+ comps.forEach(c=>{html+=`<div class="post"><b>${c.nick}</b> <small>${c.time}</small><br><b style="color:#fff">${c.title}</b><br><div style="margin-top:6px;color:#ccc">${c.text}</div>${c.answer?`<div style="margin-top:8px;background:#0f0f0f;padding:8px;border-radius:8px"><small>Ответ админа:</small><br>${c.answer}</div>`:`<div style="margin-top:8px;color:#666;font-size:11px">⏳ Ожидает ответа админа...</div>`}</div>`;});
+ document.getElementById('compList').innerHTML=html||"<p style='color:#555;text-align:center;margin-top:12px'>Пока жалоб нет</p>";
+}
+function sendMsg(){
+ let nick=document.getElementById('nickChat').value.trim(); let msg=document.getElementById('msgChat').value.trim();
+ document.getElementById('chatError').textContent="";
+ if(!nick||!msg){document.getElementById('chatError').textContent="Введи ник и сообщение"; return;}
+ let existingNick = localStorage.getItem("myNick");
+ if(!existingNick){ let err=checkNick(nick); if(err){document.getElementById('chatError').textContent=err; return;} }
+ else { if(nick.toLowerCase()!==existingNick && getNicks().includes(nick.toLowerCase())){document.getElementById('chatError').textContent="Ник занят! Нельзя 2 одинаковых ника."; return;} }
+ saveNick(nick.toLowerCase()); localStorage.setItem("myNick",nick.toLowerCase());
+ let chat=JSON.parse(localStorage.getItem(KEY_CHAT)||"[]"); chat.push({nick,msg,time:new Date().toLocaleTimeString()});
+ localStorage.setItem(KEY_CHAT,JSON.stringify(chat)); document.getElementById('msgChat').value=""; renderChat();
+}
+function renderChat(){
+ let chat=JSON.parse(localStorage.getItem(KEY_CHAT)||"[]"); let html="";
+ chat.slice(-50).forEach(c=>{html+=`<div class="msg"><b>${c.nick}</b> <small style="color:#666">${c.time}</small>: ${c.msg}</div>`;});
+ document.getElementById('chatBox').innerHTML=html||"Чат пустой - напиши первым!"; document.getElementById('chatBox').scrollTop=9999;
+}
+setInterval(()=>{ if(document.getElementById('chatTab').style.display!='none') renderChat(); if(document.getElementById('complaintsTab').style.display!='none') renderComps(); },2000);
+renderComps(); renderChat();
+</script>
 </body>
-</html>
+                    </html>
