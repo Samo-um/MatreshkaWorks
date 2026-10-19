@@ -3,77 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA | Форум - Работы</title>
+<title>GROUND RUSSIA | Форум</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080808;color:#eee;font-family:Arial,sans-serif;min-height:100vh;padding:20px;display:flex;justify-content:center}
+body{background:#080808;color:#eee;font-family:Arial,sans-serif;padding:15px;display:flex;justify-content:center}
 .container{width:100%;max-width:700px}
-.header{text-align:center;padding:20px 0;border-bottom:2px solid #00ff66;margin-bottom:20px}
-.logo{font-size:30px;font-weight:900;color:#00ff66;letter-spacing:1px}
-.sub{color:#888;margin-top:5px}
-.login-box{background:#151515;border:1px solid #222;padding:25px;border-radius:14px;margin:30px auto;max-width:380px;text-align:center}
-input{width:100%;background:#1e1e1e;border:1px solid #333;color:#fff;padding:14px;border-radius:8px;margin-bottom:12px;font-size:16px}
-button.main{background:#00ff66;color:#000;font-weight:900;border:none;padding:14px;border-radius:8px;width:100%;font-size:16px;cursor:pointer}
-.work{background:#151515;border:1px solid #222;border-left:4px solid #00ff66;padding:16px;border-radius:10px;margin-bottom:14px}
-.work b{color:#00ff66;font-size:16px}
-.price{color:#ffd700;font-weight:bold;margin:6px 0}
-.desc{color:#bbb;font-size:14px;line-height:1.4}
-.top{display:none;justify-content:space-between;align-items:center;margin-bottom:20px}
-.forum{display:none}
+.header{text-align:center;padding:15px 0;border-bottom:2px solid #00ff66;margin-bottom:15px}
+.logo{font-size:28px;font-weight:900;color:#00ff66}
+.sub{color:#888;font-size:13px;margin-top:4px}
+.login-box{background:#151515;border:1px solid #222;padding:20px;border-radius:12px;max-width:380px;margin:20px auto}
+input{width:100%;background:#1e1e1e;border:1px solid #333;color:#fff;padding:12px;border-radius:8px;margin-bottom:10px}
+button{cursor:pointer;border:none;border-radius:8px;font-weight:bold}
+.btn-green{background:#00ff66;color:#000;padding:12px;width:100%}
+.btn-small{background:#222;color:#fff;padding:6px 12px;font-size:13px}
+.work{background:#151515;border:1px solid #222;border-left:4px solid #00ff66;padding:14px;border-radius:10px;margin-bottom:10px}
+.price{color:#ffd700;font-weight:bold;margin:5px 0;font-size:14px}
+.desc{color:#bbb;font-size:13px}
+.tabs{display:flex;gap:8px;margin-bottom:15px}
+.tab{flex:1;padding:10px;background:#1a1a1a;color:#888;border-radius:8px;text-align:center}
+.tab.active{background:#00ff66;color:#000}
+.chat-box{background:#151515;border:1px solid #222;border-radius:10px;padding:10px;height:300px;overflow-y:auto;margin-bottom:10px}
+.msg{margin-bottom:8px;font-size:14px}
+.msg b{color:#00ff66}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <div class="container">
-<div class="header"><div class="logo">🇷🇺 GROUND RUSSIA</div><div class="sub">Форум работ | Директор: Samo_Monopoly</div></div>
+<div class="header"><div class="logo">🇷🇺 GROUND RUSSIA</div><div class="sub">Директор: Samo_Monopoly | RP Форум Работ</div></div>
 
 <div id="loginScreen" class="login-box">
-<input id="nick" placeholder="Никнейм" value="Samo_Monopoly">
-<input id="pass" type="password" placeholder="Пароль" value="12345678">
-<button id="loginBtn" class="main">ВОЙТИ</button>
+<input id="nick" placeholder="Nick_Name (Пример: Samo_Monopoly)">
+<input id="pass" type="password" placeholder="Пароль">
+<button id="loginBtn" class="btn-green">ВОЙТИ</button>
+<p style="color:#666;font-size:12px;margin-top:10px">Формат ника: Имя_Фамилия с большой буквы</p>
 </div>
 
-<div id="topBar" class="top"><span id="userInfo" style="color:#00ff66"></span><button id="logoutBtn" style="background:#222;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer">Выйти</button></div>
+<div id="app" class="hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+<span id="userInfo" style="color:#00ff66;font-weight:bold"></span>
+<button id="logoutBtn" class="btn-small">Выйти</button>
+</div>
 
-<div id="forumScreen" class="forum">
-<div class="work"><b>🔫 1. Перепродажа оружия</b><div class="price">💰 Цена: 25.000 ₽</div><div class="desc">📄 Покупка и перепродажа оружия в рамках игрового RP.</div></div>
-<div class="work"><b>👔 2. Продажа дорогой одежды</b><div class="price">💰 Цена: 15.000 ₽</div><div class="desc">📄 Продажа эксклюзивной одежды и редких предметов.</div></div>
-<div class="work"><b>🚘 3. Скрытие автомобиля и содержимого</b><div class="price">💰 Цена: 30.000 ₽</div><div class="desc">📄 RP-услуга по сокрытию автомобиля и вещей.</div></div>
-<div class="work"><b>🏗️ 4. Строительный бизнес</b><div class="price">💰 Цена: 75.000 ₽</div><div class="desc">📄 Перевозка строительных материалов.<br>💵 Оплата: 10.000 ₽ за перевозку.</div></div>
-<div class="work"><b>🚕 5. Работа таксистом</b><div class="price">💰 Цена: 5.000 ₽</div><div class="desc">📄 Перевозка пассажиров и выполнение заказов.</div></div>
-<div class="work"><b>💎 6. Барыга</b><div class="price">💰 Цена: 700.000 ₽ / 700 🪙</div><div class="desc">📄 Торговля редкими товарами и проведение выгодных сделок.</div></div>
-<div class="work"><b>🏢 7. Директор строительной компании</b><div class="price">💰 Цена: 1.700.000 ₽<br>📈 Прибыль: 276.000 ₽ в день.</div><div class="desc">📄 Управление компанией, перевозками, сотрудниками и развитием бизнеса.</div></div>
-<div class="work"><b>🗺️ 8. Назначение карт и организация рейдов</b><div class="price">💰 Цена: 45.000 ₽</div><div class="desc">📄 Организация RP-мероприятий, подготовка карт и проведение игровых рейдов.</div></div>
+<div class="tabs">
+<div class="tab active" data-tab="works">💼 Работы</div>
+<div class="tab" data-tab="chat">💬 Чат</div>
+<div class="tab" data-tab="orders">📦 Мои заказы</div>
+</div>
+
+<div id="worksTab">
+<div class="work"><b>🔫 1. Перепродажа оружия</b><div class="price">25.000 ₽</div><div class="desc">Покупка и перепродажа оружия RP</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Перепродажа оружия')">Принять заказ</button></div>
+<div class="work"><b>👔 2. Продажа дорогой одежды</b><div class="price">15.000 ₽</div><div class="desc">Эксклюзивная одежда</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Продажа одежды')">Принять заказ</button></div>
+<div class="work"><b>🚘 3. Скрытие авто</b><div class="price">30.000 ₽</div><div class="desc">Сокрытие автомобиля и вещей</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Скрытие авто')">Принять заказ</button></div>
+<div class="work"><b>🏗️ 4. Строительный бизнес</b><div class="price">75.000 ₽ | Оплата 10.000 ₽/рейс</div><div class="desc">Перевозка стройматериалов</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Строй бизнес')">Принять заказ</button></div>
+<div class="work"><b>🚕 5. Таксист</b><div class="price">5.000 ₽</div><div class="desc">Перевозка пассажиров</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Таксист')">Принять заказ</button></div>
+<div class="work"><b>💎 6. Барыга</b><div class="price">700.000 ₽ / 700 🪙</div><div class="desc">Торговля редкими товарами</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Барыга')">Принять заказ</button></div>
+<div class="work"><b>🏢 7. Директор строй компании</b><div class="price">1.700.000 ₽ | Прибыль 276.000 ₽/день</div><div class="desc">Управление компанией</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Директор стройки')">Принять заказ</button></div>
+<div class="work"><b>🗺️ 8. Карты и рейды</b><div class="price">45.000 ₽</div><div class="desc">Организация RP рейдов</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Карты и рейды')">Принять заказ</button></div>
+</div>
+
+<div id="chatTab" class="hidden">
+<div id="chatBox" class="chat-box"></div>
+<div style="display:flex;gap:8px"><input id="chatInput" placeholder="Сообщение..."><button id="sendBtn" class="btn-small" style="background:#00ff66;color:#000;padding:12px 18px">Отпр</button></div>
+</div>
+
+<div id="ordersTab" class="hidden">
+<div id="ordersList"></div>
+</div>
+
 </div>
 </div>
 
 <script>
-const loginBtn=document.getElementById('loginBtn');
 const nickInput=document.getElementById('nick');
-const passInput=document.getElementById('pass');
+const loginBtn=document.getElementById('loginBtn');
 const loginScreen=document.getElementById('loginScreen');
-const forumScreen=document.getElementById('forumScreen');
-const topBar=document.getElementById('topBar');
+const app=document.getElementById('app');
 const userInfo=document.getElementById('userInfo');
 
-function openForum(nick){
-  loginScreen.style.display='none';
-  forumScreen.style.display='block';
-  topBar.style.display='flex';
-  userInfo.textContent='👤 '+nick;
+function isValidNick(n){
+  return /^[A-Z][a-z]+_[A-Z][a-z]+$/.test(n) || /^[A-Z][a-z]+_[A-Z][a-z]+_[A-Z][a-z]+$/.test(n);
 }
+
+function openApp(nick){
+  loginScreen.classList.add('hidden');
+  app.classList.remove('hidden');
+  userInfo.textContent='👤 '+nick;
+  loadChat(); loadOrders();
+}
+
 loginBtn.addEventListener('click',()=>{
   const n=nickInput.value.trim();
-  const p=passInput.value.trim();
-  if(!n||!p){alert('Введи ник и пароль!');return;}
+  const p=document.getElementById('pass').value.trim();
+  if(!isValidNick(n)){alert('Неверный формат ника!\\nНужно: Nick_Name\\nПример: Samo_Monopoly');return;}
+  if(p.length<4){alert('Пароль минимум 4 символа!');return;}
   localStorage.setItem('ground_user',n);
-  openForum(n);
+  openApp(n);
 });
-document.getElementById('logoutBtn').addEventListener('click',()=>{
-  localStorage.removeItem('ground_user');
-  location.reload();
+
+document.getElementById('logoutBtn').onclick=()=>{localStorage.clear();location.reload();};
+
+// TABS
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('worksTab').classList.add('hidden');
+    document.getElementById('chatTab').classList.add('hidden');
+    document.getElementById('ordersTab').classList.add('hidden');
+    document.getElementById(t.dataset.tab+'Tab').classList.remove('hidden');
+  }
 });
+
+// CHAT
+function loadChat(){
+  const msgs=JSON.parse(localStorage.getItem('ground_chat')||'[]');
+  const box=document.getElementById('chatBox');
+  box.innerHTML=msgs.map(m=>`<div class="msg"><b>${m.nick}:</b> ${m.text} <small style="color:#666">${m.time}</small></div>`).join('')||'<div style="color:#666">Чат пустой, напиши первым!</div>';
+  box.scrollTop=box.scrollHeight;
+}
+document.getElementById('sendBtn').onclick=()=>{
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim(); if(!text) return;
+  const nick=localStorage.getItem('ground_user');
+  const msgs=JSON.parse(localStorage.getItem('ground_chat')||'[]');
+  msgs.push({nick,text,time:new Date().toLocaleTimeString().slice(0,5)});
+  localStorage.setItem('ground_chat',JSON.stringify(msgs.slice(-50)));
+  input.value=''; loadChat();
+};
+
+// ORDERS
+function takeOrder(name){
+  const nick=localStorage.getItem('ground_user');
+  const orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
+  orders.push({name,time:new Date().toLocaleString()});
+  localStorage.setItem('ground_orders_'+nick,JSON.stringify(orders));
+  alert('Заказ принят: '+name+'! Смотри в Мои заказы');
+  loadOrders();
+}
+function loadOrders(){
+  const nick=localStorage.getItem('ground_user');
+  const orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
+  const list=document.getElementById('ordersList');
+  list.innerHTML=orders.length?orders.map((o,i)=>`<div class="work"><b>${o.name}</b><br><small style="color:#888">${o.time}</small><br><button class="btn-small" style="margin-top:6px" onclick="delOrder(${i})">Отменить</button></div>`).join(''):'<p style="color:#666">Нет заказов</p>';
+}
+function delOrder(i){
+  const nick=localStorage.getItem('ground_user');
+  let orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
+  orders.splice(i,1);
+  localStorage.setItem('ground_orders_'+nick,JSON.stringify(orders));
+  loadOrders();
+}
+
 const saved=localStorage.getItem('ground_user');
-if(saved){openForum(saved);}
+if(saved){openApp(saved);}
 </script>
 </body>
-</html>
+  </html>
