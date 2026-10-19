@@ -3,160 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA | Форум</title>
+<title>GROUND RUSSIA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#080808;color:#eee;font-family:Arial,sans-serif;padding:15px;display:flex;justify-content:center}
-.container{width:100%;max-width:700px}
-.header{text-align:center;padding:15px 0;border-bottom:2px solid #00ff66;margin-bottom:15px}
-.logo{font-size:28px;font-weight:900;color:#00ff66}
-.sub{color:#888;font-size:13px;margin-top:4px}
-.login-box{background:#151515;border:1px solid #222;padding:20px;border-radius:12px;max-width:380px;margin:20px auto}
-input{width:100%;background:#1e1e1e;border:1px solid #333;color:#fff;padding:12px;border-radius:8px;margin-bottom:10px}
-button{cursor:pointer;border:none;border-radius:8px;font-weight:bold}
-.btn-green{background:#00ff66;color:#000;padding:12px;width:100%}
-.btn-small{background:#222;color:#fff;padding:6px 12px;font-size:13px}
-.work{background:#151515;border:1px solid #222;border-left:4px solid #00ff66;padding:14px;border-radius:10px;margin-bottom:10px}
-.price{color:#ffd700;font-weight:bold;margin:5px 0;font-size:14px}
-.desc{color:#bbb;font-size:13px}
-.tabs{display:flex;gap:8px;margin-bottom:15px}
-.tab{flex:1;padding:10px;background:#1a1a1a;color:#888;border-radius:8px;text-align:center}
-.tab.active{background:#00ff66;color:#000}
-.chat-box{background:#151515;border:1px solid #222;border-radius:10px;padding:10px;height:300px;overflow-y:auto;margin-bottom:10px}
-.msg{margin-bottom:8px;font-size:14px}
-.msg b{color:#00ff66}
-.hidden{display:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#07070a;color:#fff;height:100vh;overflow:hidden}
+#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:100;transition:1s}
+#intro.hide{opacity:0;pointer-events:none;transform:scale(1.5)}
+#intro img{width:600px;max-width:80vw;animation:zoom 2.8s ease;filter:drop-shadow(0 0 50px #ff0028)}
+@keyframes zoom{0%{transform:scale(0.1);opacity:0;filter:blur(20px)}50%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+header{position:fixed;top:0;left:0;right:0;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);border-bottom:1px solid #ff002822;z-index:10}
+header b{letter-spacing:1px}
+header div a{color:#fff;text-decoration:none;margin-left:22px;opacity:.7;transition:.2s}
+header div a:hover{color:#ff0028;opacity:1}
+.main{height:100vh;display:flex;align-items:center;justify-content:center;gap:70px;padding:80px 30px 30px}
+.left-photo img{width:170px;height:170px;border-radius:50%;border:3px solid #ff0028;object-fit:cover;box-shadow:0 0 30px #ff002855}
+.box{width:460px;background:#121214;border:1px solid #ff002840;padding:30px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.box h2{line-height:1.2;margin-bottom:20px}
+.box h2 span{color:#ff0028}
+.box label{font-size:13px;opacity:.6}
+.box input{width:100%;padding:13px;margin:6px 0 16px;background:#09090b;border:1px solid #2a2a2a;border-radius:9px;color:#fff;outline:none}
+.box input:focus{border-color:#ff0028}
+.btn{width:100%;padding:14px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:9px;color:#fff;font-weight:800;cursor:pointer;margin-top:8px}
+.tg-link{margin-top:18px;text-align:center;font-size:13px}
+.tg-link a{color:#ff0028;text-decoration:none;opacity:.9}
+.tg-link a:hover{text-decoration:underline}
+@media(max-width:800px){.main{flex-direction:column;gap:25px}.box{width:100%;max-width:400px}}
 </style>
 </head>
 <body>
-<div class="container">
-<div class="header"><div class="logo">🇷🇺 GROUND RUSSIA</div><div class="sub">Директор: Samo_Monopoly | RP Форум Работ</div></div>
 
-<div id="loginScreen" class="login-box">
-<input id="nick" placeholder="Nick_Name (Пример: Samo_Monopoly)">
-<input id="pass" type="password" placeholder="Пароль">
-<button id="loginBtn" class="btn-green">ВОЙТИ</button>
-<p style="color:#666;font-size:12px;margin-top:10px">Формат ника: Имя_Фамилия с большой буквы</p>
+<audio id="music" autoplay>
+  <source src="oyrobinya.mp3" type="audio/mpeg">
+</audio>
+
+<div id="intro"><img src="logo.png"></div>
+
+<header>
+<b>GROUND RUSSIA</b>
+<div>
+<a href="https://t.me/hayem01" target="_blank">По вопросам</a>
+<a href="#">Форум</a>
+</div>
+</header>
+
+<div class="main">
+<div class="left-photo">
+<img src="logo.png" alt="logo">
 </div>
 
-<div id="app" class="hidden">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
-<span id="userInfo" style="color:#00ff66;font-weight:bold"></span>
-<button id="logoutBtn" class="btn-small">Выйти</button>
-</div>
+<div class="box">
+<h2>Добро Пожаловать на форум<br><span>Ground Russia!</span></h2>
 
-<div class="tabs">
-<div class="tab active" data-tab="works">💼 Работы</div>
-<div class="tab" data-tab="chat">💬 Чат</div>
-<div class="tab" data-tab="orders">📦 Мои заказы</div>
-</div>
+<label>Никнейм</label>
+<input type="text" placeholder="Введите ник">
 
-<div id="worksTab">
-<div class="work"><b>🔫 1. Перепродажа оружия</b><div class="price">25.000 ₽</div><div class="desc">Покупка и перепродажа оружия RP</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Перепродажа оружия')">Принять заказ</button></div>
-<div class="work"><b>👔 2. Продажа дорогой одежды</b><div class="price">15.000 ₽</div><div class="desc">Эксклюзивная одежда</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Продажа одежды')">Принять заказ</button></div>
-<div class="work"><b>🚘 3. Скрытие авто</b><div class="price">30.000 ₽</div><div class="desc">Сокрытие автомобиля и вещей</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Скрытие авто')">Принять заказ</button></div>
-<div class="work"><b>🏗️ 4. Строительный бизнес</b><div class="price">75.000 ₽ | Оплата 10.000 ₽/рейс</div><div class="desc">Перевозка стройматериалов</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Строй бизнес')">Принять заказ</button></div>
-<div class="work"><b>🚕 5. Таксист</b><div class="price">5.000 ₽</div><div class="desc">Перевозка пассажиров</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Таксист')">Принять заказ</button></div>
-<div class="work"><b>💎 6. Барыга</b><div class="price">700.000 ₽ / 700 🪙</div><div class="desc">Торговля редкими товарами</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Барыга')">Принять заказ</button></div>
-<div class="work"><b>🏢 7. Директор строй компании</b><div class="price">1.700.000 ₽ | Прибыль 276.000 ₽/день</div><div class="desc">Управление компанией</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Директор стройки')">Принять заказ</button></div>
-<div class="work"><b>🗺️ 8. Карты и рейды</b><div class="price">45.000 ₽</div><div class="desc">Организация RP рейдов</div><button class="btn-small" style="margin-top:8px;background:#00ff66;color:#000" onclick="takeOrder('Карты и рейды')">Принять заказ</button></div>
-</div>
+<label>Пароль</label>
+<input type="password" placeholder="Введите пароль">
 
-<div id="chatTab" class="hidden">
-<div id="chatBox" class="chat-box"></div>
-<div style="display:flex;gap:8px"><input id="chatInput" placeholder="Сообщение..."><button id="sendBtn" class="btn-small" style="background:#00ff66;color:#000;padding:12px 18px">Отпр</button></div>
-</div>
+<button class="btn">ВОЙТИ</button>
 
-<div id="ordersTab" class="hidden">
-<div id="ordersList"></div>
+<div class="tg-link">
+Связь: <a href="https://t.me/hayem01" target="_blank">@hayem01</a>
 </div>
-
 </div>
 </div>
 
 <script>
-const nickInput=document.getElementById('nick');
-const loginBtn=document.getElementById('loginBtn');
-const loginScreen=document.getElementById('loginScreen');
-const app=document.getElementById('app');
-const userInfo=document.getElementById('userInfo');
-
-function isValidNick(n){
-  return /^[A-Z][a-z]+_[A-Z][a-z]+$/.test(n) || /^[A-Z][a-z]+_[A-Z][a-z]+_[A-Z][a-z]+$/.test(n);
-}
-
-function openApp(nick){
-  loginScreen.classList.add('hidden');
-  app.classList.remove('hidden');
-  userInfo.textContent='👤 '+nick;
-  loadChat(); loadOrders();
-}
-
-loginBtn.addEventListener('click',()=>{
-  const n=nickInput.value.trim();
-  const p=document.getElementById('pass').value.trim();
-  if(!isValidNick(n)){alert('Неверный формат ника!\\nНужно: Nick_Name\\nПример: Samo_Monopoly');return;}
-  if(p.length<4){alert('Пароль минимум 4 символа!');return;}
-  localStorage.setItem('ground_user',n);
-  openApp(n);
+const audio = document.getElementById('music');
+audio.volume = 0.18;
+window.addEventListener('load', () => {
+  audio.play().catch(() => {
+    document.addEventListener('mousemove', () => audio.play(), {once:true});
+    document.addEventListener('click', () => audio.play(), {once:true});
+  });
+  setTimeout(() => {
+    let fade = setInterval(() => {
+      if(audio.volume > 0.01){ audio.volume -= 0.01; }
+      else { audio.pause(); clearInterval(fade); }
+    }, 120);
+  }, 7000);
 });
-
-document.getElementById('logoutBtn').onclick=()=>{localStorage.clear();location.reload();};
-
-// TABS
-document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    document.getElementById('worksTab').classList.add('hidden');
-    document.getElementById('chatTab').classList.add('hidden');
-    document.getElementById('ordersTab').classList.add('hidden');
-    document.getElementById(t.dataset.tab+'Tab').classList.remove('hidden');
-  }
-});
-
-// CHAT
-function loadChat(){
-  const msgs=JSON.parse(localStorage.getItem('ground_chat')||'[]');
-  const box=document.getElementById('chatBox');
-  box.innerHTML=msgs.map(m=>`<div class="msg"><b>${m.nick}:</b> ${m.text} <small style="color:#666">${m.time}</small></div>`).join('')||'<div style="color:#666">Чат пустой, напиши первым!</div>';
-  box.scrollTop=box.scrollHeight;
-}
-document.getElementById('sendBtn').onclick=()=>{
-  const input=document.getElementById('chatInput');
-  const text=input.value.trim(); if(!text) return;
-  const nick=localStorage.getItem('ground_user');
-  const msgs=JSON.parse(localStorage.getItem('ground_chat')||'[]');
-  msgs.push({nick,text,time:new Date().toLocaleTimeString().slice(0,5)});
-  localStorage.setItem('ground_chat',JSON.stringify(msgs.slice(-50)));
-  input.value=''; loadChat();
-};
-
-// ORDERS
-function takeOrder(name){
-  const nick=localStorage.getItem('ground_user');
-  const orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
-  orders.push({name,time:new Date().toLocaleString()});
-  localStorage.setItem('ground_orders_'+nick,JSON.stringify(orders));
-  alert('Заказ принят: '+name+'! Смотри в Мои заказы');
-  loadOrders();
-}
-function loadOrders(){
-  const nick=localStorage.getItem('ground_user');
-  const orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
-  const list=document.getElementById('ordersList');
-  list.innerHTML=orders.length?orders.map((o,i)=>`<div class="work"><b>${o.name}</b><br><small style="color:#888">${o.time}</small><br><button class="btn-small" style="margin-top:6px" onclick="delOrder(${i})">Отменить</button></div>`).join(''):'<p style="color:#666">Нет заказов</p>';
-}
-function delOrder(i){
-  const nick=localStorage.getItem('ground_user');
-  let orders=JSON.parse(localStorage.getItem('ground_orders_'+nick)||'[]');
-  orders.splice(i,1);
-  localStorage.setItem('ground_orders_'+nick,JSON.stringify(orders));
-  loadOrders();
-}
-
-const saved=localStorage.getItem('ground_user');
-if(saved){openApp(saved);}
+setTimeout(()=>document.getElementById('intro').classList.add('hide'),3000);
 </script>
 </body>
-  </html>
+</html>
