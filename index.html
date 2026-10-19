@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GROUND RUSSIA - Форум</title>
+<script src="/socket.io/socket.io.js"></script>
+<style>
+body{background:#0f0f0f;color:#fff;font-family:Arial;padding:10px;margin:0}
+.header{display:flex;align-items:center;gap:8px;font-weight:bold;font-size:20px;color:#00ff66}
+input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box}
+.btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px}
+.error{color:#ff4444;margin-top:10px;text-align:center}
+.task{background:#1a1a1a;border-radius:12px;padding:12px;margin-top:12px;border-left:4px solid #00ff66}
+.msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%}
+.msg.me{background:#0d3320;margin-left:auto}
+.msg.other{background:#2a2a2a}
+.chat-input{display:flex;gap:8px;margin-top:10px}
+.chat-input input{margin-top:0}
+</style>
+</head>
+<body>
+<div class="header">🇷🇺 GROUND RUSSIA | Форум</div>
+<div style="font-size:12px;color:#888">Директор: Samo_Monopoly</div>
+
+<div id="auth">
+<input id="nick" placeholder="Придумайте Nick_Name">
+<input id="pass" type="password" placeholder="Придумайте пароль">
+<button class="btn" onclick="login()">Войти / Регистрация</button>
+<div id="err" class="error"></div>
+</div>
+
+<div id="app" style="display:none">
+<div>Привет, <b id="myNick"></b>! <button onclick="logout()" style="float:right;background:#333;color:#fff;border:none;padding:5px 10px;border-radius:5px">Выйти</button></div>
+
+<div class="task"><b>🔫 Перепродажа оружия</b><br>💰 25.000 ₽<br><button class="btn" onclick="take('Перепродажа оружия')">Взять задачу</button></div>
+<div class="task"><b>👕 Продажа дорогой одежды</b><br>💰 15.000 ₽<br><button class="btn" onclick="take('Продажа одежды')">Взять задачу</button></div>
+<div class="task"><b>🚗 Скрытие автомобиля</b><br>💰 30.000 ₽<br><button class="btn" onclick="take('Скрытие авто')">Взять задачу</button></div>
+<div class="task"><b>🏗️ Строительный бизнес</b><br>💰 75.000 / 10.000 ₽<br><button class="btn" onclick="take('Строительный бизнес')">Взять задачу</button></div>
+<div class="task"><b>🚕 Работа таксистом</b><br>💰 5.000 ₽<br><button class="btn" onclick="take('Таксист')">Взять задачу</button></div>
+<div class="task"><b>🛍️ Барыга</b><br>💰 700.000 ₽<br><button class="btn" onclick="take('Барыга')">Взять задачу</button></div>
+
+<div style="margin-top:20px"><h3>💬 Чат с Директором</h3><div id="messages"></div><div class="chat-input"><input id="chatText" placeholder="Напиши сообщение..."><button class="btn" style="width:80px;margin-top:0" onclick="sendMsg()">Отпр.</button></div></div>
+</div>
+
+<script>
+let myNick = localStorage.getItem('nick') || "";
+let myJob = "";
+const socket = io();
+if(myNick){ document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages(); }
+async function login(){
+  const nick = document.getElementById('nick').value.trim();
+  const pass = document.getElementById('pass').value.trim();
+  const err = document.getElementById('err');
+  if(!/^[A-Za-z]+_[A-Za-z]+$/.test(nick)){ err.innerText="Ник должен быть Nick_Name Пример: Ivan_Ivanov"; return; }
+  if(pass.length<4){ err.innerText="Пароль от 4 символов"; return; }
+  const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,pass})});
+  const data = await res.json();
+  if(!data.ok){ err.innerText=data.msg; return; }
+  localStorage.setItem('nick', data.nick); myNick=data.nick;
+  document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages();
+}
+function logout(){ localStorage.removeItem('nick'); location.reload(); }
+async function loadMessages(){ const res = await fetch('/api/messages'); const msgs = await res.json(); msgs.forEach(addMsg); }
+function addMsg(m){ const div = document.createElement('div'); div.className = m.user===myNick?'msg me':'msg other'; div.innerHTML = `<b>${m.user}</b><br>${m.text}<br><small style="color:#888">${m.time}</small>`; document.getElementById('messages').appendChild(div); }
+socket.on('new_message', (m)=>{ addMsg(m); window.scrollTo(0,document.body.scrollHeight); });
+function sendMsg(){ const text = document.getElementById('chatText').value.trim(); if(!text) return; socket.emit('chat',{user:myNick,text,job:myJob}); document.getElementById('chatText').value=''; }
+function take(job){ myJob=job; socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob}); }
+</script>
+</body>
+                                                                 </html>
