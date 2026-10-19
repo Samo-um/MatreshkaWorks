@@ -11,7 +11,7 @@ body{background:#0f0f0f;color:#fff;font-family:Arial;padding:10px;margin:0}
 .sub{font-size:12px;color:#888;margin-bottom:15px}
 input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box;font-size:16px}
 .btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer}
-.error{color:#ff4444;margin-top:10px;text-align:center;font-weight:bold}
+.error{color:#ff4444;margin-top:10px;text-align:center;font-weight:bold;font-size:15px}
 .task{background:#1a1a1a;border-radius:12px;padding:12px;margin-top:12px;border-left:4px solid #00ff66}
 .msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%;word-break:break-word}
 .msg.me{background:#0d3320;margin-left:auto}
@@ -50,25 +50,71 @@ input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px soli
 let myNick = localStorage.getItem('nick') || "";
 let myJob = "";
 const socket = io();
-if(myNick){ document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages(); }
+if(myNick){
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('myNick').innerText=myNick;
+  loadMessages();
+}
 async function login(){
   const nick = document.getElementById('nick').value.trim();
   const pass = document.getElementById('pass').value.trim();
   const err = document.getElementById('err');
-  if(!nick.includes("_")){ err.innerText="Формат: Nick_Name Пример: Ivan_Ivanov"; return; }
-  if(pass.length<4){ err.innerText="Пароль от 4 символов"; return; }
-  const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,pass})});
+  err.innerText = "";
+  if(!nick.includes("_")){
+    err.innerText="Формат: Nick_Name Пример: Nanya_Kauna";
+    return;
+  }
+  if(pass.length<4){
+    err.innerText="Пароль от 4 символов";
+    return;
+  }
+  const res = await fetch('/api/register',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nick,pass})
+  });
   const data = await res.json();
-  if(!data.ok){ err.innerText=data.msg; return; }
-  localStorage.setItem('nick', data.nick); myNick=data.nick;
-  document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('myNick').innerText=myNick; loadMessages();
+  if(!data.ok){
+    err.innerText=data.msg;
+    return;
+  }
+  localStorage.setItem('nick', data.nick);
+  myNick=data.nick;
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('myNick').innerText=myNick;
+  loadMessages();
 }
-function logout(){ localStorage.removeItem('nick'); location.reload(); }
-async function loadMessages(){ const res = await fetch('/api/messages'); const msgs = await res.json(); msgs.forEach(addMsg); }
-function addMsg(m){ const div = document.createElement('div'); div.className = m.user===myNick?'msg me':'msg other'; div.innerHTML = `<b>${m.user}</b><br>${m.text}<br><small style="color:#888">${m.time}</small>`; document.getElementById('messages').appendChild(div); }
-socket.on('new_message', (m)=>{ addMsg(m); window.scrollTo(0,document.body.scrollHeight); });
-function sendMsg(){ const text = document.getElementById('chatText').value.trim(); if(!text) return; socket.emit('chat',{user:myNick,text,job:myJob}); document.getElementById('chatText').value=''; }
-function take(job){ myJob=job; socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob}); }
+function logout(){
+  localStorage.removeItem('nick');
+  location.reload();
+}
+async function loadMessages(){
+  const res = await fetch('/api/messages');
+  const msgs = await res.json();
+  msgs.forEach(addMsg);
+}
+function addMsg(m){
+  const div = document.createElement('div');
+  div.className = m.user===myNick?'msg me':'msg other';
+  div.innerHTML = `<b>${m.user}</b><br>${m.text}<br><small style="color:#888">${m.time}</small>`;
+  document.getElementById('messages').appendChild(div);
+}
+socket.on('new_message', (m)=>{
+  addMsg(m);
+  window.scrollTo(0,document.body.scrollHeight);
+});
+function sendMsg(){
+  const text = document.getElementById('chatText').value.trim();
+  if(!text) return;
+  socket.emit('chat',{user:myNick,text,job:myJob});
+  document.getElementById('chatText').value='';
+}
+function take(job){
+  myJob=job;
+  socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob});
+}
 </script>
 </body>
-  </html>
+</html>
