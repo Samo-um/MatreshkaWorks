@@ -5,85 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GROUND RUSSIA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
-body{background:#07070a;color:#fff;height:100vh;overflow:hidden}
-#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:100;transition:1s}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#08080d;color:#fff;min-height:100vh}
+#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;transition:1s}
 #intro.hide{opacity:0;pointer-events:none;transform:scale(1.5)}
-#intro img{width:600px;max-width:80vw;animation:zoom 2.8s ease;filter:drop-shadow(0 0 50px #ff0028)}
-@keyframes zoom{0%{transform:scale(0.1);opacity:0;filter:blur(20px)}50%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
-header{position:fixed;top:0;left:0;right:0;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);border-bottom:1px solid #ff002822;z-index:10}
-header b{letter-spacing:1px}
-header div a{color:#fff;text-decoration:none;margin-left:22px;opacity:.7;transition:.2s}
-header div a:hover{color:#ff0028;opacity:1}
+#intro img{width:600px;max-width:80vw;animation:zoom 2.8s ease;filter:drop-shadow(0 0 60px #ff0028)}
+@keyframes zoom{0%{transform:scale(0.1);opacity:0;filter:blur(20px)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+header{position:fixed;top:0;left:0;right:0;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.9);border-bottom:1px solid #ff002822;z-index:10}
+header a{color:#fff;text-decoration:none;margin-left:22px;opacity:.7}
 .main{height:100vh;display:flex;align-items:center;justify-content:center;gap:70px;padding:80px 30px 30px}
-.left-photo img{width:170px;height:170px;border-radius:50%;border:3px solid #ff0028;object-fit:cover;box-shadow:0 0 30px #ff002855}
-.box{width:460px;background:#121214;border:1px solid #ff002840;padding:30px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
-.box h2{line-height:1.2;margin-bottom:20px}
-.box h2 span{color:#ff0028}
-.box label{font-size:13px;opacity:.6}
-.box input{width:100%;padding:13px;margin:6px 0 16px;background:#09090b;border:1px solid #2a2a2a;border-radius:9px;color:#fff;outline:none}
-.box input:focus{border-color:#ff0028}
-.btn{width:100%;padding:14px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:9px;color:#fff;font-weight:800;cursor:pointer;margin-top:8px}
-.tg-link{margin-top:18px;text-align:center;font-size:13px}
-.tg-link a{color:#ff0028;text-decoration:none;opacity:.9}
-.tg-link a:hover{text-decoration:underline}
-@media(max-width:800px){.main{flex-direction:column;gap:25px}.box{width:100%;max-width:400px}}
+.left-photo img{width:170px;height:170px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 30px #ff002855}
+.box{width:460px;background:#121214;border:1px solid #ff002840;padding:30px;border-radius:16px}
+.box input{width:100%;padding:13px;margin:6px 0 16px;background:#09090b;border:1px solid #2a2a2a;border-radius:9px;color:#fff}
+.btn{width:100%;padding:14px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:9px;color:#fff;font-weight:800;cursor:pointer;transition:.2s}
+.btn:hover{transform:scale(1.02);box-shadow:0 0 20px #ff0028}
+.tg-link{margin-top:18px;text-align:center;font-size:13px}.tg-link a{color:#ff0028;text-decoration:none}
+
+#menuPage{display:none;min-height:100vh;padding:90px 20px 30px}
+.menu-wrap{max-width:900px;margin:0 auto}.welcome{font-size:28px;margin-bottom:25px}.welcome span{color:#ff0028}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:linear-gradient(145deg,#121214,#1a1a20);border:1px solid #ff002822;padding:30px;border-radius:18px;cursor:pointer;transition:.3s;text-align:center;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle, #ff002811 0%, transparent 70%);opacity:0;transition:.3s}
+.card:hover{border-color:#ff0028;transform:translateY(-5px);box-shadow:0 15px 40px #ff002822}.card:hover::before{opacity:1}
+.card b{font-size:19px;display:block;margin-bottom:8px;position:relative}.card small{opacity:.6;font-size:13px;position:relative}.icon{font-size:38px;margin-bottom:14px}
+.card.apk{border-color:#ff0028;background:linear-gradient(145deg,#1a0005,#2a0010)}
+.btn-back{margin-top:25px;width:200px;padding:12px;background:#222;border:1px solid #333;border-radius:9px;color:#fff;cursor:pointer}
+
+/* МОДАЛКА ЧАТА */
+#chatModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:150;align-items:center;justify-content:center;padding:20px}
+#chatModal.show{display:flex}
+.chatBox{width:100%;max-width:460px;background:#121214;border:1px solid #ff0028;border-radius:18px;padding:0;overflow:hidden;animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.chatHead{padding:18px 20px;background:linear-gradient(90deg,#7a0000,#ff0028);display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.chatBody{padding:22px}
+.chatBody textarea{width:100%;height:110px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;resize:none;outline:none;margin:12px 0}
+.chatBody textarea:focus{border-color:#ff0028}
+.chatBody input{width:100%;padding:12px;background:#09090b;border:1px solid #333;border-radius:10px;color:#fff;margin-bottom:12px;outline:none}
+.chatNote{font-size:12px;opacity:.5;text-align:center;margin-top:10px}
 </style>
 </head>
 <body>
-
-<audio id="music" autoplay>
-  <source src="oyrobinya.mp3" type="audio/mpeg">
-</audio>
-
+<audio id="music" autoplay><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
 <div id="intro"><img src="logo.png"></div>
+<header><b>GROUND RUSSIA</b><div><a href="https://t.me/hayem01" target="_blank">По вопросам</a><a href="#">Форум</a></div></header>
 
-<header>
-<b>GROUND RUSSIA</b>
-<div>
-<a href="https://t.me/hayem01" target="_blank">По вопросам</a>
-<a href="#">Форум</a>
-</div>
-</header>
-
-<div class="main">
-<div class="left-photo">
-<img src="logo.png" alt="logo">
-</div>
-
+<div class="main" id="loginPage">
+<div class="left-photo"><img src="logo.png"></div>
 <div class="box">
-<h2>Добро Пожаловать на форум<br><span>Ground Russia!</span></h2>
+<h2>Добро Пожаловать на форум<br><span style="color:#ff0028">Ground Russia!</span></h2><br>
+<label>Никнейм</label><input id="nick" placeholder="Введите ник">
+<label>Пароль</label><input id="pass" type="password" placeholder="Введите пароль">
+<button class="btn" onclick="login()">ВОЙТИ</button>
+<div class="tg-link">Связь: <a href="https://t.me/hayem01" target="_blank">@hayem01</a></div>
+</div>
+</div>
 
-<label>Никнейм</label>
-<input type="text" placeholder="Введите ник">
+<div id="menuPage">
+<div class="menu-wrap">
+<div class="welcome">Привет, <span id="userName"></span>! Выбери раздел:</div>
+<div class="grid">
+<div class="card apk" onclick="downloadAPK()"><div class="icon">📦</div><b>1. СКАЧАТЬ APK</b><small>Последняя версия Ground Russia .apk</small></div>
+<div class="card" onclick="openChat('Задать вопрос')"><div class="icon">💬</div><b>2. Задать вопрос</b><small>Спроси что угодно — ответим в чате</small></div>
+<div class="card" onclick="openChat('Жалоба')"><div class="icon">🚨</div><b>3. Жалоба</b><small>На игрока, баг, читера — разберем</small></div>
+<div class="card" onclick="openChat('Запрос на обновление')"><div class="icon">🚀</div><b>4. Запрос на обновление</b><small>Твоя идея попадет в обнову</small></div>
+</div>
+<button class="btn-back" onclick="logout()">← Выйти</button>
+</div>
+</div>
 
-<label>Пароль</label>
-<input type="password" placeholder="Введите пароль">
-
-<button class="btn">ВОЙТИ</button>
-
-<div class="tg-link">
-Связь: <a href="https://t.me/hayem01" target="_blank">@hayem01</a>
+<!-- ЧАТ ОКНО -->
+<div id="chatModal" onclick="if(event.target==this)closeChat()">
+<div class="chatBox">
+<div class="chatHead"><span id="chatTitle">Чат</span><span style="cursor:pointer" onclick="closeChat()">✕</span></div>
+<div class="chatBody">
+<div style="background:#1a1a20;padding:12px;border-radius:10px;font-size:13px;margin-bottom:12px">👋 Привет! Я <b style="color:#ff0028">Samo</b>, админ Ground Russia. Напиши тут, я отвечу в ТГ чате!</div>
+<input id="chatName" placeholder="Твой ник...">
+<textarea id="chatMsg" placeholder="Напиши сообщение..."></textarea>
+<button class="btn" onclick="sendMsg()">ОТПРАВИТЬ В ЧАТ</button>
+<div class="chatNote">Сообщения приходят админу в Telegram-чат. Твой личный ТГ не показывается другим.</div>
 </div>
 </div>
 </div>
 
 <script>
+// ★ ВЕЧЕРОМ СЮДА ВСТАВИШЬ ССЫЛКУ НА APK ★
+const APK_LINK = ""; // пример: "https://.../ground-russia.apk"
+
 const audio = document.getElementById('music');
 audio.volume = 0.18;
 window.addEventListener('load', () => {
-  audio.play().catch(() => {
-    document.addEventListener('mousemove', () => audio.play(), {once:true});
-    document.addEventListener('click', () => audio.play(), {once:true});
-  });
-  setTimeout(() => {
-    let fade = setInterval(() => {
-      if(audio.volume > 0.01){ audio.volume -= 0.01; }
-      else { audio.pause(); clearInterval(fade); }
-    }, 120);
-  }, 7000);
+  audio.play().catch(()=>{document.addEventListener('click',()=>audio.play(),{once:true})});
+  setTimeout(()=>{let f=setInterval(()=>{if(audio.volume>0.01)audio.volume-=0.01;else{audio.pause();clearInterval(f)}},180)},20000);
 });
 setTimeout(()=>document.getElementById('intro').classList.add('hide'),3000);
+
+function login(){
+  let n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();
+  if(!n||!p){alert('Введи ник и пароль!');return}
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('menuPage').style.display='block';
+  document.getElementById('userName').innerText=n;
+  document.getElementById('chatName').value=n;
+}
+function logout(){
+  document.getElementById('menuPage').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+}
+function downloadAPK(){
+  if(!APK_LINK){alert('APK скоро будет! Вечером добавлю 🔜\nСейчас можешь написать в чат.');return}
+  window.location.href = APK_LINK;
+}
+let currentType="";
+function openChat(type){
+  currentType=type;
+  document.getElementById('chatTitle').innerText=type;
+  document.getElementById('chatModal').classList.add('show');
+}
+function closeChat(){document.getElementById('chatModal').classList.remove('show')}
+function sendMsg(){
+  let name=document.getElementById('chatName').value.trim()||document.getElementById('userName').innerText;
+  let msg=document.getElementById('chatMsg').value.trim();
+  if(!msg){alert('Напиши сообщение!');return}
+  // Формируем текст для твоего ТГ
+  let text = `🔔 *${currentType}* от ${name}: \n${msg}`;
+  let tgUrl = `https://t.me/hayem01?text=${encodeURIComponent(text)}`;
+  // Открываем твой чат с готовым текстом, но не палит твой личный акк другим
+  window.open(tgUrl,'_blank');
+  alert('Сообщение скопировано! Сейчас откроется чат с админом — просто нажми Отправить ✅');
+  closeChat();
+  document.getElementById('chatMsg').value='';
+}
 </script>
 </body>
 </html>
