@@ -3,92 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA</title>
+<title>GROUND RUSSIA - Forum</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
-body{background:radial-gradient(ellipse at top, #1a0a0f 0%, #08080d 60%);color:#fff;min-height:100vh;overflow-x:hidden}
-#intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:200;transition:.8s}
-#intro.hide{opacity:0;pointer-events:none}
-#intro img{width:550px;max-width:80vw;filter:drop-shadow(0 0 60px #ff0028)}
-header{position:fixed;top:0;left:0;right:0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border-bottom:1px solid #ff002822;z-index:10}
-.logo-text{font-weight:900;font-size:16px}.logo-text span{color:#ff0028}
-.directors{font-size:12px;opacity:.8;text-align:right}.directors b{color:#ff0028}
-.main{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 30px;gap:20px}
-.top-photo img{width:180px;height:180px;border-radius:50%;border:3px solid #ff0028;box-shadow:0 0 50px #ff0028;object-fit:cover;background:#111}
-.box{width:100%;max-width:400px;background:linear-gradient(145deg, #15151a, #0e0e12);border:1px solid #ff002830;padding:28px;border-radius:20px}
-.box h2{font-size:22px;text-align:center;margin-bottom:20px}.box h2 span{color:#ff0028}
-.box input{width:100%;padding:14px 16px;margin:6px 0 16px;background:#08080a;border:1px solid #2a2a2e;border-radius:12px;color:#fff;outline:none;font-size:15px}
-.btn{width:100%;padding:15px;background:linear-gradient(90deg,#7a0000,#ff0028);border:none;border-radius:12px;color:#fff;font-weight:900;cursor:pointer}
-#menuPage{display:none;min-height:100vh;padding:80px 20px 30px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#070707;color:#fff;min-height:100vh}
+header{display:flex;justify-content:space-between;padding:12px 16px;background:#000;font-size:13px;font-weight:800}
+header span{color:#ff1a1a}
+.director{font-size:9px;text-align:right;color:#ff1a1a;line-height:1.2}
+.top-logo{width:180px;margin:18px auto 8px;display:block;filter:drop-shadow(0 0 18px rgba(255,0,0,.6))}
+.wrap{max-width:420px;margin:0 auto;padding:0 14px 40px}
+.card{background:#121212;border:1px solid #222;border-radius:14px;padding:16px;margin-top:12px}
+.title{text-align:center;font-size:17px;font-weight:700}
+.title b{color:#ff1a1a}
+.label{font-size:10px;color:#777;margin:12px 0 4px}
+.inp{width:100%;padding:12px;background:#080808;border:1px solid #2a2a2a;border-radius:8px;color:#fff;outline:none}
+.inp:focus{border-color:#ff1a1a}
+.btn{width:100%;margin-top:14px;padding:12px;background:linear-gradient(90deg,#ff1a1a,#a00000);border:0;border-radius:8px;color:#fff;font-weight:800;cursor:pointer}
+.small{text-align:center;font-size:10px;color:#666;margin-top:10px}
+.small a{color:#ff1a1a;text-decoration:none}
+.greet{text-align:center;font-size:21px;margin:14px 0}
+.menu-btn{width:100%;background:#181818;border:1px solid #222;border-radius:12px;padding:16px;margin-top:10px;text-align:center;font-weight:700;cursor:pointer}
+.menu-btn:first-child{background:#2a0a0a;border-color:#ff1a1a}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:99;padding:14px}
+.modal{background:#121212;border:1px solid #ff1a1a;border-radius:14px;width:100%;max-width:400px;overflow:hidden}
+.modal-head{background:#ff1a1a;padding:10px 14px;display:flex;justify-content:space-between;font-weight:800}
+.modal-body{padding:14px}
+textarea{width:100%;min-height:80px;background:#080808;border:1px solid #2a2a2a;border-radius:8px;color:#fff;padding:10px;resize:none}
+.hidden{display:none!important}
+.flex-show{display:flex!important}
 </style>
 </head>
 <body>
+<header><div>GROUND <span>RUSSIA</span></div><div class="director">Director:<br>Samo_Monopoly<br>Arsen_Samsonyan</div></header>
 
-<audio id="music" loop preload="auto">
-  <source src="oyrobinya.mp3" type="audio/mpeg">
-</audio>
+<div class="wrap">
+<img class="top-logo" src="logo.png" alt="GROUND RUSSIA">
 
-<div id="intro"><img src="./logo.png" onerror="this.src='logo.png'"></div>
-<header>
-<div class="logo-text">GROUND <span>RUSSIA</span></div>
-<div class="directors">Director:<br><b>Samo_Monopoly</b><br><b>Arsen_Samsonyan</b></div>
-</header>
-
-<div class="main" id="loginPage">
-<div class="top-photo"><img src="./logo.png" onerror="this.src='logo.png'"></div>
-<div class="box">
-<h2>Добро Пожаловать на форум<br><span>Ground Russia!</span></h2>
-<input id="nick" placeholder="Никнейм">
-<input id="pass" type="password" placeholder="Пароль">
-<button class="btn" onclick="login()">ВОЙТИ</button>
+<div id="loginBox">
+<div class="card">
+<div class="title">Добро Пожаловать на форум<br><b>Ground Russia!</b></div>
+<div class="label">Никнейм</div>
+<input id="nick" class="inp" placeholder="Введите ник" value="Same-Jan">
+<div class="label">Пароль</div>
+<input id="pass" type="password" class="inp" placeholder="Введите пароль">
+<button class="btn" onclick="doLogin()">ВОЙТИ</button>
+<div class="small">Связь: <a href="https://t.me/shayar01" target="_blank">@hayar01</a></div>
 </div>
 </div>
 
-<div id="menuPage"><div style="text-align:center;margin-top:100px;font-size:26px">Привет, <span id="userName" style="color:#ff0028"></span>!</div></div>
+<div id="menuBox" class="hidden">
+<div class="greet">Привет, <b id="uName" style="color:#ff1a1a">Same-Jan</b>!</div>
+<div class="menu-btn" onclick="alert('APK скоро будет!')">1. 📦 СКАЧАТЬ APK<br><small style="font-weight:400;color:#888">Ground Russia</small></div>
+<div class="menu-btn" onclick="openModal('Задать вопрос')">2. 💬 Задать вопрос</div>
+<div class="menu-btn" onclick="openModal('Жалоба')">3. 🚨 Жалоба</div>
+<div class="menu-btn" onclick="openModal('Запрос на обновление')">4. 🚀 Запрос на обновление</div>
+<div style="text-align:center;margin-top:16px"><button onclick="logout()" style="background:#222;border:0;color:#aaa;padding:8px 20px;border-radius:20px;cursor:pointer">← Выйти</button></div>
+</div>
+</div>
+
+<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeModal()">
+<div class="modal">
+<div class="modal-head"><span id="modalTitle">Задать вопрос</span><span onclick="closeModal()" style="cursor:pointer">X</span></div>
+<div class="modal-body">
+<input id="mNick" class="inp" style="margin-bottom:8px">
+<textarea id="mText" placeholder="Напиши сообщение..."></textarea>
+<button class="btn" onclick="sendTG()">ОТПРАВИТЬ В ТЕЛЕГРАМ</button>
+</div>
+</div>
+</div>
+
+<audio id="bgMusic" loop><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
 
 <script>
-const audio = document.getElementById('music');
-audio.volume = 0.35;
-let isPlaying = false;
-
-function playMusic(){
-  if(isPlaying) return;
-  audio.play().then(()=>{ isPlaying = true; }).catch(()=>{});
+const loginBox=document.getElementById('loginBox'), menuBox=document.getElementById('menuBox');
+const nick=document.getElementById('nick'), pass=document.getElementById('pass');
+function doLogin(){
+  const n=nick.value.trim()||'Same-Jan';
+  if(!pass.value.trim()){pass.style.borderColor='#ff1a1a'; return;}
+  localStorage.setItem('gr_nick',n);
+  document.getElementById('uName').textContent=n;
+  document.getElementById('mNick').value=n;
+  loginBox.classList.add('hidden'); menuBox.classList.remove('hidden');
+  document.getElementById('bgMusic').play().catch(()=>{});
 }
-function stopMusic(){
-  audio.pause();
-  isPlaying = false;
-}
-
-window.addEventListener('load', ()=>{
-  playMusic();
-  document.body.addEventListener('click', playMusic, {once:true});
-  setTimeout(()=>document.getElementById('intro').classList.add('hide'),2500);
-});
-
-// ГЛАВНЫЙ ФИКС - СТОПАЕТ КОГДА СВОРАЧИВАЕШЬ
-document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){
-    console.log('Свернули - стоп музыка');
-    stopMusic();
-  } else {
-    console.log('Вернулись - играй');
-    playMusic();
-  }
-});
-
-// Дополнительно для Андроида
-window.addEventListener('blur', stopMusic);
-window.addEventListener('pagehide', stopMusic);
-window.addEventListener('beforeunload', stopMusic);
-window.addEventListener('focus', playMusic);
-
-function login(){
-  let n=document.getElementById('nick').value.trim();
-  if(!n){alert('Введи ник!');return}
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('menuPage').style.display='block';
-  document.getElementById('userName').innerText=n;
+function logout(){localStorage.removeItem('gr_nick'); location.reload();}
+function openModal(t){document.getElementById('modalTitle').textContent=t; document.getElementById('modalBg').classList.add('flex-show');}
+function closeModal(){document.getElementById('modalBg').classList.remove('flex-show');}
+function sendTG(){
+  const txt=document.getElementById('mText').value.trim();
+  if(!txt){alert('Напиши сообщение!');return;}
+  const msg=`[${document.getElementById('modalTitle').textContent}] от ${document.getElementById('mNick').value}: ${txt}`;
+  window.open('https://t.me/shayar01?text='+encodeURIComponent(msg),'_blank');
+  closeModal();
 }
 </script>
 </body>
