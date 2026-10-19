@@ -2,119 +2,105 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA - Форум</title>
-<script src="/socket.io/socket.io.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GROUND RUSSIA WORKS</title>
 <style>
-body{background:#0f0f0f;color:#fff;font-family:Arial;padding:10px;margin:0}
-.header{font-weight:bold;font-size:22px;color:#00ff66;padding:10px 0}
-.sub{font-size:12px;color:#888;margin-bottom:15px}
-input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box;font-size:16px}
-.btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer}
-.error{color:#ff4444;margin-top:10px;text-align:center;font-weight:bold;font-size:15px}
-.task{background:#1a1a1a;border-radius:12px;padding:12px;margin-top:12px;border-left:4px solid #00ff66}
-.msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%;word-break:break-word}
-.msg.me{background:#0d3320;margin-left:auto}
-.msg.other{background:#2a2a2a}
-.chat-input{display:flex;gap:8px;margin-top:10px}
-.chat-input input{margin-top:0}
+body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
+.header{background:#111;padding:15px 20px;border-bottom:2px solid #ff2b2b;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.logo{width:42px;height:42px;background:linear-gradient(135deg,#ff2b2b,#ff7a00);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.grid{max-width:1100px;margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:0 16px}
+.card{background:#161616;border:1px solid #2a2a2a;border-radius:16px;padding:18px;transition:.2s}
+.card:hover{border-color:#ff2b2b;transform:translateY(-3px)}
+.price{color:#ffcc00;font-weight:bold;margin:6px 0}
+.desc{color:#aaa;font-size:14px;line-height:1.4}
+.badge{display:inline-block;background:#222;border:1px solid #333;padding:4px 10px;border-radius:20px;font-size:12px;margin-bottom:8px}
+.btn{width:100%;padding:10px;background:#ff2b2b;border:none;border-radius:8px;color:#fff;font-weight:bold;margin-top:12px;cursor:pointer}
+.btn:hover{background:#ff4444}
+.title{max-width:1100px;margin:25px auto 0;padding:0 16px}
+.title h1{margin:0;color:#ff2b2b}
+.title p{color:#888;margin:5px 0 0}
 </style>
 </head>
 <body>
-<div class="header">GROUND RUSSIA | Форум</div>
-<div class="sub">Директор: Samo_Monopoly</div>
-
-<div id="auth">
-<input id="nick" placeholder="Придумайте Nick_Name">
-<input id="pass" type="password" placeholder="Придумайте пароль">
-<button class="btn" onclick="login()">Войти / Регистрация</button>
-<div id="err" class="error"></div>
+<div class="header">
+<div class="logo">GR</div>
+<div><b>GROUND RUSSIA WORKS</b><br><small style="color:#888">official system • 8 бизнесов</small></div>
 </div>
 
-<div id="app" style="display:none">
-<div style="margin-bottom:10px">Привет, <b id="myNick"></b>! <button onclick="logout()" style="float:right;background:#333;color:#fff;border:none;padding:5px 10px;border-radius:5px">Выйти</button></div>
-
-<div class="task"><b>🔫 Перепродажа оружия</b><br>💰 25.000 ₽<br><button class="btn" onclick="take('Перепродажа оружия')">Взять задачу</button></div>
-<div class="task"><b>👕 Продажа дорогой одежды</b><br>💰 15.000 ₽<br><button class="btn" onclick="take('Продажа одежды')">Взять задачу</button></div>
-<div class="task"><b>🚗 Скрытие автомобиля</b><br>💰 30.000 ₽<br><button class="btn" onclick="take('Скрытие авто')">Взять задачу</button></div>
-<div class="task"><b>🏗️ Строительный бизнес</b><br>💰 75.000 ₽<br><button class="btn" onclick="take('Строительный бизнес')">Взять задачу</button></div>
-<div class="task"><b>🚕 Работа таксистом</b><br>💰 5.000 ₽<br><button class="btn" onclick="take('Таксист')">Взять задачу</button></div>
-<div class="task"><b>🛍️ Барыга</b><br>💰 700.000 ₽<br><button class="btn" onclick="take('Барыга')">Взять задачу</button></div>
-<div class="task"><b>👔 Директор строительной компании</b><br>💰 1.700.000 ₽<br><button class="btn" onclick="take('Директор стройкомпании')">Взять задачу</button></div>
-<div class="task"><b>🗺️ Назначение карт и рейдов</b><br>💰 45.000 ₽<br><button class="btn" onclick="take('Назначение карт')">Взять задачу</button></div>
-
-<div style="margin-top:20px"><h3>💬 Чат с Директором</h3><div id="messages"></div><div class="chat-input"><input id="chatText" placeholder="Напиши сообщение..."><button class="btn" style="width:80px;margin-top:0" onclick="sendMsg()">Отпр.</button></div></div>
+<div class="title">
+<h1>Доступные работы / Бизнесы</h1>
+<p>Выбери направление и начни зарабатывать в RP</p>
 </div>
 
-<script>
-let myNick = localStorage.getItem('nick') || "";
-let myJob = "";
-const socket = io();
-if(myNick){
-  document.getElementById('auth').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('myNick').innerText=myNick;
-  loadMessages();
-}
-async function login(){
-  const nick = document.getElementById('nick').value.trim();
-  const pass = document.getElementById('pass').value.trim();
-  const err = document.getElementById('err');
-  err.innerText = "";
-  if(!nick.includes("_")){
-    err.innerText="Формат: Nick_Name Пример: Nanya_Kauna";
-    return;
-  }
-  if(pass.length<4){
-    err.innerText="Пароль от 4 символов";
-    return;
-  }
-  const res = await fetch('/api/register',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({nick,pass})
-  });
-  const data = await res.json();
-  if(!data.ok){
-    err.innerText=data.msg;
-    return;
-  }
-  localStorage.setItem('nick', data.nick);
-  myNick=data.nick;
-  document.getElementById('auth').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('myNick').innerText=myNick;
-  loadMessages();
-}
-function logout(){
-  localStorage.removeItem('nick');
-  location.reload();
-}
-async function loadMessages(){
-  const res = await fetch('/api/messages');
-  const msgs = await res.json();
-  msgs.forEach(addMsg);
-}
-function addMsg(m){
-  const div = document.createElement('div');
-  div.className = m.user===myNick?'msg me':'msg other';
-  div.innerHTML = `<b>${m.user}</b><br>${m.text}<br><small style="color:#888">${m.time}</small>`;
-  document.getElementById('messages').appendChild(div);
-}
-socket.on('new_message', (m)=>{
-  addMsg(m);
-  window.scrollTo(0,document.body.scrollHeight);
-});
-function sendMsg(){
-  const text = document.getElementById('chatText').value.trim();
-  if(!text) return;
-  socket.emit('chat',{user:myNick,text,job:myJob});
-  document.getElementById('chatText').value='';
-}
-function take(job){
-  myJob=job;
-  socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob});
-}
-</script>
+<div class="grid">
+
+<div class="card">
+<span class="badge">🔫 Работа #1</span>
+<h3>Перепродажа оружия</h3>
+<div class="price">💰 Цена: 25.000 ₽</div>
+<div class="desc">Покупка и перепродажа оружия в рамках игрового RP.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+<div class="card">
+<span class="badge">👔 Работа #2</span>
+<h3>Продажа дорогой одежды</h3>
+<div class="price">💰 Цена: 15.000 ₽</div>
+<div class="desc">Продажа эксклюзивной одежды и редких предметов.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+<div class="card">
+<span class="badge">🚘 Работа #3</span>
+<h3>Скрытие автомобиля и содержимого</h3>
+<div class="price">💰 Цена: 30.000 ₽</div>
+<div class="desc">RP-услуга по сокрытию автомобиля и вещей.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+<div class="card">
+<span class="badge">🏗️ Работа #4</span>
+<h3>Строительный бизнес</h3>
+<div class="price">💰 Цена: 75.000 ₽ • Оплата 10.000 ₽ за перевозку</div>
+<div class="desc">Перевозка строительных материалов.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+<div class="card">
+<span class="badge">🚕 Работа #5</span>
+<h3>Работа таксистом</h3>
+<div class="price">💰 Цена: 5.000 ₽</div>
+<div class="desc">Перевозка пассажиров и выполнение заказов.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+<div class="card">
+<span class="badge">💎 Работа #6 • ТОП</span>
+<h3>Барыга</h3>
+<div class="price">💰 Цена: 700.000 ₽ / 700 🪙</div>
+<div class="desc">Торговля редкими товарами и проведение выгодных сделок.</div>
+<button class="btn" style="background:#ffcc00;color:#000">Купить за 700 🪙</button>
+</div>
+
+<div class="card" style="border-color:#ffcc00">
+<span class="badge" style="background:#ffcc00;color:#000">🏢 Бизнес</span>
+<h3>Директор строительной компании</h3>
+<div class="price">💰 Цена: 1.700.000 ₽ • Прибыль 276.000 ₽/день</div>
+<div class="desc">Управление компанией, перевозками, сотрудниками и развитием бизнеса.</div>
+<button class="btn" style="background:#ffcc00;color:#000">Купить бизнес</button>
+</div>
+
+<div class="card">
+<span class="badge">🗺️ Работа #8</span>
+<h3>Назначение карт и организация рейдов</h3>
+<div class="price">💰 Цена: 45.000 ₽</div>
+<div class="desc">Организация RP-мероприятий, подготовка карт и проведение игровых рейдов.</div>
+<button class="btn">Купить доступ</button>
+</div>
+
+</div>
+
+<p style="text-align:center;color:#333;margin:30px 0">GROUND RUSSIA WORKS - Защита ролей на сервере • Samo_Monopoly</p>
+
 </body>
 </html>
