@@ -8,12 +8,12 @@
 <style>
 body{background:#0f0f0f;color:#fff;font-family:Arial;padding:10px;margin:0}
 .header{font-weight:bold;font-size:22px;color:#00ff66;padding:10px 0}
-.sub{font-size:12px;color:#888;margin-bottom:10px}
-input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box}
-.btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px}
-.error{color:#ff4444;margin-top:10px;text-align:center}
+.sub{font-size:12px;color:#888;margin-bottom:15px}
+input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#fff;box-sizing:border-box;font-size:16px}
+.btn{width:100%;padding:14px;margin-top:10px;background:#00ff66;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer}
+.error{color:#ff4444;margin-top:10px;text-align:center;font-weight:bold}
 .task{background:#1a1a1a;border-radius:12px;padding:12px;margin-top:12px;border-left:4px solid #00ff66}
-.msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%}
+.msg{padding:8px 12px;border-radius:10px;margin-top:8px;max-width:90%;word-break:break-word}
 .msg.me{background:#0d3320;margin-left:auto}
 .msg.other{background:#2a2a2a}
 .chat-input{display:flex;gap:8px;margin-top:10px}
@@ -32,7 +32,7 @@ input{width:100%;padding:14px;margin-top:10px;background:#1e1e1e;border:1px soli
 </div>
 
 <div id="app" style="display:none">
-<div>Привет, <b id="myNick"></b>! <button onclick="logout()" style="float:right;background:#333;color:#fff;border:none;padding:5px 10px;border-radius:5px">Выйти</button></div>
+<div style="margin-bottom:10px">Привет, <b id="myNick"></b>! <button onclick="logout()" style="float:right;background:#333;color:#fff;border:none;padding:5px 10px;border-radius:5px">Выйти</button></div>
 
 <div class="task"><b>🔫 Перепродажа оружия</b><br>💰 25.000 ₽<br><button class="btn" onclick="take('Перепродажа оружия')">Взять задачу</button></div>
 <div class="task"><b>👕 Продажа дорогой одежды</b><br>💰 15.000 ₽<br><button class="btn" onclick="take('Продажа одежды')">Взять задачу</button></div>
@@ -55,7 +55,7 @@ async function login(){
   const nick = document.getElementById('nick').value.trim();
   const pass = document.getElementById('pass').value.trim();
   const err = document.getElementById('err');
-  if(!/^[A-Za-z]+_[A-Za-z]+$/.test(nick)){ err.innerText="Формат: Nick_Name Пример: Ivan_Ivanov"; return; }
+  if(!nick.includes("_")){ err.innerText="Формат: Nick_Name Пример: Ivan_Ivanov"; return; }
   if(pass.length<4){ err.innerText="Пароль от 4 символов"; return; }
   const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,pass})});
   const data = await res.json();
@@ -71,4 +71,4 @@ function sendMsg(){ const text = document.getElementById('chatText').value.trim(
 function take(job){ myJob=job; socket.emit('chat',{user:myNick,text:`Я взял задачу: ${job}`,job:myJob}); }
 </script>
 </body>
-</html>
+  </html>
