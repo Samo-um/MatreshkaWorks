@@ -3,92 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ground Russia</title>
+<title>GROUND RUSSIA</title>
 <style>
-body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
-.header{padding:40px 20px;text-align:center;background:linear-gradient(180deg,#1a0a00,#000);min-height:100vh}
-.btn{display:block;width:85%;max-width:340px;margin:12px auto;padding:16px;background:linear-gradient(90deg,#ff6a00,#ff1e00);border-radius:14px;text-align:center;color:#fff;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-size:16px}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;align-items:center;justify-content:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial Black,Arial}
+body{background:#000;color:#fff;overflow:hidden}
+#splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 1.3s cubic-bezier(.8,0,.2,1)}
+#splash.hide{transform:translateY(-100%)}
+.s-bg{position:absolute;inset:0;background:url('splash.jpg') center/cover no-repeat;animation:zoom 14s ease-in-out infinite alternate, bright 2.8s ease-out forwards}
+@keyframes zoom{0%{transform:scale(1)}100%{transform:scale(1.2)}}
+@keyframes bright{0%{filter:brightness(.15) blur(30px) saturate(.2)}100%{filter:brightness(1.05) blur(0) saturate(1.2)}}
+.s-dark{position:absolute;inset:0;background:radial-gradient(circle at 50% 25%, transparent 5%, rgba(0,0,0,.4) 40%, #000 85%), linear-gradient(180deg, transparent 20%, #000 95%)}
+.s-glow{position:absolute;inset:0;background:radial-gradient(circle at 20% 80%, rgba(255,90,0,.55), transparent 45%), radial-gradient(circle at 80% 20%, rgba(0,255,120,.4), transparent 40%), radial-gradient(circle at 50% 50%, rgba(255,0,30,.2), transparent 70%);animation:pulse 2.5s infinite alternate}
+@keyframes pulse{from{opacity:.8}to{opacity:1;transform:scale(1.04)}}
+.s-logo{position:relative;z-index:3;width:410px;max-width:92vw;animation:logoIn 2s cubic-bezier(.16,1.6,.5,1) forwards, float 3.2s 2s infinite ease-in-out;filter:drop-shadow(0 0 25px #ff0000) drop-shadow(0 0 70px #ff6a00)}
+@keyframes logoIn{0%{transform:translateY(800px) scale(.05) rotate(-20deg);opacity:0;filter:blur(60px)}65%{transform:translateY(-18px) scale(1.1);opacity:1}100%{transform:translateY(0) scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.s-load{position:relative;z-index:3;margin-top:22px;width:280px;height:3px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.s-bar{height:100%;width:0;background:linear-gradient(90deg,#ff6a00,#ff1e00,#00ff88);box-shadow:0 0 18px #ff6a00;animation:load 3.4s .2s forwards}
+@keyframes load{0%{width:0}80%{width:92%}100%{width:100%}}
+.s-txt{position:relative;z-index:3;margin-top:16px;font-size:13px;letter-spacing:6px;font-weight:900;color:#fff;opacity:0;animation:txtIn 1s 1.4s forwards;text-shadow:0 0 20px #ff6a00}
+@keyframes txtIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:rgba(8,8,8,.9);border-bottom:1px solid #1a1a1a;backdrop-filter:blur(15px)}
+.h-left{font-size:15px;font-weight:900;letter-spacing:1px}.h-left span{color:#ff1e00;text-shadow:0 0 15px #ff1e00}
+.h-right{text-align:right;font-size:10px;font-weight:900;line-height:1.3}
+.h-right .creator{color:#00ff88;text-shadow:0 0 12px #00ff88}
+.h-right .director{color:#ff8c00;text-shadow:0 0 12px #ff6a00;margin-top:2px}
+.wrap{max-width:430px;margin:0 auto;padding:0 16px 50px}
+.card{background:linear-gradient(180deg,#1d1d1d,#0c0c0c);border:1px solid #2b2b2b;border-radius:22px;padding:26px 20px;margin-top:24px;box-shadow:0 30px 80px rgba(0,0,0,.95), 0 0 40px rgba(255,30,0,.18);animation:cardIn .9s ease}
+@keyframes cardIn{from{transform:translateY(30px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.welcome{font-size:21px;text-align:center;font-weight:900;text-transform:uppercase;line-height:1.25;background:linear-gradient(90deg,#fff,#ff9a00,#ff1e1a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.label{font-size:10px;color:#777;margin:20px 0 8px;letter-spacing:1.5px}
+.inp{width:100%;padding:16px;background:#080808;border:1px solid #2f2f2f;border-radius:13px;color:#fff;font-size:14px;outline:none;transition:.25s}
+.inp:focus{border-color:#ff6a00;box-shadow:0 0 20px rgba(255,106,0,.4)}
+.btn{width:100%;margin-top:24px;padding:17px;background:linear-gradient(90deg,#ff6a00,#ff1a1a);border:0;border-radius:14px;color:#fff;font-weight:900;letter-spacing:1px;cursor:pointer;box-shadow:0 0 35px rgba(255,26,26,.6);font-size:14px}
+.btn:active{transform:scale(.97)}
+.menu-title{text-align:center;margin:22px 0 5px;font-size:26px;font-weight:900}
+.menu-sub{text-align:center;color:#666;font-size:11px;letter-spacing:1.2px;margin-bottom:18px}
+.menu-btn{width:100%;padding:20px 18px;background:linear-gradient(180deg,#222,#141414);border:1px solid #2e2e2e;border-radius:16px;margin-top:14px;font-weight:900;font-size:15px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.25s}
+.menu-btn:hover{transform:translateY(-3px);border-color:#ff6a00;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.menu-btn:first-child{background:linear-gradient(180deg,#2e190f,#1a0f0a);border-color:#ff3c00;box-shadow:0 0 28px rgba(255,60,0,.25)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-bg.show{display:flex}
-.modal{width:90%;max-width:360px;background:#121212;border:1px solid #ff2a00;border-radius:18px;overflow:hidden;box-shadow:0 0 20px rgba(255,42,0,.3)}
-.modal-head{background:linear-gradient(90deg,#ff6a00,#ff1e00);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
-.modal-body{padding:16px}
-.modal input,.modal textarea{width:100%;background:#000;border:1px solid #333;color:#fff;border-radius:10px;padding:12px;margin:8px 0;box-sizing:border-box;font-family:inherit}
-.modal textarea{min-height:130px;resize:none}
-.close{cursor:pointer;font-size:22px}
-.apk-box{text-align:center;padding:30px 20px}
-.apk-box a{display:inline-block;margin-top:16px;padding:12px 20px;background:#fff;color:#000;border-radius:10px;text-decoration:none;font-weight:700}
-.small{font-size:12px;opacity:.5;text-align:center;margin-top:12px}
+.modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:20px;overflow:hidden;animation:pop .4s cubic-bezier(.2,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{background:linear-gradient(90deg,#ff6a00,#ff1a1a);padding:13px 18px;display:flex;justify-content:space-between;font-weight:900}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
-<div class="header">
-<h1 style="letter-spacing:1px">GROUND RUSSIA</h1>
-<button class="btn" onclick="openApk()">1. Скачать APK</button>
-<button class="btn" onclick="openModal('Вопрос')">2. Вопрос</button>
-<button class="btn" onclick="openModal('Жалоба')">3. Жалоба</button>
-<button class="btn" onclick="openModal('Предложение')">4. Предложение</button>
-<button class="btn" onclick="openModal('Сотрудничество')">5. Сотрудничество</button>
+
+<div id="splash">
+<div class="s-bg"></div><div class="s-dark"></div><div class="s-glow"></div>
+<img src="logo.png" class="s-logo" alt="Ground Russia">
+<div class="s-load"><div class="s-bar"></div></div>
+<div class="s-txt">GROUND RUSSIA</div>
 </div>
 
-<!-- Модалка для вопросов -->
-<div id="qBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
-<div class="modal">
-<div class="modal-head"><span id="modalTitle">Вопрос</span><span class="close" onclick="closeAll()">×</span></div>
-<div class="modal-body">
-<input id="mNick" placeholder="Ваш ник, например Samo_Monopoly">
-<textarea id="mText" placeholder="Здравствуйте, ваше имя ( Boz_Agarka )&#10;Имя виновника ( Agarki_Txa )&#10;Заскамил на деньги..."></textarea>
-<button class="btn" onclick="sendTG()" style="width:100%;margin:12px 0 0 0">ОТПРАВИТЬ</button>
-<div class="small">Отправится в t.me/groundrussia1<br>Текст скопируется автоматически</div>
+<header>
+<div class="h-left">GROUND <span>RUSSIA</span></div>
+<div class="h-right">
+<div class="creator">Создатель: Arsen_Samsonyan</div>
+<div class="director">Director: Samo_Monopoly</div>
 </div>
+</header>
+
+<div class="wrap">
+<div id="loginBox">
+<div class="card">
+<div class="welcome">Добро Пожаловать на форум<br>Ground Russia!</div>
+<div class="label">ПРИДУМАЙТЕ НИК — ФОРМАТ Nick_Name</div>
+<input id="nick" class="inp" placeholder="Samo_Monopoly">
+<div class="label">ПРИДУМАЙТЕ ПАРОЛЬ</div>
+<input id="pass" type="password" class="inp" placeholder="••••••••">
+<button class="btn" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button>
 </div>
 </div>
 
-<!-- Модалка APK -->
+<div id="menuBox" class="hidden">
+<div class="menu-title">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div>
+<div class="menu-sub">ВЫБЕРИ ДЕЙСТВИЕ</div>
+<div class="menu-btn" onclick="goApk()">📦 1. СКАЧАТЬ APK</div>
+<div class="menu-btn" onclick="goTG('Вопрос')">💬 2. ВОПРОС</div>
+<div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div>
+<div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div>
+</div>
+</div>
+
 <div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
 <div class="modal">
-<div class="modal-head"><span>Скачать APK</span><span class="close" onclick="closeAll()">×</span></div>
-<div class="apk-box">
-<div style="font-size:20px;font-weight:800">APK ещё не добавлен</div>
-<div style="margin-top:8px;opacity:.7;font-size:14px">Следи за новостями в канале</div>
-<a href="https://t.me/groundrussia1" target="_blank">Перейти в канал</a>
+<div class="modal-head"><span>СКАЧАТЬ APK</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
+<div style="padding:34px 22px;text-align:center">
+<div style="font-size:52px">📦</div>
+<div style="font-size:20px;font-weight:900;margin-top:12px">APK ещё не добавлен</div>
+<div style="font-size:12px;color:#777;margin-top:8px">Следи за новостями в канале</div>
+<a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:20px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В t.me/groundrussia1</a>
 </div>
 </div>
 </div>
+
+<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
+<div class="modal">
+<div class="modal-head"><span id="modalTitle">Вопрос</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div>
+<div style="padding:18px">
+<input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Ваш Nick_Name">
+<textarea id="mText" style="width:100%;min-height:130px;background:#080808;border:1px solid #2a2a2a;border-radius:13px;color:#fff;padding:14px;font-family:Arial" placeholder="Здравствуйте, ваше имя (Boz_Agarka)&#10;Имя виновника (Agarki_Txa)&#10;Заскамил на..."></textarea>
+<button class="btn" onclick="sendTG()">ОТПРАВИТЬ</button>
+</div>
+</div>
+</div>
+
+<audio id="bgMusic" loop preload="auto" playsinline><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
 
 <script>
 const TG_LINK = "https://t.me/groundrussia1";
+const audio=document.getElementById('bgMusic'), splash=document.getElementById('splash');
+setTimeout(()=>{splash.classList.add('hide');document.body.style.overflow='auto';playMusic();},3500);
+function playMusic(){audio.volume=0.75;audio.play().catch(()=>{document.addEventListener('click',()=>audio.play(),{once:true});});}
+let wasPlaying=false;
+document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlaying=!audio.paused;audio.pause();}else if(wasPlaying){audio.play();wasPlaying=false;}});
+window.addEventListener('pagehide',()=>audio.pause());
+window.addEventListener('blur',()=>{if(!audio.paused){wasPlaying=true;audio.pause();}});
+window.addEventListener('focus',()=>{if(wasPlaying){audio.play();wasPlaying=false;}});
 
-function openModal(type){
- document.getElementById('modalTitle').innerText = type;
- document.getElementById('qBg').classList.add('show');
+function register(){
+ const n=document.getElementById('nick').value.trim(), p=document.getElementById('pass').value.trim();
+ if(n.length<3){alert('Введи ник от 3 символов в формате Nick_Name');return;}
+ if(!n.includes('_')){if(!confirm('Рекомендуем формат Nick_Name с _. Продолжить?'))return;}
+ if(p.length<4){alert('Пароль минимум 4 символа');return;}
+ localStorage.setItem('gr_nick',n);
+ document.getElementById('uName').textContent=n;
+ document.getElementById('mNick').value=n;
+ document.getElementById('loginBox').classList.add('hidden');
+ document.getElementById('menuBox').classList.remove('hidden');
+ playMusic();
 }
-function openApk(){
- document.getElementById('apkBg').classList.add('show');
-}
-function closeAll(){
- document.getElementById('qBg').classList.remove('show');
- document.getElementById('apkBg').classList.remove('show');
-}
-
+function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
+function goApk(){document.getElementById('apkBg').classList.add('show');}
+function goTG(t){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBg').classList.add('show');}
 async function sendTG(){
- const txt = document.getElementById('mText').value.trim();
- const nick = document.getElementById('mNick').value.trim() || 'Player';
- const type = document.getElementById('modalTitle').innerText;
- if(!txt){ alert('Введите текст'); return; }
- const fullText = `[${type}] от ${nick}: ${txt}`;
-
- try {
-   await navigator.clipboard.writeText(fullText);
- } catch(e) {
-   const ta = document.createElement('textarea');
-   ta.value = fullText;
-   document.body.appendChild(ta);
-   ta.select();
-   document.execCommand('copy');
-   document.body.removeChild(ta);
- }
- alert('Текст скопирован! Сейчас откроется канал - просто вставь его в поле Публикация');
+ const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}
+ const nick=document.getElementById('mNick').value.trim()||'Игрок', type=document.getElementById('modalTitle').textContent;
+ const fullText=`[${type}] от ${nick}: ${txt}`;
+ try{await navigator.clipboard.writeText(fullText);}catch(e){}
  window.open(TG_LINK, '_blank');
  closeAll();
 }
