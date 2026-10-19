@@ -44,43 +44,24 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;display:flex
 <div id="loginBox"><div class="card"><div class="welcome">Добро Пожаловать на форум<br>Ground Russia!</div><div class="label">ПРИДУМАЙТЕ НИК — ФОРМАТ Nick_Name</div><input id="nick" class="inp" placeholder="Nick_Name"><div class="label">ПРИДУМАЙТЕ ПАРОЛЬ</div><input id="pass" type="password" class="inp" placeholder="••••••••"><button class="btn" style="margin-top:24px" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></div>
 <div id="menuBox" class="hidden"><div style="text-align:center;margin:22px 0 5px;font-size:26px;font-weight:900">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div><div class="menu-btn" onclick="goApk()">📦 1. СКАЧАТЬ APK</div><div class="menu-btn" onclick="goTG('Вопрос')">💬 2. ВОПРОС</div><div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div><div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div></div>
 </div>
-
-<!-- КОРОБОЧКА APK -->
-<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
-<div class="modal"><div class="modal-head"><span>APK</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">📦</div><div style="font-size:24px;font-weight:900;margin-top:12px">APK ещё не готово</div><div style="font-size:13px;color:#888;margin-top:10px">Скоро будет доступно</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div>
-</div>
-
-<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()">
-<div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><div class="tg-info"><button class="btn" style="margin-top:0;flex:1" onclick="sendTG()">ОТПРАВИТЬ</button><div class="tg-name">Наш ТГ:<br>t.me/groundrussia1</div></div></div></div>
-</div>
-
+<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span>APK</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">📦</div><div style="font-size:24px;font-weight:900;margin-top:12px">APK ещё не готово</div><div style="font-size:13px;color:#888;margin-top:10px">Скоро будет доступно</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div></div>
+<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><div class="tg-info"><button class="btn" style="margin-top:0;flex:1" onclick="sendTG()">ОТПРАВИТЬ</button><div class="tg-name">Наш ТГ:<br>t.me/groundrussia1</div></div></div></div></div>
 <audio id="bgMusic" loop preload="auto"><source src="oyrobinya.mp3" type="audio/mpeg"></audio>
-
 <script>
 const TG_LINK="https://t.me/groundrussia1";
 const audio=document.getElementById('bgMusic');
 const splash=document.getElementById('splash');
-
-function playMusic(){ audio.volume=0.8; audio.play().catch(()=>{}); }
-function pauseMusic(){ audio.pause(); }
-
+function playMusic(){audio.volume=0.8;audio.play().catch(()=>{});}
+function pauseMusic(){audio.pause();}
 setTimeout(()=>{splash.classList.add('hide');document.body.style.overflow='auto';playMusic();},3500);
-
-// Запуск при первом касании (обходит блокировку браузера)
-document.addEventListener('click', playMusic, {once:true});
-document.addEventListener('touchstart', playMusic, {once:true});
-
-// КОГДА СВЕРНУЛ - МУЗЫКА СТОП, ЗАШЕЛ - ИГРАЕТ
-document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){ pauseMusic(); }
-  else{ playMusic(); }
-});
-
+document.addEventListener('click',playMusic,{once:true});
+document.addEventListener('touchstart',playMusic,{once:true});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseMusic();}else{playMusic();}});
 function register(){playMusic();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
 function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
 function goApk(){playMusic();document.getElementById('apkBg').classList.add('show');}
-function goTG(t){playMusic();document.getElementById('modalTitle').textContent=t;let ph=""; if(t==="Вопрос") ph="Задайте вопрос..."; if(t==="Жалоба") ph="Введите сообщение, докажите и представьте доказательства и материалы..."; if(t==="Запрос на обновление") ph="Что вы хотите чтобы мы добавили..."; document.getElementById('mText').placeholder=ph; document.getElementById('mText').value=""; document.getElementById('modalBg').classList.add('show');}
+function goTG(t){playMusic();document.getElementById('modalTitle').textContent=t;let ph="";if(t==="Вопрос")ph="Задайте вопрос...";if(t==="Жалоба")ph="Введите сообщение, представьте доказательства и материалы";if(t==="Запрос на обновление")ph="Что вы хотите чтобы мы добавили...";document.getElementById('mText').placeholder=ph;document.getElementById('mText').value="";document.getElementById('modalBg').classList.add('show');}
 async function sendTG(){const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full);}catch(e){}window.open(TG_LINK,'_blank');closeAll();}
 </script>
 </body>
-  </html>
+</html>
