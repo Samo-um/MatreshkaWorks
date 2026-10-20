@@ -3,32 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA</title>
+<title>GROUND RUSSIA - HALLOWEEN</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial Black,Arial}
 body{background:#000;color:#fff;overflow:hidden}
-#splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 1.2s ease;overflow:hidden}
-#splash.hide{transform:translateY(-100%)}
-#halloweenVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
-.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 30%, #000 90%);z-index:2}
-.s-logo{position:relative;z-index:5;width:340px;max-width:85vw;filter:drop-shadow(0 0 15px #ff6a00)}
-.god-text{position:absolute;z-index:10;bottom:32px;left:0;right:0;text-align:center;font-size:14px;letter-spacing:3px;font-weight:900;color:#fff;text-shadow:0 0 15px #ff6a00, 0 0 25px #000}
-.s-load{position:relative;z-index:10;margin-top:28px;width:300px;height:3px;background:rgba(255,255,255,.15);border-radius:20px;overflow:hidden}
-.s-bar{height:100%;width:0;background:linear-gradient(90deg,#ff6a00,#ff1a1a);animation:loadTop 4s forwards}
+#splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#halloweenVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:1}
+.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 85%);z-index:2}
+.web-corner{position:absolute;z-index:6;font-size:42px;opacity:0.8;filter:drop-shadow(0 0 8px #fff)}
+.web-tl{top:5px;left:5px;transform:rotate(-15deg)} .web-tr{top:5px;right:5px;transform:rotate(15deg) scaleX(-1)}
+.spider{position:absolute;z-index:7;font-size:26px;animation:swing 2.5s ease-in-out infinite alternate}
+.spider1{top:0;left:22%;animation-delay:0s} .spider2{top:0;right:22%;animation-delay:1s}
+@keyframes swing{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(12px) rotate(5deg)}}
+#logoStage{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;opacity:0;transform:scale(0.8);transition:all 0.8s ease}
+#logoStage.show{opacity:1;transform:scale(1)}
+.s-logo{width:340px;max-width:85vw;filter:drop-shadow(0 0 15px #ff6a00) drop-shadow(0 0 40px #ff1a1a);border:2px solid rgba(255,106,0,0.4);box-shadow:0 0 30px #ff6a00, inset 0 0 20px rgba(255,106,0,0.2)}
+.pumpkin-top{font-size:34px;margin-bottom:8px;filter:drop-shadow(0 0 10px #ff6a00);animation:float 2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.s-load{position:relative;z-index:10;margin-top:18px;width:300px;height:3px;background:rgba(255,255,255,.15);border-radius:20px;overflow:hidden;opacity:0;transition:opacity 0.5s}
+.s-load.show{opacity:1}
+.s-bar{height:100%;width:0;background:linear-gradient(90deg,#ff6a00,#ff1a1a,#ff9a00)} .s-bar.anim{animation:loadTop 3s forwards}
 @keyframes loadTop{to{width:100%}}
-header{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 15px;background:rgba(8,8,8,.98);border-bottom:1px solid #1f1f1f}
-.h-left{font-size:15px;font-weight:900}.h-left span{color:#ff1e00}
-.h-right{text-align:right;font-size:10px;font-weight:900;line-height:1.25}.h-right .creator{color:#00ff88}.h-right .director{color:#ff8c00;margin-top:2px}
+.god-text{position:absolute;z-index:10;bottom:32px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:3px;font-weight:900;color:#fff;text-shadow:0 0 15px #000, 0 0 5px #000;opacity:0;transition:opacity 0.5s}
+.god-text.show{opacity:1}
+
+/* ШАПКА АТМОСФЕРНАЯ */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex;justify-content:space-between;align-items:center;padding:0 12px;background:rgba(8,8,8,.96);border-bottom:1px solid #2a1a0a;box-shadow:0 0 15px rgba(255,106,0,0.2)}
+.header-web{position:absolute;top:-6px;left:50%;transform:translateX(-50%);font-size:18px;opacity:0.6;letter-spacing:8px}
+.h-left{font-size:15px;font-weight:900;position:relative} .h-left span{color:#ff1e00;text-shadow:0 0 10px #ff1a1a}
+.h-left::before{content:'🎃';position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:14px;filter:drop-shadow(0 0 5px #ff6a00)}
+.h-right{text-align:right;font-size:10px;font-weight:900;line-height:1.3;position:relative}
+.h-right .creator{color:#00ff88} .h-right .director{color:#ff8c00;margin-top:2px}
+.h-right::before{content:'🕸️ 🕷️';position:absolute;top:-14px;right:0;font-size:11px;opacity:0.8}
+
 .wrap{max-width:430px;margin:0 auto;padding:76px 16px 60px}
-.card{background:linear-gradient(180deg,#212121,#0f0f0f);border:1px solid #2e2e2e;border-radius:24px;padding:28px 20px;margin-top:20px}
+.card{background:linear-gradient(180deg,#212121,#0f0f0f);border:1px solid #2e2e2e;border-radius:24px;padding:28px 20px;margin-top:20px;position:relative;overflow:hidden}
+.card::before{content:'🕸️';position:absolute;top:6px;right:8px;font-size:20px;opacity:0.3}
 .welcome{font-size:21px;text-align:center;font-weight:900;text-transform:uppercase;background:linear-gradient(90deg,#fff 20%,#ff9a00,#ff1a1a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .label{font-size:10px;color:#666;margin:20px 0 8px;letter-spacing:1.8px}
 .inp{width:100%;padding:16px;background:#080808;border:1px solid #2f2f2f;border-radius:13px;color:#fff;font-size:14px;outline:none}
-.btn{width:100%;margin-top:14px;padding:17px;background:linear-gradient(90deg,#ff6a00,#ff1a1a);border:0;border-radius:14px;color:#fff;font-weight:900;cursor:pointer}
-.menu-btn{width:100%;padding:20px 18px;background:linear-gradient(180deg,#252525,#161616);border:1px solid #2e2e2e;border-radius:16px;margin-top:14px;font-weight:900;font-size:15px;display:flex;gap:14px;cursor:pointer}
+.btn{width:100%;margin-top:14px;padding:17px;background:linear-gradient(90deg,#ff6a00,#ff1a1a);border:0;border-radius:14px;color:#fff;font-weight:900;cursor:pointer;position:relative}
+.btn::after{content:'🎃';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:16px}
+.menu-btn{width:100%;padding:20px 18px;background:linear-gradient(180deg,#252525,#161616);border:1px solid #2e2e2e;border-radius:16px;margin-top:14px;font-weight:900;font-size:15px;display:flex;gap:14px;cursor:pointer;position:relative}
+.menu-btn::after{content:'🕸️';position:absolute;right:10px;top:6px;font-size:12px;opacity:0.2}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(16px);z-index:1100;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-bg.show{display:flex}
-.modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:20px;overflow:hidden}
+.modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:20px;overflow:hidden;position:relative}
+.modal::before{content:'🕷️ 🎃 🕸️';position:absolute;top:38px;left:50%;transform:translateX(-50%);font-size:14px;opacity:0.4;z-index:2}
 .modal-head{background:linear-gradient(90deg,#ff6a00,#ff1a1a);padding:13px 18px;display:flex;justify-content:space-between;font-weight:900}
 .t-area{width:100%;min-height:150px;background:#000;border:2px solid #fff;border-radius:18px;color:#fff;padding:16px;font-family:Arial;font-size:14px;outline:none;resize:none}
 .tg-info{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
@@ -39,57 +60,45 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;display:flex
 <body>
 
 <div id="splash">
-  <video id="halloweenVideo" autoplay muted loop playsinline>
-    <source src="halloween.mp4" type="video/mp4">
-  </video>
+  <video id="halloweenVideo" autoplay loop playsinline preload="auto"><source src="halloween.mp4" type="video/mp4"></video>
   <div class="s-dark"></div>
-  <img src="logo.png" class="s-logo">
-  <div class="s-load"><div class="s-bar"></div></div>
-  <div class="god-text">God is always with you</div>
+  <div class="web-corner web-tl">🕸️</div><div class="web-corner web-tr">🕸️</div>
+  <div class="spider spider1">🕷️</div><div class="spider spider2">🕷️</div>
+  <div id="logoStage"><div class="pumpkin-top">🎃</div><img src="logo.png" class="s-logo"><div id="loadBar" class="s-load"><div id="bar" class="s-bar"></div></div></div>
+  <div id="godText" class="god-text">🕸️ God is always with you 🎃</div>
 </div>
 
-<header><div class="h-left">GROUND <span>RUSSIA</span></div><div class="h-right"><div class="creator">Создатель: Arsen_Samsonyan</div><div class="director">Director: Samo_Monopoly</div></div></header>
+<header>
+  <div class="header-web">🕸️ 🕷️ 🕸️</div>
+  <div class="h-left">GROUND <span>RUSSIA</span></div>
+  <div class="h-right"><div class="creator">🎃 Создатель: Arsen_Samsonyan</div><div class="director">🕸️ Director: Samo_Monopoly</div></div>
+</header>
 
 <div class="wrap">
-<div id="loginBox"><div class="card"><div class="welcome">Добро Пожаловать на форум<br>Ground Russia!</div><div class="label">ПРИДУМАЙТЕ НИК — ФОРМАТ Nick_Name</div><input id="nick" class="inp" placeholder="Nick_Name"><div class="label">ПРИДУМАЙТЕ ПАРОЛЬ</div><input id="pass" type="password" class="inp" placeholder="••••••••"><button class="btn" style="margin-top:24px" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></div>
-<div id="menuBox" class="hidden"><div style="text-align:center;margin:22px 0 5px;font-size:26px;font-weight:900">Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>!</div><div class="menu-btn" onclick="goApk()">📦 1. СКАЧАТЬ APK</div><div class="menu-btn" onclick="goTG('Вопрос')">💬 2. ВОПРОС</div><div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div><div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div></div>
+<div id="loginBox"><div class="card"><div class="welcome">🎃 Добро Пожаловать на форум<br>Ground Russia! 🕸️</div><div class="label">ПРИДУМАЙТЕ НИК — ФОРМАТ Nick_Name</div><input id="nick" class="inp" placeholder="Nick_Name"><div class="label">ПРИДУМАЙТЕ ПАРОЛЬ</div><input id="pass" type="password" class="inp" placeholder="••••••••"><button class="btn" style="margin-top:24px" onclick="register()">ЗАРЕГИСТРИРОВАТЬСЯ</button></div></div>
+<div id="menuBox" class="hidden"><div style="text-align:center;margin:22px 0 5px;font-size:26px;font-weight:900">🕷️ Привет, <b id="uName" style="color:#ff1a1a">Игрок</b>! 🎃</div><div class="menu-btn" onclick="goApk()">🎃 1. СКАЧАТЬ APK</div><div class="menu-btn" onclick="goTG('Вопрос')">🕸️ 2. ВОПРОС</div><div class="menu-btn" onclick="goTG('Жалоба')">🚨 3. ЖАЛОБА</div><div class="menu-btn" onclick="goTG('Запрос на обновление')">🚀 4. ЗАПРОС НА ОБНОВЛЕНИЕ</div></div>
 </div>
 
-<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span>АПК</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">📦</div><div style="font-size:24px;font-weight:900;margin-top:12px">АПК ещё не готово</div><div style="font-size:13px;color:#888;margin-top:10px">Скоро будет доступно</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div></div>
+<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span>🎃 АПК</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">🎃</div><div style="font-size:24px;font-weight:900;margin-top:12px">АПК ещё не готово</div><div style="font-size:13px;color:#888;margin-top:10px">🕸️ Скоро будет доступно 🕷️</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div></div>
 <div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><div class="tg-info"><button class="btn" style="margin-top:0;flex:1" onclick="sendTG()">ОТПРАВИТЬ</button><div class="tg-name">Наш ТГ:<br>t.me/groundrussia1</div></div></div></div></div>
 
 <script>
 const TG_LINK="https://t.me/groundrussia1";
 const video=document.getElementById('halloweenVideo');
-const splash=document.getElementById('splash');
-let hasSound=false;
-
-function playWithSound(){
-  video.muted=false;
-  video.volume=0.75; // ГРОМКОСТЬ 75% - громко как ты просил 27+
-  hasSound=true;
-  video.play().catch(()=>{});
-}
-
-setTimeout(()=>{
-  splash.classList.add('hide');
-  document.body.style.overflow='auto';
-},5500);
-
-// Клик в любое место = включает громкий звук
-document.addEventListener('click', ()=>{ if(!hasSound) playWithSound(); });
-document.addEventListener('touchstart', ()=>{ if(!hasSound) playWithSound(); });
-
-// Свернул - звук пропал, развернул - появился
-document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden) video.pause();
-  else video.play().catch(()=>{});
-});
-
-function register(){playWithSound();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
+const logoStage=document.getElementById('logoStage');
+const godText=document.getElementById('godText');
+const loadBar=document.getElementById('loadBar');
+const bar=document.getElementById('bar');
+function startSound(){video.volume=0.3;video.muted=false;video.loop=true;video.play().catch(()=>{video.muted=true;video.play();});}
+window.addEventListener('load', startSound); startSound();
+function unlockSound(){video.muted=false;video.volume=0.3;video.play(); document.removeEventListener('click', unlockSound); document.removeEventListener('touchstart', unlockSound);}
+document.addEventListener('click', unlockSound); document.addEventListener('touchstart', unlockSound);
+setTimeout(()=>{logoStage.classList.add('show');loadBar.classList.add('show');godText.classList.add('show');bar.classList.add('anim');},6000);
+setTimeout(()=>{document.getElementById('splash').style.transform="translateY(-100%)";document.getElementById('splash').style.transition="transform 1.2s ease";document.body.style.overflow='auto';},9500);
+function register(){const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
 function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
-function goApk(){playWithSound();document.getElementById('apkBg').classList.add('show');}
-function goTG(t){playWithSound();document.getElementById('modalTitle').textContent=t;let ph="";if(t==="Вопрос")ph="Задайте вопрос...";if(t==="Жалоба")ph="Введите сообщение, представьте доказательства и материалы";if(t==="Запрос на обновление")ph="Что вы хотите чтобы мы добавили...";document.getElementById('mText').placeholder=ph;document.getElementById('mText').value="";document.getElementById('modalBg').classList.add('show');}
+function goApk(){document.getElementById('apkBg').classList.add('show');}
+function goTG(t){document.getElementById('modalTitle').textContent=t;let ph="";if(t==="Вопрос")ph="Задайте вопрос...";if(t==="Жалоба")ph="Введите сообщение, представьте доказательства и материалы";if(t==="Запрос на обновление")ph="Что вы хотите чтобы мы добавили...";document.getElementById('mText').placeholder=ph;document.getElementById('mText').value="";document.getElementById('modalBg').classList.add('show');}
 async function sendTG(){const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full);}catch(e){}window.open(TG_LINK,'_blank');closeAll();}
 </script>
 </body>
