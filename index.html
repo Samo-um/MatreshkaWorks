@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA - HALLOWEEN</title>
+<title>GROUND RUSSIA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial Black,Arial}
 body{background:#000;color:#fff;overflow:hidden}
 #splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 #halloweenVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:1}
-.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 85%);z-index:2}
+.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.6) 85%);z-index:2}
 .web-corner{position:absolute;z-index:6;font-size:32px;opacity:0.7} .web-tl{top:8px;left:8px} .web-tr{top:8px;right:8px;transform:scaleX(-1)}
 .spider{position:absolute;z-index:7;font-size:22px;animation:swing 2.5s ease-in-out infinite alternate} .spider1{top:0;left:20%} .spider2{top:0;right:20%;animation-delay:1s}
 @keyframes swing{0%{transform:translateY(0)}100%{transform:translateY(10px)}}
@@ -27,7 +27,6 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 .h-right .creator{color:#00ff88} .h-right .director{color:#ff8c00;margin-top:2px}
 .wrap{max-width:430px;margin:0 auto;padding:76px 16px 60px}
 .card{background:linear-gradient(180deg,#212121,#0f0f0f);border:1px solid #2e2e2e;border-radius:24px;padding:28px 20px;margin-top:20px;position:relative}
-.card::before{content:'🕸️';position:absolute;top:6px;right:8px;font-size:18px;opacity:0.3}
 .welcome{font-size:21px;text-align:center;font-weight:900;text-transform:uppercase;background:linear-gradient(90deg,#fff 20%,#ff9a00,#ff1a1a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .label{font-size:10px;color:#666;margin:20px 0 8px;letter-spacing:1.8px}
 .inp{width:100%;padding:16px;background:#080808;border:1px solid #2f2f2f;border-radius:13px;color:#fff;font-size:14px;outline:none}
@@ -38,8 +37,6 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 .modal{width:100%;max-width:400px;background:#151515;border:1px solid #ff1a1a;border-radius:20px;overflow:hidden}
 .modal-head{background:linear-gradient(90deg,#ff6a00,#ff1a1a);padding:13px 18px;display:flex;justify-content:space-between;font-weight:900}
 .t-area{width:100%;min-height:150px;background:#000;border:2px solid #fff;border-radius:18px;color:#fff;padding:16px;font-family:Arial;font-size:14px;outline:none;resize:none}
-.tg-info{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
-.tg-name{font-size:10px;color:#00ff88;font-weight:900;white-space:nowrap}
 .hidden{display:none!important}
 </style>
 </head>
@@ -69,42 +66,42 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 </div>
 </div>
 
-<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span>🎃 АПК</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">📦</div><div style="font-size:24px;font-weight:900;margin-top:12px">АПК ещё не готово</div><div style="font-size:13px;color:#888;margin-top:10px">🕸️ Скоро будет 🕷️</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div></div>
-<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><div class="tg-info"><button class="btn" style="margin-top:0;flex:1" onclick="sendTG()">ОТПРАВИТЬ</button><div class="tg-name">Наш ТГ:<br>t.me/groundrussia1</div></div></div></div></div>
+<div id="apkBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span>🎃 АПК</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:40px 22px;text-align:center"><div style="font-size:60px">📦</div><div style="font-size:24px;font-weight:900;margin-top:12px">АПК ещё не готово</div><a href="https://t.me/groundrussia1" target="_blank" style="display:block;margin-top:22px;padding:14px;background:#fff;color:#000;border-radius:12px;text-decoration:none;font-weight:900;text-align:center">ПЕРЕЙТИ В ТГ</a></div></div></div>
+<div id="modalBg" class="modal-bg" onclick="if(event.target==this)closeAll()"><div class="modal"><div class="modal-head"><span id="modalTitle">Жалоба</span><span onclick="closeAll()" style="cursor:pointer">✕</span></div><div style="padding:18px"><input id="mNick" class="inp" style="margin-bottom:14px" placeholder="Nick_Name"><textarea id="mText" class="t-area"></textarea><button class="btn" onclick="sendTG()">ОТПРАВИТЬ</button></div></div></div>
 
 <script>
 const TG_LINK="https://t.me/groundrussia1";
 const video=document.getElementById('halloweenVideo');
-let soundEnabled=false;
 
-function enableSound(){
+function startSound(){
+  video.volume=0.3; // 30% сильно
   video.muted=false;
-  video.volume=0.3;
   video.loop=true;
-  video.play().catch(()=>{});
-  soundEnabled=true;
-}
-
-function tryAutoSound(){
-  video.muted=false;
-  video.volume=0.3;
-  video.play().then(()=>{soundEnabled=true;}).catch(()=>{
-    video.muted=true;
-    video.play();
+  video.currentTime=0;
+  video.play().catch(()=>{
+    video.muted=false;
+    video.volume=0.3;
+    video.play().catch(()=>{});
   });
 }
 
-window.addEventListener('load', tryAutoSound);
-tryAutoSound();
+// Запуск сразу как зашел
+window.addEventListener('load', startSound);
+startSound();
 
-// Клик в любое место включает звук, без кнопки
-document.addEventListener('click', ()=>{ if(!soundEnabled) enableSound(); });
-document.addEventListener('touchstart', ()=>{ if(!soundEnabled) enableSound(); });
+// При любом нажатии - включаем звук навсегда
+document.addEventListener('click', startSound);
+document.addEventListener('touchstart', startSound);
+
+// Бесконечный звук пока не выйдешь
+video.addEventListener('ended', ()=>{ video.currentTime=0; video.volume=0.3; video.play(); });
 
 document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){video.pause();}
-  else{
-    if(soundEnabled){video.muted=false;video.volume=0.3;}
+  if(document.hidden){
+    video.pause();
+  }else{
+    video.muted=false;
+    video.volume=0.3;
     video.play().catch(()=>{});
   }
 });
@@ -113,10 +110,10 @@ const logoStage=document.getElementById('logoStage');const godText=document.getE
 setTimeout(()=>{logoStage.classList.add('show');loadBar.classList.add('show');godText.classList.add('show');bar.classList.add('anim');},6000);
 setTimeout(()=>{document.getElementById('splash').style.transform="translateY(-100%)";document.getElementById('splash').style.transition="transform 1.2s ease";document.body.style.overflow='auto';},9500);
 
-function register(){if(!soundEnabled) enableSound();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
+function register(){startSound();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
 function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
-function goApk(){if(!soundEnabled) enableSound();document.getElementById('apkBg').classList.add('show');}
-function goTG(t){if(!soundEnabled) enableSound();document.getElementById('modalTitle').textContent=t;let ph="";if(t==="Вопрос")ph="Задайте вопрос...";if(t==="Жалоба")ph="Введите сообщение, представьте доказательства и материалы";if(t==="Запрос на обновление")ph="Что вы хотите чтобы мы добавили...";document.getElementById('mText').placeholder=ph;document.getElementById('mText').value="";document.getElementById('modalBg').classList.add('show');}
+function goApk(){startSound();document.getElementById('apkBg').classList.add('show');}
+function goTG(t){startSound();document.getElementById('modalTitle').textContent=t;document.getElementById('modalBg').classList.add('show');}
 async function sendTG(){const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full);}catch(e){}window.open(TG_LINK,'_blank');closeAll();}
 </script>
 </body>
