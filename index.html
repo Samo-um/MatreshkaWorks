@@ -87,7 +87,6 @@ function playVideoWithSound(){
     video.play().catch(()=>{});
   });
 }
-
 function unlock(){
   if(soundUnlocked){
     if(video.paused){ video.play().catch(()=>{}); }
@@ -98,20 +97,13 @@ function unlock(){
   video.loop=true;
   video.play().then(()=>{ soundUnlocked=true; }).catch(()=>{});
 }
-
 window.addEventListener('load', playVideoWithSound);
 playVideoWithSound();
 document.addEventListener('click', unlock, {once:true});
 document.addEventListener('touchstart', unlock, {once:true, passive:true});
-
 document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){
-    video.pause();
-  }else{
-    video.muted=false;
-    video.volume=0.34;
-    video.play().catch(()=>{});
-  }
+  if(document.hidden){ video.pause(); }
+  else{ video.muted=false; video.volume=0.34; video.play().catch(()=>{}); }
 });
 
 const logoStage=document.getElementById('logoStage');const godText=document.getElementById('godText');const loadBar=document.getElementById('loadBar');const bar=document.getElementById('bar');
@@ -128,7 +120,7 @@ function goTG(t){
   document.getElementById('modalTitle').textContent=t;
   const area=document.getElementById('mText');
   if(t==='Вопрос'){ area.placeholder='Задайте вопрос'; }
-  else if(t==='Жалоба'){ area.placeholder='Опишите жалобу...'; }
+  else if(t==='Жалоба'){ area.placeholder='Опишите жалобу и представьте доказательства'; }
   else if(t==='Запрос на обновление'){ area.placeholder='Напишите что вы хотите чтобы мы добавили'; }
   document.getElementById('modalBg').classList.add('show');
 }
