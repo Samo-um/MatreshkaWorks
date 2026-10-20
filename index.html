@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GROUND RUSSIA</title>
+<title>GROUND RUSSIA - HALLOWEEN</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial Black,Arial}
 body{background:#000;color:#fff;overflow:hidden}
 #splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 #halloweenVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:1}
-.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.6) 85%);z-index:2}
+.s-dark{position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 85%);z-index:2;pointer-events:none}
 .web-corner{position:absolute;z-index:6;font-size:32px;opacity:0.7} .web-tl{top:8px;left:8px} .web-tr{top:8px;right:8px;transform:scaleX(-1)}
 .spider{position:absolute;z-index:7;font-size:22px;animation:swing 2.5s ease-in-out infinite alternate} .spider1{top:0;left:20%} .spider2{top:0;right:20%;animation-delay:1s}
 @keyframes swing{0%{transform:translateY(0)}100%{transform:translateY(10px)}}
@@ -43,8 +43,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 <body>
 
 <div id="splash">
-  <video id="halloweenVideo" autoplay loop playsinline preload="auto">
-    <source src="halloween.mp4" type="video/mp4">
+  <video id="halloweenVideo" loop playsinline preload="auto" muted>
+    <source src="halloween.mp4?v=2" type="video/mp4">
   </video>
   <div class="s-dark"></div>
   <div class="web-corner web-tl">🕸️</div><div class="web-corner web-tr">🕸️</div>
@@ -72,48 +72,64 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 <script>
 const TG_LINK="https://t.me/groundrussia1";
 const video=document.getElementById('halloweenVideo');
+let audioUnlocked=false;
 
-function startSound(){
-  video.volume=0.3; // 30% сильно
-  video.muted=false;
+// Фикс чтобы не зависало: ждем пока видео загрузится
+function initVideo(){
+  video.volume=0.34; // 34% как ты просил
+  video.currentTime=0; // с самого начала
   video.loop=true;
-  video.currentTime=0;
-  video.play().catch(()=>{
+  // Пробуем запустить без звука сначала чтобы видео пошло
+  video.muted=true;
+  video.play().catch(()=>{});
+  
+  // Через 100мс включаем звук
+  setTimeout(()=>{
     video.muted=false;
-    video.volume=0.3;
-    video.play().catch(()=>{});
-  });
+    video.volume=0.34;
+    video.play().then(()=>{audioUnlocked=true;}).catch(()=>{
+      // Если браузер блокирует - включим на клик
+    });
+  },100);
 }
 
-// Запуск сразу как зашел
-window.addEventListener('load', startSound);
-startSound();
+// Любой клик - включает звук с начала и навсегда
+function unlockSound(){
+  video.muted=false;
+  video.volume=0.34;
+  video.currentTime=0;
+  video.loop=true;
+  video.play().then(()=>{audioUnlocked=true;}).catch(()=>{});
+  document.removeEventListener('click', unlockSound);
+  document.removeEventListener('touchstart', unlockSound);
+}
 
-// При любом нажатии - включаем звук навсегда
-document.addEventListener('click', startSound);
-document.addEventListener('touchstart', startSound);
+window.addEventListener('load', initVideo);
+initVideo();
 
-// Бесконечный звук пока не выйдешь
-video.addEventListener('ended', ()=>{ video.currentTime=0; video.volume=0.3; video.play(); });
+document.addEventListener('click', unlockSound);
+document.addEventListener('touchstart', unlockSound, {passive:true});
 
+// Свернул - пауза, развернул - играет дальше
 document.addEventListener('visibilitychange', ()=>{
   if(document.hidden){
     video.pause();
   }else{
     video.muted=false;
-    video.volume=0.3;
+    video.volume=0.34;
     video.play().catch(()=>{});
   }
 });
 
+// Анимация лого
 const logoStage=document.getElementById('logoStage');const godText=document.getElementById('godText');const loadBar=document.getElementById('loadBar');const bar=document.getElementById('bar');
 setTimeout(()=>{logoStage.classList.add('show');loadBar.classList.add('show');godText.classList.add('show');bar.classList.add('anim');},6000);
 setTimeout(()=>{document.getElementById('splash').style.transform="translateY(-100%)";document.getElementById('splash').style.transition="transform 1.2s ease";document.body.style.overflow='auto';},9500);
 
-function register(){startSound();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
+function register(){unlockSound();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');}
 function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
-function goApk(){startSound();document.getElementById('apkBg').classList.add('show');}
-function goTG(t){startSound();document.getElementById('modalTitle').textContent=t;document.getElementById('modalBg').classList.add('show');}
+function goApk(){unlockSound();document.getElementById('apkBg').classList.add('show');}
+function goTG(t){unlockSound();document.getElementById('modalTitle').textContent=t;document.getElementById('modalBg').classList.add('show');}
 async function sendTG(){const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return;}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full);}catch(e){}window.open(TG_LINK,'_blank');closeAll();}
 </script>
 </body>
