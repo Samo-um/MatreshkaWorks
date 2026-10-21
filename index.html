@@ -16,7 +16,10 @@ body{background:#000;color:#fff;overflow:hidden}
 #logoStage{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;opacity:0;transform:scale(0.8);transition:all 0.8s ease}
 #logoStage.show{opacity:1;transform:scale(1)}
 .s-logo{width:340px;max-width:85vw;filter:drop-shadow(0 0 15px #ff6a00) drop-shadow(0 0 40px #ff1a1a);border:2px solid rgba(255,106,0,0.4)}
-.s-load{position:relative;z-index:10;margin-top:18px;width:300px;height:3px;background:rgba(255,255,255,.15);border-radius:20px;overflow:hidden;opacity:0}
+.verified-badge{margin-top:14px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.65);border:1px solid rgba(29,155,240,0.5);padding:7px 16px;border-radius:20px;backdrop-filter:blur(6px)}
+.verified-badge .name{font-size:13px;font-weight:900;letter-spacing:0.5px;color:#fff}
+.verified-badge .check{width:18px;height:18px;background:#1d9bf0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:900;box-shadow:0 0 12px rgba(29,155,240,0.7)}
+.s-load{position:relative;z-index:10;margin-top:16px;width:300px;height:3px;background:rgba(255,255,255,.15);border-radius:20px;overflow:hidden;opacity:0}
 .s-load.show{opacity:1} .s-bar{height:100%;width:0;background:linear-gradient(90deg,#ff6a00,#ff1a1a,#ff9a00)} .s-bar.anim{animation:loadTop 3s forwards}
 @keyframes loadTop{to{width:100%}}
 .god-text{position:absolute;z-index:10;bottom:32px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:3px;font-weight:900;color:#fff;text-shadow:0 0 15px #000;opacity:0}
@@ -52,7 +55,12 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
   <div class="s-dark"></div>
   <div class="web-corner web-tl">🕸️</div><div class="web-corner web-tr">🕸️</div>
   <div class="spider spider1">🕷️</div><div class="spider spider2">🕷️</div>
-  <div id="logoStage"><div style="font-size:32px;margin-bottom:8px">🎃</div><img src="logo.png" class="s-logo"><div id="loadBar" class="s-load"><div id="bar" class="s-bar"></div></div></div>
+  <div id="logoStage">
+    <div style="font-size:32px;margin-bottom:8px">🎃</div>
+    <img src="logo.png" class="s-logo">
+    <div class="verified-badge"><span class="name">Ground Russia Works</span><span class="check">✓</span></div>
+    <div id="loadBar" class="s-load"><div id="bar" class="s-bar"></div></div>
+  </div>
   <div id="godText" class="god-text">🕸️ God is always with you 🎃</div>
 </div>
 
@@ -76,63 +84,20 @@ header{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex
 <script>
 const TG_LINK="https://t.me/groundrussia1";
 const video=document.getElementById('halloweenVideo');
-let soundUnlocked = false;
-
-function playVideoWithSound(){
-  video.volume=0.34;
-  video.loop=true;
-  video.muted=false;
-  video.play().catch(()=>{
-    video.muted=true;
-    video.play().catch(()=>{});
-  });
-}
-function unlock(){
-  if(soundUnlocked){
-    if(video.paused){ video.play().catch(()=>{}); }
-    return;
-  }
-  video.muted=false;
-  video.volume=0.34;
-  video.loop=true;
-  video.play().then(()=>{ soundUnlocked=true; }).catch(()=>{});
-}
-window.addEventListener('load', playVideoWithSound);
-playVideoWithSound();
-document.addEventListener('click', unlock, {once:true});
-document.addEventListener('touchstart', unlock, {once:true, passive:true});
-document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden){ video.pause(); }
-  else{ video.muted=false; video.volume=0.34; video.play().catch(()=>{}); }
-});
-
+let soundUnlocked=false;
+function playVideoWithSound(){video.volume=0.34;video.loop=true;video.muted=false;video.play().catch(()=>{video.muted=true;video.play().catch(()=>{})});}
+function unlock(){if(soundUnlocked){if(video.paused)video.play().catch(()=>{});return;}video.muted=false;video.volume=0.34;video.loop=true;video.play().then(()=>{soundUnlocked=true}).catch(()=>{})}
+window.addEventListener('load',playVideoWithSound);playVideoWithSound();
+document.addEventListener('click',unlock,{once:true});document.addEventListener('touchstart',unlock,{once:true,passive:true});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){video.pause()}else{video.muted=false;video.volume=0.34;video.play().catch(()=>{})}});
 const logoStage=document.getElementById('logoStage');const godText=document.getElementById('godText');const loadBar=document.getElementById('loadBar');const bar=document.getElementById('bar');
-setTimeout(()=>{logoStage.classList.add('show');loadBar.classList.add('show');godText.classList.add('show');bar.classList.add('anim');},6000);
-setTimeout(()=>{document.getElementById('splash').style.transform="translateY(-100%)";document.getElementById('splash').style.transition="transform 1.2s ease";document.body.style.overflow='auto';},9500);
-
-function register(){
-  if(!soundUnlocked) unlock();
-  const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return;}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden');
-}
-function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show');}
-function goApk(){document.getElementById('apkBg').classList.add('show');}
-function goTG(t){
-  document.getElementById('modalTitle').textContent=t;
-  const area=document.getElementById('mText');
-  if(t==='Вопрос'){ area.placeholder='Задайте вопрос'; }
-  else if(t==='Жалоба'){ area.placeholder='Опишите жалобу и представьте доказательства'; }
-  else if(t==='Запрос на обновление'){ area.placeholder='Напишите что вы хотите чтобы мы добавили'; }
-  document.getElementById('modalBg').classList.add('show');
-}
-async function sendTG(){
-  const txt=document.getElementById('mText').value.trim();
-  if(!txt){alert('Напиши сообщение!');return;}
-  const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;
-  const full=`[${type}] от ${nick}: ${txt}`;
-  try{await navigator.clipboard.writeText(full);}catch(e){}
-  window.open(TG_LINK,'_blank');
-  closeAll();
-}
+setTimeout(()=>{logoStage.classList.add('show');loadBar.classList.add('show');godText.classList.add('show');bar.classList.add('anim')},6000);
+setTimeout(()=>{document.getElementById('splash').style.transform="translateY(-100%)";document.getElementById('splash').style.transition="transform 1.2s ease";document.body.style.overflow='auto'},9500);
+function register(){if(!soundUnlocked)unlock();const n=document.getElementById('nick').value.trim(),p=document.getElementById('pass').value.trim();if(n.length<3||p.length<4){alert('Ник от 3, пароль от 4');return}localStorage.setItem('gr_nick',n);document.getElementById('uName').textContent=n;document.getElementById('mNick').value=n;document.getElementById('loginBox').classList.add('hidden');document.getElementById('menuBox').classList.remove('hidden')}
+function closeAll(){document.getElementById('modalBg').classList.remove('show');document.getElementById('apkBg').classList.remove('show')}
+function goApk(){document.getElementById('apkBg').classList.add('show')}
+function goTG(t){document.getElementById('modalTitle').textContent=t;const area=document.getElementById('mText');if(t==='Вопрос'){area.placeholder='Задайте вопрос'}else if(t==='Жалоба'){area.placeholder='Опишите жалобу и представьте доказательства'}else if(t==='Запрос на обновление'){area.placeholder='Напишите что вы хотите чтобы мы добавили'}document.getElementById('modalBg').classList.add('show')}
+async function sendTG(){const txt=document.getElementById('mText').value.trim();if(!txt){alert('Напиши сообщение!');return}const nick=document.getElementById('mNick').value.trim()||'Игрок',type=document.getElementById('modalTitle').textContent;const full=`[${type}] от ${nick}: ${txt}`;try{await navigator.clipboard.writeText(full)}catch(e){}window.open(TG_LINK,'_blank');closeAll()}
 </script>
 </body>
-</html>
+  </html>
